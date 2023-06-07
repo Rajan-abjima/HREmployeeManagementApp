@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeHandler", "EmployeeHandler\EmployeeHandler.csproj", "{6A255C4B-5019-4768-A595-17C8B504D4EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeHandler", "EmployeeHandler\EmployeeHandler.csproj", "{6A255C4B-5019-4768-A595-17C8B504D4EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Core", "Management.Core\Management.Core.csproj", "{B70C6330-ED98-4F82-9A8A-5AE7B669771F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Core", "Management.Core\Management.Core.csproj", "{B70C6330-ED98-4F82-9A8A-5AE7B669771F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Application", "Management.Application\Management.Application.csproj", "{A6B249B2-DBF9-4054-AC6C-DD432873AFF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Application", "Management.Application\Management.Application.csproj", "{A6B249B2-DBF9-4054-AC6C-DD432873AFF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Infrastructure", "Management.Infrastructure\Management.Infrastructure.csproj", "{1114675C-4AA1-470E-AC46-BEC6F4ADC393}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Infrastructure", "Management.Infrastructure\Management.Infrastructure.csproj", "{1114675C-4AA1-470E-AC46-BEC6F4ADC393}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Entities", "Management.Entities\Management.Entities.csproj", "{5CF2C3EE-A6C0-4B73-A917-602B87903916}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Mapping", "Management.Mapping\Management.Mapping.csproj", "{0DFC89A0-F288-4CCB-A241-9DF1F5C61595}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{1114675C-4AA1-470E-AC46-BEC6F4ADC393}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1114675C-4AA1-470E-AC46-BEC6F4ADC393}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1114675C-4AA1-470E-AC46-BEC6F4ADC393}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CF2C3EE-A6C0-4B73-A917-602B87903916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CF2C3EE-A6C0-4B73-A917-602B87903916}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CF2C3EE-A6C0-4B73-A917-602B87903916}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CF2C3EE-A6C0-4B73-A917-602B87903916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DFC89A0-F288-4CCB-A241-9DF1F5C61595}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DFC89A0-F288-4CCB-A241-9DF1F5C61595}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DFC89A0-F288-4CCB-A241-9DF1F5C61595}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DFC89A0-F288-4CCB-A241-9DF1F5C61595}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

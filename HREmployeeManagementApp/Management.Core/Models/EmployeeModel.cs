@@ -47,5 +47,5 @@ public class EmployeeModel
     public DateTime LeavingDate { get; set; }
 
     [Required]
-    public bool AdminStatus { get; set; } = false;
+    public bool AdminStatus { get; set; }
 }
