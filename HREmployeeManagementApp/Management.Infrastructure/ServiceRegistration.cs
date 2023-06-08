@@ -1,4 +1,6 @@
-﻿using Management.Mapping.Profiles;
+﻿using Management.Application.Interfaces;
+using Management.Infrastructure.Repositories;
+using Management.Mapping.Profiles;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Management.Infrastructure;
@@ -12,5 +14,6 @@ public static class ServiceRegistration
     public static void AddInfrastructure (this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(EmployeeProfile));
+        services.AddTransient<IEmployeeRepository, EmployeeRepository>();
     }
 }
