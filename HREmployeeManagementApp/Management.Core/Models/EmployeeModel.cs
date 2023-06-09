@@ -22,7 +22,7 @@ public class EmployeeModel
 
     [Required(ErrorMessage = "DOB Required", AllowEmptyStrings = false)]
     [DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
-    public DateOnly DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
 
     [Required(ErrorMessage = "Address required", AllowEmptyStrings = false)]
     public string? Address { get; set; }

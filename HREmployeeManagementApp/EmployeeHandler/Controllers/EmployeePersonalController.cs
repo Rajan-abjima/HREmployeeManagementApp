@@ -21,9 +21,9 @@ public class EmployeePersonalController : Controller
 
 
     [HttpPost]
-    public async Task<IActionResult> AddAsync(EmployeePersonal employee)
+    public async Task<IActionResult> SignUpForm(EmployeePersonal employee)
     {
-        var data = await _employeeRepository.AddAsync(employee);
-        return View(data);
+        var employeeData = await _employeeRepository.AddAsync(employee);
+        return View(employeeData);
     }
 }

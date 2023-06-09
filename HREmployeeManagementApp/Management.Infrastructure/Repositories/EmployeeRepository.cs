@@ -14,15 +14,32 @@ public class EmployeeRepository : IEmployeeRepository
     {
         _configuration = configuration;
     }
+    
     public async Task<int> AddAsync(EmployeePersonal employee)
     {
-        employee.JoiningDate = DateTime.UtcNow;
-        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        try
         {
-            connection.Open();
-            var result = await connection.ExecuteAsync("spEmployee_InsertByEmployee",employee,commandType: CommandType.StoredProcedure);
-            return result;
+            employee.JoiningDate = DateTime.UtcNow;
+            employee.AdminStatus = true;
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+            {
+                connection.Open();
+                var param = new DynamicParameters();
+                param.Add("@FirstName", employee.FirstName);
+                param.Add("@LastName", employee.LastName);
+                param.Add("@Gender", employee.Gender);
+                param.Add("@DateOfBirth", employee.DateOfBirth);
+                param.Add("@Address", employee.Address);
+                param.Add("@Contact", employee.Contact);
+                param.Add("@Designation", employee.Designation);
+                param.Add("@SignInApprovedBy", employee.SignInApprovedBy);
+                param.Add("@JoiningDate", employee.JoiningDate);
+                param.Add("@AdminStatus", employee.AdminStatus);
+                var result = await connection.ExecuteAsync("spEmployee_InsertByEmployee", param, commandType: CommandType.StoredProcedure);
+                return result;
+            }
         }
+        catch (Exception ex) { throw ex; }
     }
 
     public async Task<EmployeePersonal> GetByIdAsync(int id)

@@ -5,7 +5,7 @@ public class EmployeePersonal
     public string FirstName { get; set; } = string.Empty;
     public string? LastName { get; set; }
     public string? Gender { get; set; }
-    public DateOnly DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
     public string? Address { get; set; }
     public string? Contact { get; set; }
     public string? Designation { get; set; }
@@ -15,5 +15,5 @@ public class EmployeePersonal
     public DateTime ModifiedDate { get; set; }
 
     public string? ModifiedBy { get; set; }
-    public bool AdminStatus { get;}
+    public bool AdminStatus { get; set; }
 }
