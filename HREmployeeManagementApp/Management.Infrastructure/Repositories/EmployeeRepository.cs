@@ -4,6 +4,7 @@ using Management.Enities.EmployeeEntities;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Management.Infrastructure.Repositories;
 public class EmployeeRepository : IEmployeeRepository
@@ -39,10 +40,32 @@ public class EmployeeRepository : IEmployeeRepository
                 return result;
             }
         }
-        catch (Exception ex) { throw ex; }
+        catch (Exception ex) { throw; }
+    }
+        
+    public async Task<bool> CheckEmployeeAysnc(EmployeeLogin employeeLogin)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+
+            var param = new
+            {
+                username = employeeLogin.UserName,
+                password = employeeLogin.Password,
+            };
+
+            var result = await connection.QueryFirstOrDefaultAsync<bool>(
+                "EmployeeLogin",
+                param,
+                commandType: CommandType.StoredProcedure);
+
+            return result;
+        }
     }
 
-    public async Task<EmployeePersonal> GetByIdAsync(int id)
+
+public async Task<EmployeePersonal> GetByIdAsync(int id)
     {
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
@@ -51,4 +74,6 @@ public class EmployeeRepository : IEmployeeRepository
             return result;
         }
     }
+
+    
 }

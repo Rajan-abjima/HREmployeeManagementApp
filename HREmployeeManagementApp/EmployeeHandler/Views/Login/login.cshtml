@@ -1,16 +1,29 @@
-﻿<div class="container login-container">
+﻿@model Management.Enities.EmployeeEntities.EmployeeLogin
+
+@{
+    ViewData["Title"] = "Login";
+    ViewBag.ErrorMessage = "Invalid Username or Password";
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-warning">
+        <span><b>Sorry!</b> - @TempData["Error"]</span>
+    </div>
+}
+<div class="container login-container">
     <div class="row">
         <div class="col-md-6 login-form-1">
             <h3>Employee Login</h3>
-            <form asp-action="">
+            <form asp-action="Login" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Your Username *" value="" />
+                    <input type="text" class="form-control" placeholder="Your Username *" value="" asp-for="UserName" />
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Your Password *" value="" />
+                    <input type="password" class="form-control" placeholder="Your Password *" value="" asp-for="Password" />
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btnSubmit" value="Login" />
+					<p>New Here? Then please <a asp-controller="EmployeePersonal" asp-action="EmployeeRegistration">SignUp</a> </p>
                 </div>
             </form>
         </div>
@@ -18,17 +31,13 @@
             <h3>Admin Login</h3>
             <form>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Your Email *" value="" />
+                    <input type="text" class="form-control" placeholder="AdminID *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Your Password *" value="" />
+                    <input type="password" class="form-control" placeholder="Admin Password *" value="" />
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btnSubmit" value="Login" />
-                </div>
-                <div class="form-group">
-
-                    <a href="#" class="ForgetPwd" value="Login">Forget Password?</a>
                 </div>
             </form>
         </div>

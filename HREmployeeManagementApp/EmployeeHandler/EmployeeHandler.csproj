@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Management.Application\Management.Application.csproj" />
-    <ProjectReference Include="..\Management.Core\Management.Core.csproj" />
     <ProjectReference Include="..\Management.Entities\Management.Entities.csproj" />
     <ProjectReference Include="..\Management.Infrastructure\Management.Infrastructure.csproj" />
     <ProjectReference Include="..\Management.Mapping\Management.Mapping.csproj" />
