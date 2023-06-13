@@ -27,14 +27,13 @@ public class LoginController : Controller
         if (response)
         {
             // Credentials are valid, perform the desired action
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("EmployeeDashboard", "EmployeePersonal");
         }
         else
         {
             // Credentials are invalid, return an error message or redirect to a login failure page
-            ViewBag.ErrorMessage = "Invalid username or password";
-            return /*View(TempData["Error"] = "Wrong credentials. Please try again.");*/
-                RedirectToAction("EmployeeRegistration","EmployeePersonal");
+            TempData["Error"] = ("Credentials are invalid. Please try again.");
+            return View();
                 
         }
     }

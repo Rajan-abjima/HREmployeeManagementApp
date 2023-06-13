@@ -25,7 +25,7 @@ public class EmployeePersonalController : Controller
     public async Task<IActionResult> EmployeeRegistration(EmployeePersonal employee)
     {
         var employeeData = await _employeeRepository.AddAsync(employee);
-        return View(employeeData);
+        TempData["Success"] = employeeData;
+        return View();
     }
-
 }

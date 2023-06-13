@@ -2,27 +2,29 @@
 
 @{
     ViewData["Title"] = "Login";
-    ViewBag.ErrorMessage = "Invalid Username or Password";
+    var errormessage = TempData["Error"];
 }
 @if (TempData["Error"] != null)
 {
     <div class="alert alert-warning">
-        <span><b>Sorry!</b> - @TempData["Error"]</span>
+        <span>Sorry! - @TempData["Error"]</span>
+        <script>alert(@errormessage)</script>
     </div>
 }
+
 <div class="container login-container">
     <div class="row">
         <div class="col-md-6 login-form-1">
             <h3>Employee Login</h3>
             <form asp-action="Login" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Your Username *" value="" asp-for="UserName" />
+                    <input type="text" class="form-control" placeholder="Your Username *" value="" asp-for="UserName" required/>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Your Password *" value="" asp-for="Password" />
+                    <input type="password" class="form-control" placeholder="Your Password *" value="" asp-for="Password" required/>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btnSubmit" value="Login" />
+					<input type="submit" class="btnSubmit" value="Login" />
 					<p>New Here? Then please <a asp-controller="EmployeePersonal" asp-action="EmployeeRegistration">SignUp</a> </p>
                 </div>
             </form>

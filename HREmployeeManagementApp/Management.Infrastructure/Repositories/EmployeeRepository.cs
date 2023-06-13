@@ -18,29 +18,27 @@ public class EmployeeRepository : IEmployeeRepository
     
     public async Task<int> AddAsync(EmployeePersonal employee)
     {
-        try
+        
+        employee.JoiningDate = DateTime.UtcNow;
+        employee.AdminStatus = false;
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
-            employee.JoiningDate = DateTime.UtcNow;
-            employee.AdminStatus = true;
-            using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
-            {
-                connection.Open();
-                var param = new DynamicParameters();
-                param.Add("@FirstName", employee.FirstName);
-                param.Add("@LastName", employee.LastName);
-                param.Add("@Gender", employee.Gender);
-                param.Add("@DateOfBirth", employee.DateOfBirth);
-                param.Add("@Address", employee.Address);
-                param.Add("@Contact", employee.Contact);
-                param.Add("@Designation", employee.Designation);
-                param.Add("@SignInApprovedBy", employee.SignInApprovedBy);
-                param.Add("@JoiningDate", employee.JoiningDate);
-                param.Add("@AdminStatus", employee.AdminStatus);
-                var result = await connection.ExecuteAsync("spEmployee_InsertByEmployee", param, commandType: CommandType.StoredProcedure);
-                return result;
-            }
-        }
-        catch (Exception ex) { throw; }
+            connection.Open();
+            var param = new DynamicParameters();
+            param.Add("@FirstName", employee.FirstName);
+            param.Add("@LastName", employee.LastName);
+            param.Add("@Gender", employee.Gender);
+            param.Add("@DateOfBirth", employee.DateOfBirth);
+            param.Add("@Address", employee.Address);
+            param.Add("@Contact", employee.Contact);
+            param.Add("@Designation", employee.Designation);
+            param.Add("@SignInApprovedBy", employee.SignInApprovedBy);
+            param.Add("@JoiningDate", employee.JoiningDate);
+            param.Add("@AdminStatus", employee.AdminStatus);
+            int result = await connection.ExecuteScalarAsync<int>("spEmployee_InsertByEmployee", param, commandType: CommandType.StoredProcedure);
+            
+            return result;
+        }  
     }
         
     public async Task<bool> CheckEmployeeAysnc(EmployeeLogin employeeLogin)
