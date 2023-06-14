@@ -22,4 +22,7 @@ public partial class EmployeeRegistration
     [Required(ErrorMessage = "Password required", AllowEmptyStrings = false)]
     [DataType(System.ComponentModel.DataAnnotations.DataType.Password)]
     public string? Password { get; set; }
+
+    [Required]
+    public bool IsValid { get; set; }
 }

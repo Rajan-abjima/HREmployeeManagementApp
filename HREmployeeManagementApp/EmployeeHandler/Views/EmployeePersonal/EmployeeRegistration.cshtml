@@ -1,4 +1,4 @@
-@model Management.Enities.EmployeeEntities.EmployeePersonal
+@model Management.Entities.EmployeeEntities.EmployeePersonal
 
 @{
     ViewData["Title"] = "Employee Registration";
@@ -11,79 +11,88 @@
         <script>alert(@successMessage)</script>
     </div>
 }
-<div class="container register">
+
+
+<div class="container register" >
     <div class="row">
         <div class="col-md-3 register-left">
             <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
             <h3>Welcome</h3>
             <p>We are glad to have a new talented person to our Company</p>
-			<a asp-controller="Login" asp-action="login"><input type="submit" name="" value="Login" /></a><br />
+            <a asp-controller="Login" asp-action="login"><input type="submit" name="" value="Login" /></a><br />
         </div>
         <div class="col-md-9 register-right">
-        <form asp-action="EmployeeRegistration" method="post" class="px-2">
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <h3 class="register-heading">Apply as a Employee</h3>
-                    <div class="row register-form">
-                        <div class="col-md-6 register-right">
-                            <div class="form-group m-1">
-                                <input type="text" class="form-control" placeholder="First Name *" value="" asp-for="FirstName" required/>
-                            </div>
-                            <div class="form-group m-1">
-                                <input type="text" class="form-control" placeholder="Last Name *" value="" asp-for="LastName" required />
-                            </div>
-                            <div class="form-group m-1">
-                                <input type="date" class="form-control" placeholder="Birthdate *" value="" asp-for="DateOfBirth" required />
-                            </div>
-                            <div class="form-group m-1">
+            <form asp-action="EmployeeRegistration" method="post" class="px-2">
+                <fieldset @{ if (TempData["Success"] != null){<text>disabled = "disabled"</text>}}>
+                    <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <h3 class="register-heading">Apply as a Employee</h3>
+                        <div class="row register-form">
+                            <div class="col-md-6 register-right">
+                                <div class="form-group m-1">
+                                    <input type="text" class="form-control" placeholder="First Name *" value="" asp-for="FirstName" required/>
+                                </div>
+                                <div class="form-group m-1">
+                                    <input type="text" class="form-control" placeholder="Last Name *" value="" asp-for="LastName" required />
+                                </div>
+                                <div class="form-group m-1">
+                                    <input type="date" class="form-control" placeholder="Birthdate *" value="" asp-for="DateOfBirth" required />
+                                </div>
+                                <div class="form-group m-1">
                                     <div class="maxl" required>
-                                    <label class="radio inline m-1"> 
-                                        <input type="radio" name="gender" value="male" checked asp-for="Gender">
-                                        <span> Male </span> 
-                                    </label>
-                                    <label class="radio inline m-1"> 
-                                        <input type="radio" name="gender" value="female" asp-for="Gender">
-                                        <span>Female </span> 
-                                    </label>
-                                    <label class="radio inline m-1"> 
-                                        <input type="radio" name="gender" value="female" asp-for="Gender">
-                                        <span>Other Gender</span>
-                                    </label>
+                                        <label class="radio inline m-1"> 
+                                            <input type="radio" name="gender" value="male" checked asp-for="Gender">
+                                            <span> Male </span> 
+                                        </label>
+                                        <label class="radio inline m-1"> 
+                                            <input type="radio" name="gender" value="female" asp-for="Gender">
+                                            <span>Female </span> 
+                                        </label>
+                                        <label class="radio inline m-1"> 
+                                            <input type="radio" name="gender" value="female" asp-for="Gender">
+                                            <span>Other Gender</span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group m-1">
-                                <input type="text" class="form-control" placeholder="Your Address *" value="" asp-for="Address" required />
+                            <div class="col-md-6">
+                                <div class="form-group m-1">
+                                    <input type="text" class="form-control" placeholder="Your Address *" value="" asp-for="Address" required />
+                                </div>
+                                <div class="form-group m-1">
+                                    <input type="text" minlength="10" maxlength="10" class="form-control" placeholder="Contact Number *" value="" asp-for="Contact" required />
+                                </div>
+                                <div class="form-group m-1">
+                                    <select class="form-control" asp-for="Designation" required>
+                                        <option class="hidden" selected disabled>Please select your Designation *</option>
+                                        <option>HR Manager</option>
+                                        <option>Software Developer</option>
+                                    </select>
+                                </div>
+                                <div class="form-group m-1">
+                                    <input type="text" class="form-control" placeholder="Approved By *" value="" asp-for="SignInApprovedBy" required/>
+                                </div>
+                                <input type="submit" class="btnRegister m-1"  value="Register"/>
                             </div>
-                            <div class="form-group m-1">
-                                <input type="text" minlength="10" maxlength="10" class="form-control" placeholder="Contact Number *" value="" asp-for="Contact" required />
-                            </div>
-                            <div class="form-group m-1">
-								<select class="form-control" asp-for="Designation" required>
-										<option class="hidden" selected disabled>Please select your Designation *</option>
-                                    <option>HR Manager</option>
-                                    <option>Software Developer</option>
-                                </select>
-                            </div>
-                            <div class="form-group m-1">
-                                <input type="text" class="form-control" placeholder="Approved By *" value="" asp-for="SignInApprovedBy" required/>
-                            </div>
-
-                            <input type="submit" class="btnRegister m-1"  value="Register"/>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+                </fieldset>
+            </form>
         </div>
     </div>
 </div>
-
+@if (TempData["Success"] != null)
+{
 <!-- Username and Password Section -->
 <div class="container">
     <form class="form-signin" asp-action="SignUpForm" method="post">
         <h1 class="h3 mb-3 font-weight-normal">Create your Login Credentials</h1>
+        <input type="hidden" id="inputEmployeeID" class="form-control m-1" placeholder="EmployeeID" required="">
+        <input type="hidden" id="inputFirstName" class="form-control m-1" placeholder="FirstName" required="">
+        <input type="hidden" id="inputLastName" class="form-control m-1" placeholder="LastName" required="">
+
+
         <label for="inputUsername" class="sr-only m-1">Username</label>
         <input type="text" id="inputUsername" class="form-control m-1" placeholder="Username" required="" autofocus="">
         <label for="inputPassword" class="sr-only m-1">Password</label>
@@ -95,3 +104,4 @@
         <button class="btnRegister m-1" type="submit">SignUp</button>
     </form>
 </div>
+}

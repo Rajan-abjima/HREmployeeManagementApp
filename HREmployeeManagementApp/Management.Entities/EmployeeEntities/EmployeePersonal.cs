@@ -1,4 +1,4 @@
-﻿namespace Management.Enities.EmployeeEntities;
+﻿namespace Management.Entities.EmployeeEntities;
 public class EmployeePersonal
 {
     public int EmployeeID { get; set; }

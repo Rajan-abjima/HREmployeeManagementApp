@@ -1,5 +1,5 @@
 ﻿using Management.Application.Interfaces;
-using Management.Enities.EmployeeEntities;
+using Management.Entities.EmployeeEntities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeHandler.Controllers;
