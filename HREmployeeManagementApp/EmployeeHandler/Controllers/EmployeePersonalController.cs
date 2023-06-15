@@ -8,18 +8,19 @@ namespace EmployeeHandler.Controllers;
 
 public class EmployeePersonalController : Controller
 {
-    public IActionResult EmployeeRegistration()
-    {
-        var response = new EmployeePersonal();
-        return View(response);
-    }
-     
     private readonly IEmployeeRepository _employeeRepository;
 
     public EmployeePersonalController(IEmployeeRepository employeeRepository)
     {
         _employeeRepository = employeeRepository;
     }
+
+    public IActionResult EmployeeRegistration()
+    {
+        var response = new EmployeePersonal();
+        return View(response);
+    }
+     
 
     [HttpPost]
     public async Task<IActionResult> EmployeeRegistration(EmployeePersonal employee)
