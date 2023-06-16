@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Application", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Infrastructure", "Management.Infrastructure\Management.Infrastructure.csproj", "{1114675C-4AA1-470E-AC46-BEC6F4ADC393}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Entities", "Management.Entities\Management.Entities.csproj", "{5CF2C3EE-A6C0-4B73-A917-602B87903916}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Entities", "Management.Entities\Management.Entities.csproj", "{5CF2C3EE-A6C0-4B73-A917-602B87903916}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Mapping", "Management.Mapping\Management.Mapping.csproj", "{0DFC89A0-F288-4CCB-A241-9DF1F5C61595}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Mapping", "Management.Mapping\Management.Mapping.csproj", "{0DFC89A0-F288-4CCB-A241-9DF1F5C61595}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
