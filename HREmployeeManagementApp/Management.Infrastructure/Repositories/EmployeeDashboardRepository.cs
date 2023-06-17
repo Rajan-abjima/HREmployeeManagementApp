@@ -21,11 +21,12 @@ public class EmployeeDashboardRepository : IEmployeeDashboardRepository
     }
     public async Task<EmployeePersonal> GetByIDAsync(int employeeID)
     {
+        employeeID = 10021;
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
             connection.Open();
             var result = await connection.QuerySingleOrDefaultAsync<EmployeePersonal>
-                        ("spEmployee_GetByID", new { EmployeeID = employeeID}, commandType: CommandType.StoredProcedure);
+                        ("spEmployee_GetByID", employeeID /*new { EmployeeID = employeeID}*/, commandType: CommandType.StoredProcedure);
             return result;
         }
     }

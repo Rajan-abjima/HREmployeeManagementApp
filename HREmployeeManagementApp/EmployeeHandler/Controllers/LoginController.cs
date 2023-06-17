@@ -27,7 +27,7 @@ public class LoginController : Controller
         if (response)
         {
             // Credentials are valid, perform the desired action
-            return RedirectToAction("EmployeeDashboard", "EmployeePersonal");
+            return RedirectToAction("EmployeeDashboard", "EmployeeDashboard");
         }
         else
         {
