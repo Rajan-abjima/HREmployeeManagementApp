@@ -31,7 +31,7 @@ public class EmployeePersonalController : Controller
     {
         var employeeData = await _employeeRepository.AddAsync(employee);
         TempData["Success"] = employeeData.EmployeeID;
-        return View();
+        return RedirectToAction("SetCredentials","EmployeePersonal");
     }
 
     [HttpPost]
@@ -42,15 +42,16 @@ public class EmployeePersonalController : Controller
         return RedirectToAction("Login","Login");
     }
 
-    public IActionResult PersonalDetails ()
-    {
-        var response = new EmployeePersonal();
-        return View(response);
-    }
+    //public IActionResult PersonalDetails ()
+    //{
+    //    var response = new EmployeePersonal();
+    //    return View(response);
+    //}
 
     public async Task<IActionResult> PersonalDetails(int employeeID)
     {
+        employeeID = 10009;
         var employeeData = await _employeeDashboardRepository.GetByIDAsync(employeeID);
-        return View();
+        return View(employeeData);
     }
 }
