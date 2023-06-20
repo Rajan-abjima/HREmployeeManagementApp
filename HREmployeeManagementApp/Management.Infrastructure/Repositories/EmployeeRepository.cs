@@ -56,9 +56,8 @@ public class EmployeeRepository : IEmployeeRepository
         }  
     }
 
-    public async Task<int> AddCredentialsAsync(EmployeeSignUp employee)
-    {
-        employee.IsValid = true;
+    public async Task<EmployeeSignUp> AddCredentialsAsync(EmployeeSignUp employee)
+    {        
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
             connection.Open();
@@ -69,13 +68,27 @@ public class EmployeeRepository : IEmployeeRepository
             param.Add("@UserName", employee.UserName);
             param.Add("@Password", employee.Password);
             param.Add("@IsValid", employee.IsValid);
-            var result = await connection.ExecuteAsync("spCredentials_Insert", param, commandType: CommandType.StoredProcedure);
+            var result = await connection.QueryFirstOrDefaultAsync<string>("spCredentials_Insert", param: param, commandType: CommandType.StoredProcedure);
 
-            return result;
+
+            if (result == "true")
+            {
+                var currentEmployee = new EmployeeSignUp
+                {
+                    EmployeeID = employee.EmployeeID,
+                    UserName = employee.UserName
+                };
+                return currentEmployee;
+            }
+            else
+            {
+                return new EmployeeSignUp();
+            }
+           
         }
     }
 
-    public async Task<bool> CheckEmployeeAysnc(EmployeeLogin employeeLogin)
+    public async Task<int> CheckEmployeeAysnc(EmployeeLogin employeeLogin)
     {
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
@@ -87,7 +100,7 @@ public class EmployeeRepository : IEmployeeRepository
                 password = employeeLogin.Password,
             };
 
-            var result = await connection.QueryFirstOrDefaultAsync<bool>(
+            var result = await connection.QueryFirstOrDefaultAsync<int>(
                 "EmployeeLogin",
                 param,
                 commandType: CommandType.StoredProcedure);

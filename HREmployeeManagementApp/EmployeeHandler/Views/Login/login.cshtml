@@ -3,17 +3,26 @@
 @{
     ViewData["Title"] = "Login";
     var errormessage = TempData["Error"];
+    var success = TempData["SignUpSuccess"];
 }
 
 
 <div class="container login-container">
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-warning">
-        <span>Sorry! - @TempData["Error"]</span>
-        <script>alert(@errormessage)</script>
-    </div>
-}
+    @if (TempData["SignUpSuccess"] != null)
+    {
+        <div class="alert alert-warning">
+            <span>@TempData["SignUpSuccess"]</span>
+            <script>alert(@success)</script>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-warning">
+            <span>Sorry! - @TempData["Error"]</span>
+            <script>alert(@errormessage)</script>
+        </div>
+    }
     <div class="row">
         <div class="col-md-6 login-form-1">
             <h3>Employee Login</h3>

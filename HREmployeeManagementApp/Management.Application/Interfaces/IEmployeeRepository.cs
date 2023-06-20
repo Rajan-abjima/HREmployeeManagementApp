@@ -5,6 +5,6 @@ public interface IEmployeeRepository
 {
     Task<EmployeePersonal> GetByIdAsync(int id);
     Task<ViewEmployeeCredentials> AddAsync(EmployeePersonal employee);
-    Task<int> AddCredentialsAsync(EmployeeSignUp employee);
-    Task<bool> CheckEmployeeAysnc(EmployeeLogin employeeLogin);
+    Task<EmployeeSignUp> AddCredentialsAsync(EmployeeSignUp employee);
+    Task<int> CheckEmployeeAysnc(EmployeeLogin employeeLogin);
 }

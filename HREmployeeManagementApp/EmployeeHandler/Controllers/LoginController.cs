@@ -24,17 +24,19 @@ public class LoginController : Controller
         var response = await _employeeRepository.CheckEmployeeAysnc(employeeLogin);
 
 
-        if (response)
-        {
-            // Credentials are valid, perform the desired action
-            return RedirectToAction("EmployeeDashboard", "EmployeeDashboard");
-        }
-        else
+        if (response == 0)
         {
             // Credentials are invalid, return an error message or redirect to a login failure page
             TempData["Error"] = ("Credentials are invalid. Please try again.");
             return View();
                 
+        }
+        else
+        {
+            // Credentials are valid, perform the desired action
+            var url = Url.Action("PersonalDetails", "EmployeePersonal", new { EmployeeID = response });
+            return Redirect(url);
+            //return RedirectToAction("EmployeeDashboard", "EmployeeDashboard");            
         }
     }
 }
