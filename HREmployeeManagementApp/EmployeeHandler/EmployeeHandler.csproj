@@ -23,6 +23,7 @@
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.18" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.18" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
@@ -33,7 +34,6 @@
     <ProjectReference Include="..\Management.Application\Management.Application.csproj" />
     <ProjectReference Include="..\Management.Entities\Management.Entities.csproj" />
     <ProjectReference Include="..\Management.Infrastructure\Management.Infrastructure.csproj" />
-    <ProjectReference Include="..\Management.Mapping\Management.Mapping.csproj" />
   </ItemGroup>
 
 </Project>

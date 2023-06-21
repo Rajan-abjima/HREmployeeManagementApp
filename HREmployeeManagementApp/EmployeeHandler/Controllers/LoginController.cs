@@ -1,6 +1,8 @@
 ﻿using Management.Application.Interfaces;
 using Management.Entities.EmployeeEntities;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EmployeeHandler.Controllers;
 public class LoginController : Controller
@@ -35,8 +37,9 @@ public class LoginController : Controller
         {
             // Credentials are valid, perform the desired action
             var url = Url.Action("PersonalDetails", "EmployeePersonal", new { EmployeeID = response });
-            return Redirect(url);
-            //return RedirectToAction("EmployeeDashboard", "EmployeeDashboard");            
+            /*Using assert to declare that "url" will never be null so Redirect doesnt show null warning*/ 
+            Debug.Assert(url != null, "The generated URL should not be null.");
+            return Redirect(url);           
         }
     }
 }

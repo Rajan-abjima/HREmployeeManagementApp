@@ -6,6 +6,7 @@ using Management.Entities.EmployeeEntities;
 using Management.Infrastructure.Repositories;
 using Management.Core.Models;
 using Management.Mapping.Profiles;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EmployeeHandler.Controllers;
 
@@ -63,8 +64,8 @@ public class EmployeePersonalController : Controller
     [HttpGet]
     public async Task<IActionResult> PersonalDetails(int employeeID)
     {
-        //Getting the parameter from query string as string and converting it to employeeID which is Integer//
-        string stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
+        //Getting the parameter from query string as string and converting it to employeeID which is Integer//        
+        string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];        
         int.TryParse(stringEmployeeID, out employeeID);
         /**************************************************************************************************/
 
