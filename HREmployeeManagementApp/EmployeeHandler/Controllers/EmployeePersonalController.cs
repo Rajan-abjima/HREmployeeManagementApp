@@ -7,6 +7,7 @@ using Management.Infrastructure.Repositories;
 using Management.Core.Models;
 using Management.Mapping.Profiles;
 using System.Diagnostics.CodeAnalysis;
+using Management.Entities.AttendanceEntities;
 
 namespace EmployeeHandler.Controllers;
 
@@ -14,12 +15,15 @@ public class EmployeePersonalController : Controller
 {
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IEmployeeDashboardRepository _employeeDashboardRepository;
+    private readonly IAttendanceRepository _attendanceRepository;
 
     public EmployeePersonalController(IEmployeeRepository employeeRepository,
-                                      IEmployeeDashboardRepository employeeDashboardRepository)
+                                      IEmployeeDashboardRepository employeeDashboardRepository,
+                                      IAttendanceRepository attendanceRepository)
     {
         _employeeRepository = employeeRepository;
         _employeeDashboardRepository = employeeDashboardRepository;
+        _attendanceRepository = attendanceRepository;
     }
 
     [HttpGet]
@@ -71,5 +75,20 @@ public class EmployeePersonalController : Controller
 
         var employeeData = await _employeeDashboardRepository.GetByIDAsync(employeeID);
         return View(employeeData);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CheckIn(DayCheckIn dayCheckIn)
+    {
+        var checkInData = await _attendanceRepository.AddCheckInAsync(dayCheckIn);
+        TempData["AttendanceID"] = checkInData.AttendanceID;
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CheckOut(DayCheckOut dayCheckOut)
+    {
+        var checkInData = await _attendanceRepository.UpdateCheckOutAsync(dayCheckOut);
+        return View();
     }
 }

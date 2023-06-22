@@ -9,6 +9,11 @@
         avatar = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp";
     }
 }
+
+@{
+    var attendanceId = TempData["AttendanceID"];
+}
+
 <style>
     .right-alignment{
         float:right;
@@ -28,8 +33,14 @@
             <div class="col">
                 <nav aria-label="breadcrumb" class="m-2 row">
                     <div class="col">
-                        <button type="button" class="btn ms-1 right-alignment checkout"><a asp-controller="Login" asp-action="Login">Check Out</a></button>
-                        <button type="button" class="btn ms-1 right-alignment checkin"><a asp-controller="Login" asp-action="Login">Check In</a></button>
+                        <form asp-action="CheckOut" method="post">
+                            <input type="hidden" id="inputEmployeeID" class="form-control m-1" value=@attendanceId required="">
+                            <input type="submit" class="btn ms-1 right-alignment checkout" value="Check Out">
+						</form>
+                        <form asp-action="CheckIn" method="post">
+							<input type="hidden" id="inputEmployeeID" class="form-control m-1" value="" required="">
+                            <input type="submit" class="btn ms-1 right-alignment checkin" value="Check In">
+						</form>
                     </div>
                 </nav>
                 <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4" style="display:flex;">

@@ -30,10 +30,11 @@ public class AttendanceModel
     [Required]
     public string? Status { get; set; }
 
-    public DateTime CheckIn { get; set; }
-    public DateTime CheckOut { get; set; }
+    public TimeSpan CheckIn { get; set; }
+    public TimeSpan CheckOut { get; set; }
 
-    public string? ModifiedBy { get; set; }
+
+    public string ModifiedBy { get; set; } = string.Empty;
 
     public DateTime ModifiedOn { get; set;}
 }

@@ -34,7 +34,7 @@ public class LeaveRecordModel
     public DateTime ToDate { get; set; }
 
     [Required]
-    public DateTime ApplicationDate { get; set; }
+    public DateTime DateOfRequest { get; set; }
 
     [Required]
     [MaxLength(300)]
@@ -48,6 +48,4 @@ public class LeaveRecordModel
 
     [MaxLength(300)]
     public string? Comment { get; set; }
-
-
 }
