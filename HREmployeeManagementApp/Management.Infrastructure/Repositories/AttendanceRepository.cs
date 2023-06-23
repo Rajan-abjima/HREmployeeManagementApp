@@ -34,16 +34,15 @@ public class AttendanceRepository : IAttendanceRepository
             param.Add("@Date", dayCheckIn.Date);
             param.Add("@Status", dayCheckIn.Status);
             param.Add("@CheckIn", dayCheckIn.CheckIn);
+			param.Add("@AttendanceIdentity", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            var result = await connection.QueryFirstOrDefaultAsync<string>("spAttendance_CheckIn", param: param, commandType: CommandType.StoredProcedure);
+			var result = await connection.ExecuteAsync("spAttendance_CheckIn", param: param, commandType: CommandType.StoredProcedure);
 
             int AttendanceIdentity = param.Get<int>("@AttendanceIdentity");
-            int EmployeeIdentity = param.Get<int>("@EmployeeID");
             
             var currentEmployeeCheckIn = new DayCheckIn
             {
                 AttendanceID = AttendanceIdentity,
-                EmployeeID = EmployeeIdentity,
                 CheckIn = currentTime                    
             };
             return currentEmployeeCheckIn;

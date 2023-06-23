@@ -15,4 +15,5 @@ public class DayCheckOut
     
     [Required]
     public TimeSpan CheckOut { get; set; }
+
 }

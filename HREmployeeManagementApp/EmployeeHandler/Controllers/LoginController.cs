@@ -31,15 +31,15 @@ public class LoginController : Controller
             // Credentials are invalid, return an error message or redirect to a login failure page
             TempData["Error"] = ("Credentials are invalid. Please try again.");
             return View();
-                
+
         }
         else
         {
             // Credentials are valid, perform the desired action
             var url = Url.Action("PersonalDetails", "EmployeePersonal", new { EmployeeID = response });
-            /*Using assert to declare that "url" will never be null so Redirect doesnt show null warning*/ 
+            /*Using assert to declare that "url" will never be null so Redirect doesnt show null warning*/
             Debug.Assert(url != null, "The generated URL should not be null.");
-            return Redirect(url);           
+            return Redirect(url);
         }
     }
 }

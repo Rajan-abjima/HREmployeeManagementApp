@@ -1,28 +1,20 @@
 ﻿using Management.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
-using System.Data;
 using Management.Entities.EmployeeEntities;
-using Management.Infrastructure.Repositories;
-using Management.Core.Models;
-using Management.Mapping.Profiles;
-using System.Diagnostics.CodeAnalysis;
 using Management.Entities.AttendanceEntities;
+using Management.ViewModel;
 
 namespace EmployeeHandler.Controllers;
 
 public class EmployeePersonalController : Controller
 {
     private readonly IEmployeeRepository _employeeRepository;
-    private readonly IEmployeeDashboardRepository _employeeDashboardRepository;
     private readonly IAttendanceRepository _attendanceRepository;
 
     public EmployeePersonalController(IEmployeeRepository employeeRepository,
-                                      IEmployeeDashboardRepository employeeDashboardRepository,
                                       IAttendanceRepository attendanceRepository)
     {
         _employeeRepository = employeeRepository;
-        _employeeDashboardRepository = employeeDashboardRepository;
         _attendanceRepository = attendanceRepository;
     }
 
@@ -32,8 +24,7 @@ public class EmployeePersonalController : Controller
         var response = new EmployeePersonal();
         return View(response);
     }
-    
-  
+        
     [HttpPost]
     public async Task<IActionResult> EmployeeRegistration(EmployeePersonal employee)
     {
@@ -69,26 +60,32 @@ public class EmployeePersonalController : Controller
     public async Task<IActionResult> PersonalDetails(int employeeID)
     {
         //Getting the parameter from query string as string and converting it to employeeID which is Integer//        
-        string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];        
+        string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
         int.TryParse(stringEmployeeID, out employeeID);
         /**************************************************************************************************/
-
-        var employeeData = await _employeeDashboardRepository.GetByIDAsync(employeeID);
-        return View(employeeData);
+        
+        PersonalDetails personalDetails = new()
+        {
+            EmployeePersonal = await _employeeRepository.GetByIdAsync(employeeID)
+        };
+        return View(personalDetails);
     }
 
     [HttpPost]
     public async Task<IActionResult> CheckIn(DayCheckIn dayCheckIn)
     {
-        var checkInData = await _attendanceRepository.AddCheckInAsync(dayCheckIn);
-        TempData["AttendanceID"] = checkInData.AttendanceID;
+        PersonalDetails personalDetail = new()
+        {
+            CheckIn = await _attendanceRepository.AddCheckInAsync(dayCheckIn)
+        };
+        TempData["AttendanceID"] = personalDetail.CheckIn.AttendanceID;
         return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> CheckOut(DayCheckOut dayCheckOut)
     {
-        var checkInData = await _attendanceRepository.UpdateCheckOutAsync(dayCheckOut);
+        var checkOutData = await _attendanceRepository.UpdateCheckOutAsync(dayCheckOut);
         return View();
     }
 }

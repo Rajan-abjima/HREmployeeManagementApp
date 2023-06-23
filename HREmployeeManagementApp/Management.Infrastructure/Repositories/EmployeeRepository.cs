@@ -1,11 +1,10 @@
 ﻿using Dapper;
 using Management.Application.Interfaces;
 using Management.Entities.EmployeeEntities;
+using Management.ViewModel;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics.CodeAnalysis;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Management.Infrastructure.Repositories;
 public class EmployeeRepository : IEmployeeRepository
@@ -88,34 +87,41 @@ public class EmployeeRepository : IEmployeeRepository
         }
     }
 
-    public async Task<int> CheckEmployeeAysnc(EmployeeLogin employeeLogin)
+	public async Task<int> CheckEmployeeAysnc(EmployeeLogin employeeLogin)
+	{
+		using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+		{
+			connection.Open();
+
+			var param = new
+			{
+				username = employeeLogin.UserName,
+				password = employeeLogin.Password,
+			};
+
+			var result = await connection.QueryFirstOrDefaultAsync<int>(
+				"EmployeeLogin",
+				param,
+				commandType: CommandType.StoredProcedure);
+
+			return result;
+		}
+	}
+
+	public async Task<EmployeePersonal> GetByIdAsync(int employeeID)
     {
+        //using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        //{
+        //    connection.Open();
+        //    var result = await connection.QueryFirstOrDefaultAsync<EmployeePersonal>("spEmployee_InsertByEmployee", new {EmployeeID = id}, commandType: CommandType.StoredProcedure);
+        //    return result;
+        //}
+
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
             connection.Open();
-
-            var param = new
-            {
-                username = employeeLogin.UserName,
-                password = employeeLogin.Password,
-            };
-
-            var result = await connection.QueryFirstOrDefaultAsync<int>(
-                "EmployeeLogin",
-                param,
-                commandType: CommandType.StoredProcedure);
-
-            return result;
-        }
-    }
-
-
-public async Task<EmployeePersonal> GetByIdAsync(int id)
-    {
-        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
-        {
-            connection.Open();
-            var result = await connection.QueryFirstOrDefaultAsync<EmployeePersonal>("spEmployee_InsertByEmployee", new {EmployeeID = id}, commandType: CommandType.StoredProcedure);
+            var result = await connection.QuerySingleOrDefaultAsync<EmployeePersonal>
+                        ("spEmployee_GetByID", new { EmployeeID = employeeID }, commandType: CommandType.StoredProcedure);
             return result;
         }
     }

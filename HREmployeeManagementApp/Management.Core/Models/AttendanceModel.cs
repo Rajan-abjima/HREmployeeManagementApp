@@ -16,13 +16,13 @@ public class AttendanceModel
     [Required(ErrorMessage = "EmployeeID Not Found!")]
     public int EmployeeID { get; set; }
 
-    [Required(ErrorMessage = "First name is required", AllowEmptyStrings = false)]
-    [MaxLength(50)]
-    public string FirstName { get; set; } = string.Empty;
+    //[Required(ErrorMessage = "First name is required", AllowEmptyStrings = false)]
+    //[MaxLength(50)]
+    //public string FirstName { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Last name is required", AllowEmptyStrings = false)]
-    [MaxLength(50)]
-    public string? LastName { get; set; }
+    //[Required(ErrorMessage = "Last name is required", AllowEmptyStrings = false)]
+    //[MaxLength(50)]
+    //public string? LastName { get; set; }
 
     [Required]
     public DateTime Date { get; set; }

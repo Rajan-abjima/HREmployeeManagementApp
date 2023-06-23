@@ -1,13 +1,17 @@
-﻿@model EmployeePersonal
+﻿@model PersonalDetails
 @*For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860*@
 
 @{
-    var employeeFullName = Model.FirstName + " " + Model.LastName;
+    var employeeFullName = Model.EmployeePersonal.FirstName + " " + Model.EmployeePersonal.LastName;
     var avatar = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp";
-    if(Model.Gender == "female") 
+    if (Model.EmployeePersonal.Gender == "female")
     {
         avatar = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp";
     }
+}
+@{
+    string? stringEmployeeID = Context.Request.Query["EmployeeID"];
+    int.TryParse(stringEmployeeID, out int employeeId);
 }
 
 @{
@@ -38,7 +42,7 @@
                             <input type="submit" class="btn ms-1 right-alignment checkout" value="Check Out">
 						</form>
                         <form asp-action="CheckIn" method="post">
-							<input type="hidden" id="inputEmployeeID" class="form-control m-1" value="" required="">
+							<input type="hidden" id="inputEmployeeID" class="form-control m-1" asp-for="@Model.CheckIn.EmployeeID" value="@employeeId" required="">
                             <input type="submit" class="btn ms-1 right-alignment checkin" value="Check In">
 						</form>
                     </div>
@@ -61,9 +65,9 @@
                     <div class="card-body text-center">
                         <img src=@avatar alt="avatar"
                         class="rounded-circle img-fluid" style="width: 150px;">
-                        <h5 class="my-3">@Model.FirstName</h5>
-                        <p class="text-muted mb-1">@Model.Designation</p>
-                        <p class="text-muted mb-4">@Model.Address</p>
+                        <h5 class="my-3">@Model.EmployeePersonal.FirstName</h5>
+                        <p class="text-muted mb-1">@Model.EmployeePersonal.Designation</p>
+                        <p class="text-muted mb-4">@Model.EmployeePersonal.Address</p>
                         <div class="d-flex justify-content-center mb-2">
                             <button type="button" class="btn btn-primary">Edit Profile</button>
                         </div>
@@ -104,9 +108,9 @@
                                 <p class="mb-0">Employee ID</p>
                             </div>
                             <div class="col-sm-9">
-                                <div style="float:left" class="text-muted mb-0">@Model.EmployeeID</div>								
+                                <div style="float:left" class="text-muted mb-0">@Model.EmployeePersonal.EmployeeID</div>
                                 @{
-                                    if (Model.AdminStatus)
+                                    if (Model.EmployeePersonal.AdminStatus)
 									{
 									<div style="float:right">
                                     <span>Admin Status : </span>
@@ -133,7 +137,7 @@
                                 <p class="mb-0">Mobile</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">+91-@Model.Contact</p>
+                                <p class="text-muted mb-0">+91-@Model.EmployeePersonal.Contact</p>
                             </div>
                         </div>
                         <hr>
@@ -142,7 +146,7 @@
                                 <p class="mb-0">Address</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">@Model.Address</p>
+                                <p class="text-muted mb-0">@Model.EmployeePersonal.Address</p>
                             </div>
                         </div>
                     </div>

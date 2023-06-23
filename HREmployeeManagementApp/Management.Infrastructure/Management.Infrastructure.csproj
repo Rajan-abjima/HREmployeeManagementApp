@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Management.Application\Management.Application.csproj" />
     <ProjectReference Include="..\Management.Mapping\Management.Mapping.csproj" />
+    <ProjectReference Include="..\Management.ViewModel\Management.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>
