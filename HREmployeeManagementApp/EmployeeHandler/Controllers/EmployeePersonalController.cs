@@ -62,7 +62,7 @@ public class EmployeePersonalController : Controller
         //Getting the parameter from query string as string and converting it to employeeID which is Integer//        
         string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
         int.TryParse(stringEmployeeID, out employeeID);
-        /**************************************************************************************************/
+        /****************************************************************************************************/
         
         PersonalDetails personalDetails = new()
         {
@@ -72,8 +72,11 @@ public class EmployeePersonalController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CheckIn(DayCheckIn dayCheckIn)
+    public async Task<IActionResult> CheckIn(DayCheckIn dayCheckIn, int employeeID)
     {
+        var tempInfo = await _employeeRepository.GetByIdAsync(employeeID);
+        
+        
         PersonalDetails personalDetail = new()
         {
             CheckIn = await _attendanceRepository.AddCheckInAsync(dayCheckIn)

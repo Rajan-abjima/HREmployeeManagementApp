@@ -9,6 +9,7 @@
         avatar = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp";
     }
 }
+
 @{
     string? stringEmployeeID = Context.Request.Query["EmployeeID"];
     int.TryParse(stringEmployeeID, out int employeeId);
@@ -38,12 +39,14 @@
                 <nav aria-label="breadcrumb" class="m-2 row">
                     <div class="col">
                         <form asp-action="CheckOut" method="post">
-                            <input type="hidden" id="inputEmployeeID" class="form-control m-1" value=@attendanceId required="">
+                            <input type="hidden" id="inputEmployeeID" class="form-control m-1" asp-for="CheckOut.AttendanceID" value=@attendanceId required="">
                             <input type="submit" class="btn ms-1 right-alignment checkout" value="Check Out">
 						</form>
                         <form asp-action="CheckIn" method="post">
-							<input type="hidden" id="inputEmployeeID" class="form-control m-1" asp-for="@Model.CheckIn.EmployeeID" value="@employeeId" required="">
-                            <input type="submit" class="btn ms-1 right-alignment checkin" value="Check In">
+							<input type="hidden" id="inputEmployeeID" class="form-control m-1" value="@employeeId" asp-for="CheckIn.EmployeeID" required="">
+							<input type="hidden" id="inputFirstName" class="form-control m-1" value=@Model.EmployeePersonal.FirstName asp-for="CheckIn.FirstName" required="">
+							<input type="hidden" id="inputLastName" class="form-control m-1" value=@Model.EmployeePersonal.LastName asp-for="CheckIn.LastName" required="">
+							<input type="submit" class="btn ms-1 right-alignment checkin" value="Check In">
 						</form>
                     </div>
                 </nav>

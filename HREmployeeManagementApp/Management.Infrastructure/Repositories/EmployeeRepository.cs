@@ -110,13 +110,6 @@ public class EmployeeRepository : IEmployeeRepository
 
 	public async Task<EmployeePersonal> GetByIdAsync(int employeeID)
     {
-        //using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
-        //{
-        //    connection.Open();
-        //    var result = await connection.QueryFirstOrDefaultAsync<EmployeePersonal>("spEmployee_InsertByEmployee", new {EmployeeID = id}, commandType: CommandType.StoredProcedure);
-        //    return result;
-        //}
-
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
             connection.Open();

@@ -15,7 +15,13 @@ public class DayCheckIn
 
     [Required(ErrorMessage = "EmployeeID Not Found!")]
     public int EmployeeID { get; set; }
+
+    [Required]
+    public string? FirstName { get; set; }
     
+    [Required]
+    public string? LastName { get; set; }
+
     [Required]
     public DateTime Date { get; set; }
 
