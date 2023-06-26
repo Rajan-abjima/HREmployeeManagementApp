@@ -36,7 +36,7 @@ public class LoginController : Controller
         else
         {
             // Credentials are valid, perform the desired action
-            var url = Url.Action("PersonalDetails", "EmployeePersonal", new { EmployeeID = response });
+            var url = Url.Action("GetPersonalDetails", "EmployeePersonal", new { EmployeeID = response });
             /*Using assert to declare that "url" will never be null so Redirect doesnt show null warning*/
             Debug.Assert(url != null, "The generated URL should not be null.");
             return Redirect(url);

@@ -57,7 +57,7 @@ public class EmployeePersonalController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> PersonalDetails(int employeeID)
+    public async Task<IActionResult> GetPersonalDetails(int employeeID)
     {
         //Getting the parameter from query string as string and converting it to employeeID which is Integer//        
         string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
@@ -71,23 +71,46 @@ public class EmployeePersonalController : Controller
         return View(personalDetails);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CheckIn(DayCheckIn dayCheckIn, int employeeID)
+    //[HttpGet]
+    //public IActionResult CheckIn(int employeeID)
+    //{
+    //    var response = new DayCheckIn()
+    //    {
+    //        EmployeeID = employeeID,
+    //    }
+    //    return View(response);
+    //}
+
+    [HttpGet]
+    public async Task<IActionResult> CheckIn(int employeeID)
     {
+        //string? stringemployeeID = HttpContext.Request.Query["EmployeeID"];
+        //int.TryParse(stringemployeeID, out employeeID);
+
         var tempInfo = await _employeeRepository.GetByIdAsync(employeeID);
-        
-        
-        PersonalDetails personalDetail = new()
+        DayCheckIn dayCheckIn = new DayCheckIn
+        {
+            EmployeeID = employeeID,
+            FirstName = tempInfo.FirstName,
+            LastName = tempInfo.LastName
+        };
+
+
+	    PersonalDetails personalDetails = new()
         {
             CheckIn = await _attendanceRepository.AddCheckInAsync(dayCheckIn)
         };
-        TempData["AttendanceID"] = personalDetail.CheckIn.AttendanceID;
-        return View();
-    }
+        TempData["AttendanceID"] = personalDetails.CheckIn.AttendanceID;
+        
+        return RedirectToAction("PersonalDetails", "EmployeePersonal", new { personalDetails.EmployeePersonal.EmployeeID, personalDetails.CheckIn.AttendanceID });
+        
+	}
 
-    [HttpPost]
-    public async Task<IActionResult> CheckOut(DayCheckOut dayCheckOut)
+	[HttpGet]
+    public async Task<IActionResult> CheckOut(int AttendanceID)
     {
+        DayCheckOut dayCheckOut = new DayCheckOut();
+        dayCheckOut.AttendanceID = AttendanceID;
         var checkOutData = await _attendanceRepository.UpdateCheckOutAsync(dayCheckOut);
         return View();
     }
