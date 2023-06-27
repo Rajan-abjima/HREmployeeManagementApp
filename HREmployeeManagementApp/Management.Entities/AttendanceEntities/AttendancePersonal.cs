@@ -12,11 +12,7 @@ public class AttendancePersonal
 
 	public int EmployeeID { get; set; }
 
-	public string? FirstName { get; set; }
-
-	public string? LastName { get; set; }
-
-	public DateTime Date { get; set; }
+	public DateOnly Date { get; set; }
 
 	public string? Status { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Management.Application.Interfaces;
 using Management.Entities.AttendanceEntities;
+using Management.Entities.EmployeeEntities;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -18,7 +19,7 @@ public class AttendanceRepository : IAttendanceRepository
     public async Task<DayCheckIn> AddCheckInAsync(DayCheckIn dayCheckIn)
     {
         dayCheckIn.Status = "Present";
-        dayCheckIn.Date = DateTime.UtcNow;
+        dayCheckIn.Date = DateTime.UtcNow.Date;
         TimeSpan currentTime = DateTime.Now.TimeOfDay;
         dayCheckIn.CheckIn = currentTime;
         using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
@@ -46,7 +47,7 @@ public class AttendanceRepository : IAttendanceRepository
         }
     }
 
-    public async Task<int> UpdateCheckOutAsync(DayCheckOut dayCheckOut)
+    public async Task<DayCheckOut> UpdateCheckOutAsync(DayCheckOut dayCheckOut)
     {
 		TimeSpan currentTime = DateTime.Now.TimeOfDay;
 		dayCheckOut.CheckOut = currentTime;
@@ -56,8 +57,33 @@ public class AttendanceRepository : IAttendanceRepository
 			var param = new DynamicParameters();
 			param.Add("@AttendanceID", dayCheckOut.AttendanceID);
 			param.Add("@CheckOut", dayCheckOut.CheckOut);
-			var result = await connection.ExecuteAsync("spAttendance_CheckOut", dayCheckOut.AttendanceID, commandType: CommandType.StoredProcedure);
-            return result;
+			var result = await connection.ExecuteAsync("spAttendance_CheckOut", param: param, commandType: CommandType.StoredProcedure);
+
+            var currentEmployeeCheckOut = new DayCheckOut
+            {
+                AttendanceID = dayCheckOut.AttendanceID,
+                EmployeeID = dayCheckOut.EmployeeID,
+                CheckOut = currentTime
+            };
+            return currentEmployeeCheckOut;
         }
     }
+
+
+    public async Task<AttendancePersonal> GetAttendanceByEmployeeIDAsync(int employeeID)
+    {
+        var Date = DateTime.Now;
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
+        {
+            connection.Open();
+            var param = new DynamicParameters();
+            param.Add("@EmployeeID", employeeID);
+            param.Add("@Date", Date);
+            var result = await connection.QuerySingleAsync<AttendancePersonal>
+                        ("spAttendance_GetByEmployeeID", param, commandType: CommandType.StoredProcedure);
+        }
+        throw new NotImplementedException();
+    }
+
+
 }

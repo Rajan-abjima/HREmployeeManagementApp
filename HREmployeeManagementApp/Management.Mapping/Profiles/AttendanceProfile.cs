@@ -9,5 +9,8 @@ public class AttendanceProfile : Profile
     {
         CreateMap<DayCheckIn,AttendanceModel>();
         CreateMap<AttendanceModel, DayCheckIn>();
+        CreateMap<DayCheckOut,AttendanceModel>();
+        CreateMap<AttendancePersonal, AttendanceModel>();
+        CreateMap<AttendanceModel, AttendancePersonal>();
     }
 }

@@ -12,6 +12,9 @@ public class DayCheckOut
 {
     [Required]
     public int AttendanceID { get; set; }
+
+    [Required]
+    public int EmployeeID { get; set;}
     
     [Required]
     public TimeSpan CheckOut { get; set; }

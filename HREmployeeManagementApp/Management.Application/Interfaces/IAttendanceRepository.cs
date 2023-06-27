@@ -9,5 +9,6 @@ namespace Management.Application.Interfaces;
 public interface IAttendanceRepository
 {
     Task<DayCheckIn> AddCheckInAsync(DayCheckIn checkInToday);
-    Task<int> UpdateCheckOutAsync(DayCheckOut checkOutToday);
+    Task<DayCheckOut> UpdateCheckOutAsync(DayCheckOut checkOutToday);
+    Task<AttendancePersonal> GetAttendanceByEmployeeIDAsync(int enployeeID);
 }

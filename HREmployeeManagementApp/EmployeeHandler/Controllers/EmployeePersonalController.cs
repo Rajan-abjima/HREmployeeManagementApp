@@ -98,20 +98,27 @@ public class EmployeePersonalController : Controller
 
 	    PersonalDetails personalDetails = new()
         {
-            CheckIn = await _attendanceRepository.AddCheckInAsync(dayCheckIn)
+            CheckIn = await _attendanceRepository.AddCheckInAsync(dayCheckIn),
+            EmployeePersonal = await _employeeRepository.GetByIdAsync(employeeID)
         };
         TempData["AttendanceID"] = personalDetails.CheckIn.AttendanceID;
         
-        return RedirectToAction("PersonalDetails", "EmployeePersonal", new { personalDetails.EmployeePersonal.EmployeeID, personalDetails.CheckIn.AttendanceID });
+        return RedirectToAction("GetPersonalDetails", "EmployeePersonal", new { EmployeeId = employeeID, AttendanceID = personalDetails.CheckIn.AttendanceID });
         
 	}
 
 	[HttpGet]
-    public async Task<IActionResult> CheckOut(int AttendanceID)
+    public async Task<IActionResult> CheckOut(int attendanceID, int employeeID)
     {
         DayCheckOut dayCheckOut = new DayCheckOut();
-        dayCheckOut.AttendanceID = AttendanceID;
-        var checkOutData = await _attendanceRepository.UpdateCheckOutAsync(dayCheckOut);
-        return View();
-    }
+        dayCheckOut.AttendanceID = attendanceID;
+        dayCheckOut.EmployeeID = employeeID;
+
+        PersonalDetails personalDetails = new()
+        {
+            CheckOut = await _attendanceRepository.UpdateCheckOutAsync(dayCheckOut),
+            EmployeePersonal = await _employeeRepository.GetByIdAsync(employeeID)
+        };
+		return RedirectToAction("GetPersonalDetails", "EmployeePersonal", new { EmployeeId = employeeID});
+	}
 }
