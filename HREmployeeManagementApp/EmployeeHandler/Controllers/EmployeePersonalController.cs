@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Management.Entities.EmployeeEntities;
 using Management.Entities.AttendanceEntities;
 using Management.ViewModel;
+using System.Runtime.InteropServices;
 
 namespace EmployeeHandler.Controllers;
 
@@ -63,23 +64,13 @@ public class EmployeePersonalController : Controller
         string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
         int.TryParse(stringEmployeeID, out employeeID);
         /****************************************************************************************************/
-        
+                
         PersonalDetails personalDetails = new()
         {
             EmployeePersonal = await _employeeRepository.GetByIdAsync(employeeID)
         };
         return View(personalDetails);
     }
-
-    //[HttpGet]
-    //public IActionResult CheckIn(int employeeID)
-    //{
-    //    var response = new DayCheckIn()
-    //    {
-    //        EmployeeID = employeeID,
-    //    }
-    //    return View(response);
-    //}
 
     [HttpGet]
     public async Task<IActionResult> CheckIn(int employeeID)
@@ -121,4 +112,19 @@ public class EmployeePersonalController : Controller
         };
 		return RedirectToAction("GetPersonalDetails", "EmployeePersonal", new { EmployeeId = employeeID});
 	}
+
+
+    //[HttpGet]
+    //public async Task<IActionResult>AttendanceDetails(int employeeID, DateTime givenDate)
+    //{
+    //    AttendancePersonal attendancePersonal = new AttendancePersonal();
+    //    attendancePersonal.EmployeeID = employeeID;
+    //    attendancePersonal.Date = givenDate;
+
+    //    PersonalDetails personalDetails = new()
+    //    {
+    //        AttendancePersonal = await _attendanceRepository.GetAttendanceByEmployeeIDAsync(employeeID,givenDate)
+    //    };
+    //    throw new NotImplementedException();
+    //}
 }

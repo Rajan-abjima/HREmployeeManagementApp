@@ -10,5 +10,7 @@ public interface IAttendanceRepository
 {
     Task<DayCheckIn> AddCheckInAsync(DayCheckIn checkInToday);
     Task<DayCheckOut> UpdateCheckOutAsync(DayCheckOut checkOutToday);
-    Task<AttendancePersonal> GetAttendanceByEmployeeIDAsync(int enployeeID);
+    Task<AttendancePersonal> GetExactAttendanceByEmployeeIDAsync(int employeeID);
+    Task<IReadOnlyList<AttendancePersonal>> GetAttendancePersonalAsync(int employeeID);
+    Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByIDAsync(int employeeID);
 }

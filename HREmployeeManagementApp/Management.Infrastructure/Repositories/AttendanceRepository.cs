@@ -70,20 +70,39 @@ public class AttendanceRepository : IAttendanceRepository
     }
 
 
-    public async Task<AttendancePersonal> GetAttendanceByEmployeeIDAsync(int employeeID)
-    {
-        var Date = DateTime.Now;
+    public async Task<AttendancePersonal> GetExactAttendanceByEmployeeIDAsync(int employeeID)
+    {       
         using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
         {
             connection.Open();
             var param = new DynamicParameters();
             param.Add("@EmployeeID", employeeID);
-            param.Add("@Date", Date);
-            var result = await connection.QuerySingleAsync<AttendancePersonal>
-                        ("spAttendance_GetByEmployeeID", param, commandType: CommandType.StoredProcedure);
-        }
-        throw new NotImplementedException();
+            var result = await connection.QuerySingleAsync<AttendancePersonal>("spAttendance_GetByEmployeeID", param, commandType: CommandType.StoredProcedure);
+                   
+            return result;
+        }        
     }
 
+    public async Task<IReadOnlyList<AttendancePersonal>> GetAttendancePersonalAsync(int employeeID)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
+        {
+            connection.Open();
+            var result = await connection.QueryAsync<AttendancePersonal>("spAttendance_GetAllByID", new {EmployeeID = employeeID}, commandType: CommandType.StoredProcedure);
+
+            return result.ToList();
+        }
+    }
+
+    public async Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByIDAsync(int employeeID)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
+        {
+            connection.Open();
+            var result = await connection.QueryAsync<AttendanceAdmin>("spAttendance_GetAllByID", new { EmployeeID = employeeID }, commandType: CommandType.StoredProcedure);
+
+            return result.ToList();
+        }
+    }
 
 }

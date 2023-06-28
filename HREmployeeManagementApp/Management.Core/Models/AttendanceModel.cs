@@ -34,7 +34,7 @@ public class AttendanceModel
     public TimeSpan CheckOut { get; set; }
 
 
-    public string ModifiedBy { get; set; } = string.Empty;
+    public string? ModifiedBy { get; set; }
 
     public DateTime ModifiedOn { get; set;}
 }
