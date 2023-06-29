@@ -1,0 +1,62 @@
+﻿@*@model List<AttendancePersonal>*@
+
+@section head{
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+}
+
+@{var employeeID = Context.Request.Query["EmployeeID"];}
+
+<style>
+    nav {border-bottom: #eaedef 1px solid;}
+</style>
+
+<section id="tabs" class="project-tab">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <nav>
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href=@Url.Action("AttendanceDetails",new{EmployeeID = employeeID}) role="tab" aria-controls="nav-home" aria-selected="false">Attendance Details</a>
+                        <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="true">Apply Leave</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href=@Url.Action("RegularizationForm",new{EmployeeID = employeeID}) role="tab" aria-controls="nav-contact" aria-selected="false">Apply Regularization</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <table class="table" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Status</th>
+                                    <th>Regularized</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @*@foreach (var attendance in Model)
+                                {
+                                    <tr>
+                                        <td>@attendance.Date.ToString("dd/MMM/yyyy")</td>
+                                        <td>@attendance.CheckIn</td>
+                                        <td>@attendance.CheckOut</td>
+                                        <td>@attendance.Status</td>
+                                    @if (attendance.ModifiedBy != null)
+                                        {
+                                            <td><img width="20" height="20" src="/confirm-icon_black.svg" /></td>
+                                        }
+                                    </tr>
+                                }*@
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+                                    

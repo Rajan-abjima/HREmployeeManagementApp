@@ -12,6 +12,17 @@ public class AttendancePersonalController : Controller
         _attendanceRepository = attendanceRepository;
     }
 
+    public IActionResult LeaveForm(int employeeID)
+    {
+        return View(employeeID);
+    }
+    public IActionResult RegularizationForm(int employeeID)
+    {
+        return View(employeeID);
+    }
+
+
+    [HttpGet]
     public async Task<IActionResult> AttendanceDetails(int employeeID)
     {
         //Getting the parameter from query string as string and converting it to employeeID which is Integer//        

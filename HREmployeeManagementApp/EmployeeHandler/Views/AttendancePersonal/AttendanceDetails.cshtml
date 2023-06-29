@@ -6,15 +6,19 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 }
 
+@{
+    var employeeID = Context.Request.Query["EmployeeID"];
+}
+
 <section id="tabs" class="project-tab">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <nav>
                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Attendance Details</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Apply Leave</a>
-                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Apply Regularization</a>
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Attendance Details</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href=@Url.Action("LeaveForm",new{EmployeeID = employeeID}) role="tab" aria-controls="nav-profile" aria-selected="false">Apply Leave</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href=@Url.Action("RegularizationForm",new{EmployeeID = employeeID}) role="tab" aria-controls="nav-contact" aria-selected="false">Apply Regularization</a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
@@ -33,12 +37,14 @@
                                 @foreach (var attendance in Model)
                                 {
                                     <tr>
-                                        <td>@attendance.Date</td>
+                                        <td>@attendance.Date.ToString("dd/MMM/yyyy")</td>
                                         <td>@attendance.CheckIn</td>
                                         <td>@attendance.CheckOut</td>
                                         <td>@attendance.Status</td>
-                                    @if (attendance.ModifiedBy != null)
-                                        {<td style="color:green">&#10004;</td>}
+                                    @if (attendance.ModifiedBy == null)
+                                        {
+                                            <td><img width="20" height="20" src="/confirm-icon_black.svg" /></td>
+                                        }
                                     </tr>
                                 }
                             </tbody>
