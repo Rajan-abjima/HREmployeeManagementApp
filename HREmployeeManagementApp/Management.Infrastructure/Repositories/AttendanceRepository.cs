@@ -105,4 +105,9 @@ public class AttendanceRepository : IAttendanceRepository
         }
     }
 
+	public Task<EmployeeRegularization> RegularizationRequestAsync(EmployeeRegularization regularization)
+    {
+        regularization.DateOfRequest = DateTime.Now;
+        throw new NotImplementedException();
+    }
 }

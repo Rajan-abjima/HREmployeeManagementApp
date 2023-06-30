@@ -1,4 +1,5 @@
 ﻿using Management.Application.Interfaces;
+using Management.Entities.AttendanceEntities;
 using Management.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +17,19 @@ public class AttendancePersonalController : Controller
     {
         return View(employeeID);
     }
-    public IActionResult RegularizationForm(int employeeID)
+
+    [HttpGet]
+    public /*async Task<IActionResult>*/ IActionResult RegularizationForm(int employeeID, int attendanceID)
     {
-        return View(employeeID);
+        //var response = await _attendanceRepository.GetExactAttendanceByEmployeeIDAsync(employeeID);
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RegularizeRequest(EmployeeRegularization regularization)
+    {
+        var result = await _attendanceRepository.RegularizationRequestAsync(regularization);
+        return View();
     }
 
 

@@ -13,4 +13,5 @@ public interface IAttendanceRepository
     Task<AttendancePersonal> GetExactAttendanceByEmployeeIDAsync(int employeeID);
     Task<IReadOnlyList<AttendancePersonal>> GetAttendancePersonalAsync(int employeeID);
     Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByIDAsync(int employeeID);
+    Task<EmployeeRegularization> RegularizationRequestAsync (EmployeeRegularization regularization);
 }
