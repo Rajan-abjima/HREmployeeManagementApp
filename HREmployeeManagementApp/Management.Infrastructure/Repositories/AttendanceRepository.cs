@@ -5,6 +5,7 @@ using Management.Entities.EmployeeEntities;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Runtime.InteropServices;
 
 namespace Management.Infrastructure.Repositories;
 public class AttendanceRepository : IAttendanceRepository
@@ -105,9 +106,33 @@ public class AttendanceRepository : IAttendanceRepository
         }
     }
 
-	public Task<EmployeeRegularization> RegularizationRequestAsync(EmployeeRegularization regularization)
+	public async Task<EmployeeRegularization> RegularizationRequestAsync(EmployeeRegularization regularization)
     {
         regularization.DateOfRequest = DateTime.Now;
-        throw new NotImplementedException();
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
+        {
+            connection.Open();
+            var param = new DynamicParameters();
+            param.Add("@AttendanceID", regularization.AttendanceID);
+            param.Add("@EmployeeID", regularization.EmployeeID);
+            param.Add("@RegularizeDate", regularization.RegularizeDate);
+            param.Add("@CheckedIn", regularization.CheckedIn);
+            param.Add("@CheckedOut", regularization.CheckedOut);
+            param.Add("@DateOfRequest", regularization.DateOfRequest);
+            param.Add("@AppliedCheckIn", regularization.AppliedCheckIn);
+            param.Add("@AppliedCheckOut", regularization.AppliedCheckOut);
+            param.Add("@Reason", regularization.Reason);
+            param.Add("@RegularizeIdentity", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var result = await connection.ExecuteAsync("spRegularization_InsertRequest", param, commandType: CommandType.StoredProcedure);
+            var regularizeIdentity = param.Get<int>("@RegularizeIdentity");
+            var employeeID = param.Get<int>("@EmployeeID");
+
+            EmployeeRegularization currentRegularizeDetails = new()
+            {
+                RegularizeID = regularizeIdentity,
+                EmployeeID = employeeID
+            };
+            return currentRegularizeDetails;
+        }
     }
 }

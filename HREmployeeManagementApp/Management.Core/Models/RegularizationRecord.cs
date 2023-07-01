@@ -31,21 +31,21 @@ public class RegularizationRecord
     [Required]
     public DateTime DateOfRequest { get; set; }
 
-    [Required]
+    
     public TimeSpan AppliedCheckIn { get; set; }
 
-    [Required]
+    
     public TimeSpan AppliedCheckOut { get; set; }
 
     [Required(ErrorMessage = "You must state a reason for requesting regularization", AllowEmptyStrings = false)]
     [MaxLength(300)]
     public string? Reason { get; set; }
 
-    [Required]
+    
     [MaxLength(50)]
     public string? RegularizedBy { get; set; }
 
-    [Required]
+    
     public bool Approved { get; set; }
 
     [MaxLength(300)]

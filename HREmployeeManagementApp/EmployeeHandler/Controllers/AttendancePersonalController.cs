@@ -13,23 +13,25 @@ public class AttendancePersonalController : Controller
         _attendanceRepository = attendanceRepository;
     }
 
+    [HttpGet]
     public IActionResult LeaveForm(int employeeID)
     {
         return View(employeeID);
     }
 
     [HttpGet]
-    public /*async Task<IActionResult>*/ IActionResult RegularizationForm(int employeeID, int attendanceID)
+    public IActionResult RegularizationForm()
     {
-        //var response = await _attendanceRepository.GetExactAttendanceByEmployeeIDAsync(employeeID);
         return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> RegularizeRequest(EmployeeRegularization regularization)
     {
-        var result = await _attendanceRepository.RegularizationRequestAsync(regularization);
-        return View();
+        var requestDetails = await _attendanceRepository.RegularizationRequestAsync(regularization);
+        TempData["RegularizeRequest"] = requestDetails.RegularizeID;
+        return RedirectToAction("GetPersonalDetails", "EmployeePersonal", 
+            new { EmployeeID  = requestDetails.EmployeeID, RegularizeID = requestDetails.RegularizeID});
     }
 
 

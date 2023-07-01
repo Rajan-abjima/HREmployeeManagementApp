@@ -58,7 +58,8 @@
                                         <td>
                                             <span class="regularizelink">
                                                 @Html.ActionLink("Regularize","RegularizationForm","AttendancePersonal",
-                                            new{ EmployeeID = employeeID, AttendanceID = attendance.AttendanceID, AttendanceDate = attendance.Date.ToString("dd/MM/yyyy"), CheckIn = attendance.CheckIn, CheckOut = attendance.CheckOut},null)
+                                            new{ EmployeeID = employeeID, AttendanceID = attendance.AttendanceID, AttendanceDate = attendance.Date.ToString("yyyy-MM-dd"),
+                                                    CheckIn = attendance.CheckIn, CheckOut = attendance.CheckOut},null)
                                             </span>
                                         </td>
                                     </tr>
