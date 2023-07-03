@@ -1,6 +1,7 @@
 ﻿using Management.Application.Interfaces;
 using Management.Entities.EmployeeEntities;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
@@ -35,6 +36,8 @@ public class LoginController : Controller
         }
         else
         {
+            var employee = new EmployeePersonal() { EmployeeID = response};
+            HttpContext.Session.SetString("EmployeeSession",JsonConvert.SerializeObject(employee));
             // Credentials are valid, perform the desired action
             var url = Url.Action("GetPersonalDetails", "EmployeePersonal", new { EmployeeID = response });
             /*Using assert to declare that "url" will never be null so Redirect doesnt show null warning*/

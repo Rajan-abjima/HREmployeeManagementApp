@@ -28,6 +28,8 @@ public class AttendancePersonalController : Controller
     [HttpPost]
     public async Task<IActionResult> RegularizeRequest(EmployeeRegularization regularization)
     {
+        RegularizeViewModel regularizeView = new RegularizeViewModel();
+        regularization.EmployeeID = regularizeView.EmployeeRegularization.EmployeeID;
         var requestDetails = await _attendanceRepository.RegularizationRequestAsync(regularization);
         TempData["RegularizeRequest"] = requestDetails.RegularizeID;
         return RedirectToAction("GetPersonalDetails", "EmployeePersonal", 

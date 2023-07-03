@@ -8,6 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddInfrastructure();
+
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
+});
+
+builder.Services.AddHttpContextAccessor();
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
 
@@ -26,6 +32,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession();
+//app.UseMvc();
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 namespace Management.ViewModel;
 public class RegularizeViewModel
 {
-	AttendancePersonal AttendancePersonal = new AttendancePersonal();
-	EmployeeRegularization regularization = new EmployeeRegularization();
+	public AttendancePersonal AttendancePersonal = new AttendancePersonal();
+	public EmployeeRegularization EmployeeRegularization = new EmployeeRegularization();
 }

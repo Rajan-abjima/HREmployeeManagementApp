@@ -4,6 +4,10 @@ using Management.Entities.EmployeeEntities;
 using Management.Entities.AttendanceEntities;
 using Management.ViewModel;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Security.Policy;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EmployeeHandler.Controllers;
 
@@ -64,10 +68,12 @@ public class EmployeePersonalController : Controller
         string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
         int.TryParse(stringEmployeeID, out employeeID);
         /****************************************************************************************************/
-                
+
+        var employeeSession = JsonConvert.DeserializeObject<EmployeePersonal>(HttpContext.Session.GetString("EmployeeSession"));
+
         PersonalDetails personalDetails = new()
         {
-            EmployeePersonal = await _employeeRepository.GetByIdAsync(employeeID)
+            EmployeePersonal = await _employeeRepository.GetByIdAsync(employeeSession.EmployeeID)
         };
         return View(personalDetails);
     }
@@ -113,6 +119,12 @@ public class EmployeePersonalController : Controller
 		return RedirectToAction("GetPersonalDetails", "EmployeePersonal", new { EmployeeId = employeeID});
 	}
 
+    [HttpGet]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Remove("EmployeeSession");
+        return RedirectToAction("Login","Login");
+    }
 
     //[HttpGet]
     //public async Task<IActionResult>AttendanceDetails(int employeeID, DateTime givenDate)
