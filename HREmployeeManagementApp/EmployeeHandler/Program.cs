@@ -10,7 +10,7 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddInfrastructure();
 
 builder.Services.AddSession(options => {
-    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
 
 builder.Services.AddHttpContextAccessor();

@@ -15,8 +15,8 @@ public static class ServiceRegistration
     {
         services.AddAutoMapper(typeof(EmployeeProfile));
         services.AddAutoMapper(typeof(AttendanceProfile));
-        services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-        services.AddTransient<IAttendanceRepository, AttendanceRepository>();
+        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+        services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 
     }
 }

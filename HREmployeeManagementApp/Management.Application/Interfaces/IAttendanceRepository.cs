@@ -14,4 +14,6 @@ public interface IAttendanceRepository
     Task<IReadOnlyList<AttendancePersonal>> GetAttendancePersonalAsync(int employeeID);
     Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByIDAsync(int employeeID);
     Task<EmployeeRegularization> RegularizationRequestAsync (EmployeeRegularization regularization);
+
+    Task<LeavePersonal> LeaveRequestAsync(LeavePersonal leave);
 }

@@ -11,5 +11,6 @@ public class EmployeeProfile : Profile
         CreateMap<EmployeeModel, EmployeePersonal>();        
         CreateMap<EmployeeRegistration, EmployeeLogin>();
         CreateMap<EmployeeSignUp, EmployeeRegistration>();
+        CreateMap<EmployeeModel,EmployeeAdmin>();
     }
 }

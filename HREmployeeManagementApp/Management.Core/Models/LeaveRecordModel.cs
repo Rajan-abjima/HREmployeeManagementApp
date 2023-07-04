@@ -13,20 +13,9 @@ public class LeaveRecordModel
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int LeaveID { get; set; }
 
-    [Required(ErrorMessage = "AttendanceID Not Found!")]
-    public int AttendanceID { get; set; }
-
     [Required(ErrorMessage = "EmployeeID Not Found!")]
     public int EmployeeID { get; set; }
-
-    [Required(ErrorMessage = "First name is required", AllowEmptyStrings = false)]
-    [MaxLength(50)]
-    public string FirstName { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "Last name is required", AllowEmptyStrings = false)]
-    [MaxLength(50)]
-    public string? LastName { get; set; }
-
+   
     [Required]
     public DateTime DateFrom { get; set; }
 
@@ -40,10 +29,8 @@ public class LeaveRecordModel
     [MaxLength(300)]
     public string? Reason { get; set; }
 
-    [Required]
     public string? AdministeredBy { get; set; }
 
-    [Required]
     public bool ApprovalStatus { get; set; }
 
     [MaxLength(300)]

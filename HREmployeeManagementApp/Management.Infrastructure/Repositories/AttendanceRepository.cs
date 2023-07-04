@@ -132,7 +132,33 @@ public class AttendanceRepository : IAttendanceRepository
                 RegularizeID = regularizeIdentity,
                 EmployeeID = employeeID
             };
+
             return currentRegularizeDetails;
+        }
+    }
+
+    public async Task<LeavePersonal> LeaveRequestAsync(LeavePersonal leave)
+    {
+        using(var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var param = new DynamicParameters();
+            param.Add("@EmployeeID", leave.EmployeeID);
+            param.Add("@FromDate", leave.DateFrom);
+            param.Add("@ToDate", leave.ToDate);
+            param.Add("@DateOfRequest", leave.DateOfRequest);
+            param.Add("@Reason", leave.Reason);
+            param.Add("@LeaveRequestID", dbType:DbType.Int32, direction: ParameterDirection.Output);
+            var result = await connection.ExecuteAsync("spLeaveRecord_InsertRequest",param, commandType: CommandType.StoredProcedure);
+
+            var leaveRequestId = param.Get<int>("@LeaveRequestID");
+
+            LeavePersonal leavePersonal = new()
+            {
+                LeaveID = leaveRequestId
+            };
+
+            return leavePersonal;
         }
     }
 }

@@ -3,11 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Management.Entities.EmployeeEntities;
 using Management.Entities.AttendanceEntities;
 using Management.ViewModel;
-using System.Runtime.InteropServices;
 using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Security.Policy;
-using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Http;
 
 namespace EmployeeHandler.Controllers;
 

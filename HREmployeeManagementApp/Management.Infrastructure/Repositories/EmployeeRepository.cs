@@ -108,7 +108,20 @@ public class EmployeeRepository : IEmployeeRepository
 		}
 	}
 
-	public async Task<EmployeePersonal> GetByIdAsync(int employeeID)
+
+    public async Task<IReadOnlyList<EmployeeAdmin>> GetAllEmployeesAsync()
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var employees = await connection.QueryAsync<EmployeeAdmin>("spEmployee_GetAll", commandType: CommandType.StoredProcedure);
+
+            return employees.ToList();
+        }
+    }
+
+
+    public async Task<EmployeePersonal> GetByIdAsync(int employeeID)
     {
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {

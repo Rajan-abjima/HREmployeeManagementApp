@@ -1,0 +1,47 @@
+﻿@model List<EmployeeAdmin>
+
+
+<section id="tabs" class="project-tab">
+    <div class="container">
+        <div class="row">
+            <h1>Employees List</h1>
+            <div class="col-md-12">
+                <nav>
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Profiles</a>
+                        <a @*href="@Url.Action("Leave", "AttendancePersonal")"*@ class="nav-item nav-link">Attendance</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <table class="table" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Emmployee Name</th>
+                                    <th>Designation</th>
+                                    <th>Contact</th>
+                                    <th>Admin Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var employee in Model)
+                                {
+                                    <tr class="regularize">
+                                        <td>@employee.EmployeeID</td>
+                                        <td>@employee.FirstName @employee.LastName </td>
+                                        <td>@employee.Designation</td>
+                                        <td>@employee.Contact</td>
+                                        <td>@employee.AdminStatus</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

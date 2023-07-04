@@ -27,7 +27,7 @@
                 <nav>
                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Attendance Details</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href=@Url.Action("LeaveForm",new{EmployeeID = employeeID}) role="tab" aria-controls="nav-profile" aria-selected="false">Apply Leave</a>
+                        <a href="@Url.Action("Leave", "AttendancePersonal", new {EmployeeID = employeeID})" class="nav-item nav-link" >Apply Leave</a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
@@ -73,5 +73,3 @@
         </div>
     </div>
 </section>
-
-                                    
