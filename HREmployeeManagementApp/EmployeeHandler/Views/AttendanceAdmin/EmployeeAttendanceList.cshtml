@@ -1,45 +1,47 @@
 ﻿@model List<AttendanceAdmin>
 
 
-
-
 <section id="tabs" class="project-tab">
     <div class="container">
         <div class="row">
-            <h1 align="center">Employees List</h1>
+            <h1>Employees List</h1>
             <div class="col-md-12">
+                <nav>
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a href="@Url.Action("EmployeeList","EmployeeAdmin") class="nav-item nav-link">Attendance</a>
+                        <a class="nav-item nav-link active" >Personal Details</a>
+                    </div>
+                </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <table class="table" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Employee ID</th>
-                                    <th>Employee Name</th>
-                                    <th>Status</th>
-                                    <th>Regularized By</th>
-                                    <th>Regularized On</th>
+                                    <th>Emmployee Name</th>
+                                    <th>Date</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach(var attendance in Model)
+                                @foreach (var attendance in Model)
                                 {
-                                    <tr>
+                                    <tr class="">
+                                        <td>@attendance.EmployeeID</td>
+                                        <td>@attendance.FirstName @attendance.LastName</td>
                                         <td>@attendance.Date</td>
                                         <td>@attendance.CheckIn</td>
                                         <td>@attendance.CheckOut</td>
-                                        <td>@attendance.Status</td>
-                                        <td style="color:green">&#10004;</td>
                                     </tr>
-                                    @*@if (attendance.ModifiedBy == null)*@
                                 }
                             </tbody>
                         </table>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-                                    

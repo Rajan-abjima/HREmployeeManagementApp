@@ -106,7 +106,18 @@ public class AttendanceRepository : IAttendanceRepository
         }
     }
 
-	public async Task<EmployeeRegularization> RegularizationRequestAsync(EmployeeRegularization regularization)
+    public async Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByDateAsync(DateTime date)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
+        {
+            connection.Open();
+            var result = await connection.QueryAsync<AttendanceAdmin>("spAttendance_GetAllByDate", commandType: CommandType.StoredProcedure);
+
+            return result.ToList();
+        }
+    }
+
+    public async Task<EmployeeRegularization> RegularizationRequestAsync(EmployeeRegularization regularization)
     {
         regularization.DateOfRequest = DateTime.Now;
         using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
