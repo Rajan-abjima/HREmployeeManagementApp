@@ -12,10 +12,10 @@ public class AttendanceAdminController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> EmployeeAttendanceList(DateTime date)
+    public async Task<IActionResult> EmployeeAttendanceList(int employeeID, DateTime date)
     {
-        date = DateTime.Today.AddDays(-1);
-        var result = await _attendanceRepository.GetAttendanceAdminByDateAsync(date);
+        date = DateTime.Today;
+        var result = await _attendanceRepository.GetAttendanceAdminByIDAndDateAsync(employeeID, date);
         return View(result);
     }
 }

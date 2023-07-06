@@ -69,7 +69,7 @@
                                         <td>@employee.Contact</td>
                                         <td>@if (employee.AdminStatus){<span style="color:blue">true</span>}</td>
                                         <td><span class="attendancelink">
-												<a href="@Url.Action("AttendanceDetailsByID","AttendanceAdmin",new{ EmployeeID = employee.EmployeeID})"><strong>View<br>Attendance</strong></a>
+												<a href="@Url.Action("EmployeeAttendanceList","AttendanceAdmin",new{ EmployeeID = employee.EmployeeID, EmployeeName =employee.FirstName})"><strong>View<br>Attendance</strong></a>
                                             </span>
                                         </td>
                                     </tr>

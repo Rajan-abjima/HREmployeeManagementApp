@@ -87,12 +87,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="EmployeeAdmin" asp-action="EmployeeList">Employee List for Admin</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="AdminDashboard" asp-action="AdminDashboard">Admin Dashboard</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container dashboard">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

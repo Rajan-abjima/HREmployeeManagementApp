@@ -12,9 +12,11 @@ public interface IAttendanceRepository
     Task<DayCheckOut> UpdateCheckOutAsync(DayCheckOut checkOutToday);
     Task<AttendancePersonal> GetExactAttendanceByEmployeeIDAsync(int employeeID);
     Task<IReadOnlyList<AttendancePersonal>> GetAttendancePersonalAsync(int employeeID);
-    Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByDateAsync (DateTime date);
+    Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByIDAndDateAsync (int employeeId, DateTime date);
     Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByIDAsync(int employeeID);
     Task<EmployeeRegularization> RegularizationRequestAsync (EmployeeRegularization regularization);
 
     Task<LeavePersonal> LeaveRequestAsync(LeavePersonal leave);
+
+    Task<IReadOnlyList<LeaveAdmin>> PendingLeaveRequestAsync();
 }

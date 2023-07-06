@@ -95,6 +95,8 @@ public class AttendanceRepository : IAttendanceRepository
         }
     }
 
+
+                            ////////////////////////UNUSED TILL NOW/////////////////////////////////
     public async Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByIDAsync(int employeeID)
     {
         using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
@@ -106,12 +108,15 @@ public class AttendanceRepository : IAttendanceRepository
         }
     }
 
-    public async Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByDateAsync(DateTime date)
+    public async Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByIDAndDateAsync(int employeeId, DateTime date)
     {
         using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
         {
             connection.Open();
-            var result = await connection.QueryAsync<AttendanceAdmin>("spAttendance_GetAllByDate", commandType: CommandType.StoredProcedure);
+            var param = new DynamicParameters();
+            param.Add("@EmployeeId", employeeId);
+            param.Add("@Date", date);
+            var result = await connection.QueryAsync<AttendanceAdmin>("spAttendance_GetAllByDate", param, commandType: CommandType.StoredProcedure);
 
             return result.ToList();
         }
@@ -170,6 +175,16 @@ public class AttendanceRepository : IAttendanceRepository
             };
 
             return leavePersonal;
+        }
+    }
+
+    public async Task<IReadOnlyList<LeaveAdmin>> PendingLeaveRequestAsync()
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var result = await connection.QueryAsync<LeaveAdmin>("spLeaveRecord_ListOfPendings", commandType: CommandType.StoredProcedure);
+            return result.ToList();
         }
     }
 }

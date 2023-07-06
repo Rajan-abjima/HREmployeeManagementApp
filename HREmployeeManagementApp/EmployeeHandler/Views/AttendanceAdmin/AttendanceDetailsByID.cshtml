@@ -1,4 +1,4 @@
-﻿@model List<AttendanceAdmin>
+﻿@*@model List<AttendanceAdmin>
 
 
 
@@ -30,7 +30,7 @@
                                         <td>@attendance.Status</td>
                                         <td style="color:green">&#10004;</td>
                                     </tr>
-                                    @*@if (attendance.ModifiedBy == null)*@
+                                    @if (attendance.ModifiedBy == null)
                                 }
                             </tbody>
                         </table>
@@ -42,4 +42,4 @@
     </div>
 </section>
 
-                                    
+                                    *@
