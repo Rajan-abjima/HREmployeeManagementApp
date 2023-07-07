@@ -1,10 +1,12 @@
 ﻿using Dapper;
 using Management.Application.Interfaces;
+using Management.Entities.AdminEntities;
 using Management.Entities.EmployeeEntities;
 using Management.ViewModel;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Management.Infrastructure.Repositories;
 public class EmployeeRepository : IEmployeeRepository
@@ -108,7 +110,6 @@ public class EmployeeRepository : IEmployeeRepository
 		}
 	}
 
-
     public async Task<IReadOnlyList<EmployeeAdmin>> GetAllEmployeesAsync()
     {
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
@@ -132,5 +133,48 @@ public class EmployeeRepository : IEmployeeRepository
         }
     }
 
-    
+
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="adminLogin"></param>
+    /// <returns></returns>
+    public async Task<AdminLogin> CheckAdminAsync(AdminLogin adminLogin)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var param = new DynamicParameters();
+            param.Add("@AdminID", adminLogin.AdminID);
+            param.Add("@AdminPassword", adminLogin.AdminPassword);
+
+            var result = await connection.QueryFirstOrDefaultAsync<AdminLogin>(
+                "spAdminLogin",
+                param,
+                commandType: CommandType.StoredProcedure);
+
+            AdminLogin adminData = new AdminLogin()
+            {
+                AdminID = result.AdminID,
+                EmployeeID = result.EmployeeID
+            };
+
+            return adminData;
+        }
+    }
+
+    public async Task<AdminPersonal> GetAdminById(int employeeID ,int adminID)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var param = new DynamicParameters();
+            param.Add("@adminID", adminID);
+            var result = await connection.QueryFirstOrDefaultAsync<AdminPersonal>("spAdmin_GetByID", param, commandType: CommandType.StoredProcedure);
+
+            return result;            
+        }
+    }
 }

@@ -187,4 +187,25 @@ public class AttendanceRepository : IAttendanceRepository
             return result.ToList();
         }
     }
+
+    public async Task<IReadOnlyList<RegularizationAdmin>> PendingRegularizationRequestAsync()
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var result = await connection.QueryAsync<RegularizationAdmin>("spRegularizationRecord_ListOfPendings", commandType: CommandType.StoredProcedure);
+            return result.ToList();
+        }
+    }
+
+    public async Task<LeaveAdmin> GetLeaveByID(int leaveID)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var result = await connection.QueryFirstOrDefaultAsync<LeaveAdmin>("spLeaveRecord_GetByID", param: new {leaveID}, commandType: CommandType.StoredProcedure);
+
+            return result;
+        }
+    }
 }

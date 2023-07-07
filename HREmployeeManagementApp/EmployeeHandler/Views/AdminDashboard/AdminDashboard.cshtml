@@ -1,4 +1,4 @@
-﻿@model List<RequestsViewModel>
+﻿@model AdminPersonal
 
 @section head{
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -44,7 +44,8 @@
         <div class="row">
         
             <div class="col-lg-2 sidebar">
-				<h4 style="height:fit-content; color: #007bff; background-color:white; text-align:center;"></h4>
+                <div class="sidebarItem"><h6>Admin: </h6></div>
+                <div style="height:fit-content; padding:.25rem .25rem; color: #007bff; background-color:white; text-align:center;"><h5 style="">@Model.FirstName @Model.LastName</h5></div>
                 <div class="list-group">
 					<div class="sidebarItem"><h6>Employee Details</h6></div>
 					<div class="sidebarItem"><h6>Regulariztion Record</h6></div>
@@ -64,58 +65,39 @@
                             <div class="card-header">
                                 <h5 class="mb-0">Regularization Requests</h5>
                             </div>
-                            <ul class="list-group list-group-flush">
+                                <div id="pendingRegularizationRequests">
 
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-								    <span>Request Date</span>
-                                    <span>Reason</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-								    <span>Request Date</span>
-                                    <span>Reason</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>Request Date</span>
-                                    <span>Reason</span>
-                                </li>
-                            </ul>
-						</div>
+                                </div>
+						    </div>
 						</div>
                     </div>
 
                     <!-- Leave Requests -->
                     <div class="col-lg-6">
                         <div class="mx-auto cardsize">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Leave Requests</h5>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Leave Requests</h5>
+                                </div>
+                                <div id="pendingLeaveRequests">
+
+                                </div>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                    @foreach(var request in Model)
-                                    {
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <span>@request.DateFrom - @request.ToDate</span>
-                                            <span>@request.Reason</span>
-                                        </li>
-                                    }
-                                    
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>Applied Date</span>
-                                    <span>Reason</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>Applied Date</span>
-                                    <span>Reason</span>
-                                </li>
-                            </ul>
-                        </div>
                         </div>
                     </div>
                 </div>
             </div>
 	    </div>
     </div>
-	    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-	    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+@section Scripts{
+    <script>
+            $('#pendingLeaveRequests').load("/AdminDashboard/PendingLeaveRequestsPartial")
+    </script>
+        <script>
+            $('#pendingRegularizationRequests').load("/AdminDashboard/PendingRegularizationRequestsPartial")
+        </script>
+}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </section>

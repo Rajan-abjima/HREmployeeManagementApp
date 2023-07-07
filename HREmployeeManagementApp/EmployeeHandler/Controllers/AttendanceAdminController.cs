@@ -18,4 +18,11 @@ public class AttendanceAdminController : Controller
         var result = await _attendanceRepository.GetAttendanceAdminByIDAndDateAsync(employeeID, date);
         return View(result);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> CheckLeaveRequest(int leaveID)
+    {
+        var response = await _attendanceRepository.GetLeaveByID(leaveID);
+        return View(response);
+    }
 }

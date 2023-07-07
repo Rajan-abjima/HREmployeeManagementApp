@@ -12,6 +12,9 @@ public class AdminModel
     public bool AdminStatus { get; set; }
     [Required]
     public int AdminID { get; set; }
+
+    [Required] 
+    public int EmployeeID { get; set; }
     [Required]
     public string? FirstName { get; set; }
     [Required]

@@ -19,4 +19,7 @@ public interface IAttendanceRepository
     Task<LeavePersonal> LeaveRequestAsync(LeavePersonal leave);
 
     Task<IReadOnlyList<LeaveAdmin>> PendingLeaveRequestAsync();
+    Task<IReadOnlyList<RegularizationAdmin>> PendingRegularizationRequestAsync();
+
+    Task<LeaveAdmin> GetLeaveByID(int leaveID);
 }
