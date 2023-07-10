@@ -68,8 +68,9 @@ public class LoginController : Controller
         }
         else
         {
-            var admin = new AdminPersonal() { AdminID = response.AdminID, EmployeeID = response.EmployeeID  };
-            HttpContext.Session.SetString("AdminSession", JsonConvert.SerializeObject(admin));
+            var profile = await _employeeRepository.GetAdminById(response.EmployeeID, response.AdminID);
+            //var admin = new AdminPersonal() { AdminID = profile.AdminID, EmployeeID = profile.EmployeeID, FirstName = profile.FirstName, LastName = profile.LastName};
+            HttpContext.Session.SetString("AdminSession", JsonConvert.SerializeObject(profile));
             // Credentials are valid, perform the desired action
             //var url = Url.Action("AdminDashboard", "AdminDashboard", new { AdminID = response.AdminID, EmployeeID = response.EmployeeID });
             /*Using assert to declare that "url" will never be null so Redirect doesnt show null warning*/

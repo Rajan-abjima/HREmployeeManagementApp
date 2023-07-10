@@ -22,4 +22,5 @@ public interface IAttendanceRepository
     Task<IReadOnlyList<RegularizationAdmin>> PendingRegularizationRequestAsync();
 
     Task<LeaveAdmin> GetLeaveByID(int leaveID);
+    Task<int> UpdateLeaveRequest(LeaveAdmin leaveAdmin);
 }

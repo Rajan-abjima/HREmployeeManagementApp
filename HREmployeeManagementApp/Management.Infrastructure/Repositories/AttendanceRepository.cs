@@ -208,4 +208,20 @@ public class AttendanceRepository : IAttendanceRepository
             return result;
         }
     }
+
+    public async Task<int> UpdateLeaveRequest(LeaveAdmin leaveAdmin)
+    {
+        using(var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var param = new DynamicParameters();
+            param.Add("@AdministeredBy", leaveAdmin.AdministeredBy);
+            param.Add("@ApprovalStatus", leaveAdmin.ApprovalStatus);
+            param.Add("@Comment", leaveAdmin.Comment);
+            param.Add("@leaveID", leaveAdmin.LeaveID);
+            var result = await connection.ExecuteAsync("spLeaveRecord_Decision", param, commandType: CommandType.StoredProcedure);
+
+            return result;
+        }
+    }
 }
