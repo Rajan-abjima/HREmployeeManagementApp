@@ -23,4 +23,7 @@ public interface IAttendanceRepository
 
     Task<LeaveAdmin> GetLeaveByID(int leaveID);
     Task<int> UpdateLeaveRequest(LeaveAdmin leaveAdmin);
+
+    Task<RegularizationAdmin> GetRegualrizationByID(int regularizeID);
+    Task<int> UpdateRegularizationRequest(RegularizationAdmin regularizationAdmin);
 }

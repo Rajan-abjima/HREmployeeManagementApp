@@ -193,7 +193,7 @@ public class AttendanceRepository : IAttendanceRepository
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
             connection.Open();
-            var result = await connection.QueryAsync<RegularizationAdmin>("spRegularizationRecord_ListOfPendings", commandType: CommandType.StoredProcedure);
+            var result = await connection.QueryAsync<RegularizationAdmin>("spRegularization_ListOfPendings", commandType: CommandType.StoredProcedure);
             return result.ToList();
         }
     }
@@ -220,6 +220,32 @@ public class AttendanceRepository : IAttendanceRepository
             param.Add("@Comment", leaveAdmin.Comment);
             param.Add("@leaveID", leaveAdmin.LeaveID);
             var result = await connection.ExecuteAsync("spLeaveRecord_Decision", param, commandType: CommandType.StoredProcedure);
+
+            return result;
+        }
+    }
+
+    public async Task<RegularizationAdmin> GetRegualrizationByID(int regularizeID)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var result = await connection.QueryFirstOrDefaultAsync<RegularizationAdmin>("spRegularization_GetByID", param: new {regularizeID}, commandType: CommandType.StoredProcedure);
+            return result;
+        }
+    }
+
+    public async Task<int> UpdateRegularizationRequest(RegularizationAdmin regularizationAdmin)
+    {
+        using(var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var param = new DynamicParameters();
+            param.Add("@regularizedBy", regularizationAdmin.RegularizedBy);
+            param.Add("@approved", regularizationAdmin.Approved);
+            param.Add("@comment", regularizationAdmin.Comment);
+            param.Add("@regularizeID", regularizationAdmin.RegularizeID);
+            var result = await connection.ExecuteAsync("spRegularization_Decision", param, commandType: CommandType.StoredProcedure);
 
             return result;
         }

@@ -69,15 +69,12 @@
                                 <label for="reason">Reason</label>
                                 <textarea type="text" class="form-control input-sm col" id="reason" rows="3" placeholder="@Model.Reason" required readonly></textarea>
                             </div>
-                            <div class="col mt-3">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="inlineCheckbox1" name="Approval" value="true" asp-for="ApprovalStatus">
-                                    <label class="form-check-label" for="inlineCheckbox1">Accept</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="inlineCheckbox2" name="Approval" value="false" asp-for="ApprovalStatus">
-                                    <label class="form-check-label" for="inlineCheckbox2">Decline</label>
-                                </div>
+                            <div class="col mt-3 d-flex justify-content-between align-items-center">
+                                <span>Approve</span>
+                                <label class="radio inline m-1">
+                                    <input type="checkbox" value="true" asp-for="ApprovalStatus">
+                                    <span> Accept </span>
+                                </label>
                             </div>
                             <div class="col mt-3">
                                 <label for="reason">Comment</label>

@@ -1,10 +1,7 @@
 ﻿using Management.Application.Interfaces;
 using Management.Entities.AdminEntities;
-using Management.Entities.EmployeeEntities;
-using Management.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Runtime.InteropServices;
 
 namespace EmployeeHandler.Controllers;
 public class AdminDashboardController : Controller

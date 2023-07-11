@@ -32,9 +32,35 @@ public class AttendanceAdminController : Controller
     [HttpPost]
     public async Task<IActionResult> ConfirmLeaveRequest(LeaveAdmin leaveAdmin)
     {
+        if (leaveAdmin.ApprovalStatus != true)
+        {
+            leaveAdmin.ApprovalStatus = false;
+        }
         var adminSession = JsonConvert.DeserializeObject<AdminPersonal>(HttpContext.Session.GetString("AdminSession"));
         leaveAdmin.AdministeredBy = $"{adminSession.FirstName} {adminSession.LastName}";
         var response = await _attendanceRepository.UpdateLeaveRequest(leaveAdmin);
+
+
+        return RedirectToAction("AdminDashboard", "AdminDashboard", new {AdminID = adminSession.AdminID, EmployeeID = adminSession.EmployeeID});
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> CheckRegularizationRequest(int regularizeID)
+    {
+        var response = await _attendanceRepository.GetRegualrizationByID(regularizeID);
+        return View(response);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> ConfirmRegularizationRequest(RegularizationAdmin regularizationAdmin)
+    {
+        if (regularizationAdmin.Approved != true)
+        {
+            regularizationAdmin.Approved = false;
+        }
+        var adminSession = JsonConvert.DeserializeObject<AdminPersonal>(HttpContext.Session.GetString("AdminSession"));
+        regularizationAdmin.RegularizedBy = $"{adminSession.FirstName} {adminSession.LastName}";
+        var response = await _attendanceRepository.UpdateRegularizationRequest(regularizationAdmin);
 
 
         return RedirectToAction("AdminDashboard", "AdminDashboard", new {AdminID = adminSession.AdminID, EmployeeID = adminSession.EmployeeID});
