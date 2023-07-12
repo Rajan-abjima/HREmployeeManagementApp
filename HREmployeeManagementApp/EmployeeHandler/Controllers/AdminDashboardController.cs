@@ -20,7 +20,7 @@ public class AdminDashboardController : Controller
         var employeeSession = JsonConvert.DeserializeObject<AdminPersonal>(HttpContext.Session.GetString("AdminSession"));
         EmployeeID = employeeSession.EmployeeID;
         AdminID = employeeSession.AdminID;
-        var response = await _employeeRepository.GetAdminById(EmployeeID,AdminID);
+        var response = await _employeeRepository.GetAdminByIdAsync(EmployeeID,AdminID);
         return View(response);
     }
 

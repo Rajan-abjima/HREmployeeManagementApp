@@ -12,5 +12,8 @@ public interface IEmployeeRepository
     Task<int> CheckEmployeeAysnc(EmployeeLogin employeeLogin);
 
     Task<AdminLogin> CheckAdminAsync(AdminLogin adminLogin);
-    Task<AdminPersonal> GetAdminById(int employeeID, int adminID);
+    Task<AdminPersonal> GetAdminByIdAsync(int employeeID, int adminID);
+
+    Task<EmployeeAdmin> GetEmployeeByIdAsync(int employeeID);
+    Task<int> UpdateEmployeeByIdAsync(EmployeeAdmin employee);
 }

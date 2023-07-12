@@ -165,7 +165,7 @@ public class EmployeeRepository : IEmployeeRepository
         }
     }
 
-    public async Task<AdminPersonal> GetAdminById(int employeeID ,int adminID)
+    public async Task<AdminPersonal> GetAdminByIdAsync(int employeeID ,int adminID)
     {
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
@@ -175,6 +175,43 @@ public class EmployeeRepository : IEmployeeRepository
             var result = await connection.QueryFirstOrDefaultAsync<AdminPersonal>("spAdmin_GetByID", param, commandType: CommandType.StoredProcedure);
 
             return result;            
+        }
+    }
+
+    public async Task<EmployeeAdmin> GetEmployeeByIdAsync(int employeeID)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var result = await connection.QuerySingleOrDefaultAsync<EmployeeAdmin>
+                        ("spEmployee_GetByID", new { EmployeeID = employeeID }, commandType: CommandType.StoredProcedure);
+            return result;
+        }
+    }
+
+    public async Task<int> UpdateEmployeeByIdAsync(EmployeeAdmin employee)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var param = new DynamicParameters();
+            param.Add("@employeeID", employee.EmployeeID);
+            param.Add("@FirstName", employee.FirstName);
+            param.Add("@LastName", employee.LastName);
+            param.Add("@Gender", employee.Gender);
+            param.Add("@DateOfBirth", employee.DateOfBirth);
+            param.Add("@Address", employee.Address);
+            param.Add("@Contact", employee.Contact);
+            param.Add("@Designation", employee.Designation);
+            param.Add("@SignInApprovedBy", employee.SignInApprovedBy);
+            param.Add("@JoiningDate", employee.JoiningDate);
+            param.Add("@ModifiedDate", employee.ModifiedDate);
+            param.Add("@ModifiedBy", employee.ModifiedBy);
+            param.Add("@AdminStatus", employee.AdminStatus);
+
+            var result = await connection.ExecuteAsync("spEmployee_UpdateByID", param, commandType: CommandType.StoredProcedure);
+
+            return result;
         }
     }
 }

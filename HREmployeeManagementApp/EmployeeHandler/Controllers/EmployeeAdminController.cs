@@ -1,5 +1,9 @@
 ﻿using Management.Application.Interfaces;
+using Management.Entities.AdminEntities;
+using Management.Entities.EmployeeEntities;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace EmployeeHandler.Controllers;
@@ -17,5 +21,23 @@ public class EmployeeAdminController : Controller
     {
         var result = await _employeeRepository.GetAllEmployeesAsync();
         return View(result);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> EmployeeDetailsUpdate(int EmployeeID)
+    {
+        var employeeData = await _employeeRepository.GetEmployeeByIdAsync(EmployeeID);
+        return View(employeeData);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> EmployeeDetailsUpdate(EmployeeAdmin employee)
+    {
+        var adminSession = JsonConvert.DeserializeObject<AdminPersonal>(HttpContext.Session.GetString("AdminSession"));
+        employee.ModifiedBy = $"{adminSession.FirstName} {adminSession.LastName}";
+        employee.ModifiedDate = DateTime.Today;
+
+        var result = await _employeeRepository.UpdateEmployeeByIdAsync(employee);
+        return RedirectToAction("EmployeeList");
     }
 }

@@ -68,7 +68,7 @@ public class LoginController : Controller
         }
         else
         {
-            var profile = await _employeeRepository.GetAdminById(response.EmployeeID, response.AdminID);
+            var profile = await _employeeRepository.GetAdminByIdAsync(response.EmployeeID, response.AdminID);
             //var admin = new AdminPersonal() { AdminID = profile.AdminID, EmployeeID = profile.EmployeeID, FirstName = profile.FirstName, LastName = profile.LastName};
             HttpContext.Session.SetString("AdminSession", JsonConvert.SerializeObject(profile));
             // Credentials are valid, perform the desired action

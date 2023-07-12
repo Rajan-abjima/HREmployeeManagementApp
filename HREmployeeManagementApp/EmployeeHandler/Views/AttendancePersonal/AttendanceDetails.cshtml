@@ -40,7 +40,6 @@
                                     <th>Check Out</th>
                                     <th>Status</th>
                                     <th>Regularized</th>
-                                    <th></th>
 
                                 </tr>
                             </thead>
@@ -52,16 +51,16 @@
                                         <td>@attendance.CheckIn</td>
                                         <td>@attendance.CheckOut</td>
                                         <td>@attendance.Status</td>                                        
-                                    @if (attendance.ModifiedBy == null)
-                                        {<td><img width="20" height="20" src="/confirm-icon_black.svg" /></td>}
-
+                                    @if (attendance.ModifiedBy != null)
+                                        {<td style="padding-left:3.3vw;"><img width="20" height="20" src="/confirm-icon_black.svg" /></td>}
+                                        else{
                                         <td>
                                             <span class="regularizelink">
                                                 @Html.ActionLink("Regularize","RegularizationForm","AttendancePersonal",
                                             new{ EmployeeID = employeeID, AttendanceID = attendance.AttendanceID, AttendanceDate = attendance.Date.ToString("yyyy-MM-dd"),
                                                     CheckIn = attendance.CheckIn, CheckOut = attendance.CheckOut},null)
                                             </span>
-                                        </td>
+                                        </td>}
                                     </tr>
                                 }
                             </tbody>

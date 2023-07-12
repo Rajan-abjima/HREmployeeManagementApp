@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Entities", "Mana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.Mapping", "Management.Mapping\Management.Mapping.csproj", "{0DFC89A0-F288-4CCB-A241-9DF1F5C61595}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.ViewModel", "Management.ViewModel\Management.ViewModel.csproj", "{E78D8A9E-17F1-491C-95F0-B31DD8DF9E7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Management.ViewModel", "Management.ViewModel\Management.ViewModel.csproj", "{E78D8A9E-17F1-491C-95F0-B31DD8DF9E7D}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "HREmployeeManagementDB", "HREmployeeManagementDB\HREmployeeManagementDB.sqlproj", "{612FDADB-05D2-44FF-8066-C0A045DC4B4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,12 @@ Global
 		{E78D8A9E-17F1-491C-95F0-B31DD8DF9E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E78D8A9E-17F1-491C-95F0-B31DD8DF9E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E78D8A9E-17F1-491C-95F0-B31DD8DF9E7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{612FDADB-05D2-44FF-8066-C0A045DC4B4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{612FDADB-05D2-44FF-8066-C0A045DC4B4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{612FDADB-05D2-44FF-8066-C0A045DC4B4B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{612FDADB-05D2-44FF-8066-C0A045DC4B4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{612FDADB-05D2-44FF-8066-C0A045DC4B4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{612FDADB-05D2-44FF-8066-C0A045DC4B4B}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
