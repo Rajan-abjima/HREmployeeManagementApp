@@ -1,0 +1,86 @@
+﻿@model List<RegularizationAdmin>
+
+@section head{
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Akatab:wght@400;700&display=swap" rel="stylesheet">
+}
+
+@{
+    var name = Context.Request.Query["EmployeeName"];
+}
+
+<style>
+    table {
+        width: 70% !important;
+        border-radius: 10px;
+    }
+
+    body {
+        font-family: 'Akatab', sans-serif;
+        background-color: #0076d1;
+        background-image: url("https://www.transparenttextures.com/patterns/3px-tile.png");
+    }
+
+    h1 {
+        color: white;
+        font: 700;
+    }
+
+    .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+        background-color: #d0e5f6;
+    }
+
+    th, td {
+        padding-left: 2vw !important;
+    }
+
+    td>a{
+        text-decoration: none;
+    }
+</style>
+
+<section id="tabs" class="project-tab">
+    <div class="container">
+        <div class="row">
+            <h1 align="center">Regularization Request Records</h1>
+            <div class="col-md-12">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <table class="table table-bordered mx-auto bg-light" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" scope="col">ID</th>
+                                    <th class="text-center" scope="col">Attendance ID</th>
+                                    <th class="text-center" scope="col">Employee ID</th>
+                                    <th class="text-center" scope="col">Request Date</th>
+                                    <th class="text-center" scope="col">Approval Status</th>
+                                    <th class="text-center" scope="col">Regularize Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var regularize in Model)
+                                {
+                                    <tr class="">
+                                        <td class="text-center"><a href="@Url.Action("CheckRegularizationRequest", new {regularize.RegularizeID})">@regularize.RegularizeID</a></td>
+                                        <td class="text-center">@regularize.AttendanceID</td>
+                                        <td class="text-center">@regularize.EmployeeID</td>
+                                        <td class="text-center">@regularize.DateOfRequest.ToString("MMM-dd, yyyy")</td>
+                                        <td class="text-center">
+                                            @if (regularize.Approved == true)
+                                            {
+                                                <span>Approved</span>
+                                            }
+                                        </td>
+                                        <td class="text-center">@regularize.RegularizeDate.ToString("dd/MM/yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
