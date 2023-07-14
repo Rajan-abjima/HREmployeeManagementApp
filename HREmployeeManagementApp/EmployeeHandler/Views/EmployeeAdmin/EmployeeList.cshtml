@@ -1,0 +1,85 @@
+﻿@model List<EmployeeAdmin>
+
+@section head{
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Akatab:wght@400;700&display=swap" rel="stylesheet">
+}
+
+<style>
+    .attendancelink {
+        visibility: hidden;
+    }
+
+    .attendance:hover > td > .attendancelink {
+        visibility: visible;
+    }
+
+    body {
+        font-family: 'Akatab', sans-serif;
+        background-color: #0076d1;
+        background-image: url("https://www.transparenttextures.com/patterns/3px-tile.png");
+
+    }
+
+    h1{
+        color:white;
+        font:700;
+    }
+
+    table{
+        border-radius: 10px;
+    }
+
+    .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+        background-color: #d0e5f6;
+    }
+    
+    th,td{
+        padding-left: 2vw !important;
+    }
+</style>
+
+<section id="tabs" class="project-tab">
+    <div class="container">
+        <div class="row">
+            <h1 align="center">Employees List</h1>
+            <div class="col-md-12">                
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <table class="table table-striped bg-light" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Employee Name</th>
+                                    <th>Designation</th>
+                                    <th>Contact</th>
+                                    <th>Admin Status</th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var employee in Model)
+                                {
+                                    <tr class="attendance">
+										<td><a href="@Url.Action("EmployeeDetailsUpdate","EmployeeAdmin",new{ EmployeeID = employee.EmployeeID})"><strong>@employee.EmployeeID</strong></a></td>
+                                        <td>@employee.FirstName @employee.LastName </td>
+                                        <td>@employee.Designation</td>
+                                        <td>@employee.Contact</td>
+                                        <td>@if (employee.AdminStatus){<span style="color:blue">true</span>}</td>
+                                        <td><span class="attendancelink">
+												<a href="@Url.Action("EmployeeAttendanceList","AttendanceAdmin",new{ EmployeeID = employee.EmployeeID, EmployeeName =employee.FirstName})"><strong>View<br>Attendance</strong></a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

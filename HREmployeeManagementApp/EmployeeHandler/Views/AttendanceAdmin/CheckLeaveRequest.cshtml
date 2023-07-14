@@ -1,0 +1,94 @@
+﻿@model LeaveAdmin
+
+@section head{
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+}
+
+@{
+    var adminID = Context.Request.Query["AdminID"];
+
+    var successfulRequest = TempData["LeaveRequestID"];
+}
+
+<style>
+    body {
+        background-image: linear-gradient(#0062cc,white,white);
+        background-size: cover;
+    }
+
+    nav {
+        border-bottom: #eaedef 2px solid;
+        background-color: white;
+    }
+
+    bgcolor {
+        background-color: white;
+    }
+
+    form {
+        border: 2px #0062cc solid;
+        border-radius: 20px;
+        background-image: linear-gradient(rgba(white, .1),rgba(white, .1));
+    }
+</style>
+
+<section id="tabs" class="project-tab">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 bgcolor">
+                @*<nav>
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a href="@Url.Action("AttendanceDetails", "AttendancePersonal", new{ EmployeeID = employeeID})" class="nav-item nav-link">Attendance Details</a>
+                        <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Apply Leave</a>
+                    </div>
+                </nav>*@
+                <div class="tab-content mt-4" id="nav-tabContent">
+                    <div class="tab-pane fade show active row" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                        <form class="bg-light py-3 px-4 mx-auto col-6 " asp-action="ConfirmLeaveRequest" method="post">
+                            <h2>Leave Request By Emp-@Model.EmployeeID </h2>
+                            <div class="NeededExtras">
+                                <input type="hidden" value="@Model.LeaveID" asp-for="LeaveID">
+                                <input type="hidden" value="@adminID" asp-for="AdministeredBy">
+                            </div>
+                            <div class="row mt-3">
+                                <div class="row my-3 col" id="SetLeave">
+                                    <div class="col">
+                                        <label>Date From</label>
+                                        <input id="setLeaveFrom" type="date" value="@Model.DateFrom.ToString("yyyy-MM-dd")" class="form-control input-sm" required readonly>
+                                    </div>
+                                    <div class="col">
+                                        <label>To Date</label>
+                                        <input id="setLeaveTo" type="date" value="@Model.ToDate.ToString("yyyy-MM-dd")" class="form-control input-sm" required readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mt-3">
+                                <label for="reason">Reason</label>
+                                <textarea type="text" class="form-control input-sm col" id="reason" rows="3" placeholder="@Model.Reason" required readonly></textarea>
+                            </div>
+                            <div class="col mt-3 d-flex justify-content-between align-items-center">
+                                <span>Approve</span>
+                                <label class="radio inline m-1">
+                                    <input type="checkbox" value="true" asp-for="ApprovalStatus">
+                                    <span> Accept </span>
+                                </label>
+                            </div>
+                            <div class="col mt-3">
+                                <label for="reason">Comment</label>
+                                <textarea type="text" class="form-control input-sm col" id="reason" rows="3" asp-for="Comment"></textarea>
+                            </div>
+                            <div class="row mx-auto mt-3 mb-2">
+                                <input class="btn btn-outline-primary mx-auto col-6" type="submit" value="Confirm">
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

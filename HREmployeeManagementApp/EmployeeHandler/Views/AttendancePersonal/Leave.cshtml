@@ -1,0 +1,90 @@
+﻿@model LeavePersonal
+
+@section head{
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+}
+
+@{
+    var employeeID = Context.Request.Query["EmployeeID"];
+    var successfulRequest = TempData["LeaveRequestID"];
+}
+
+<style>
+    body{
+        background-image: linear-gradient(#0062cc,white,white);
+        background-size:cover;
+
+    }
+    nav {
+        border-bottom: #eaedef 2px solid;
+        background-color: white;
+    }
+
+    bgcolor{
+        background-color: white;
+    }
+
+    form{
+		border: 2px #0062cc solid;
+        border-radius: 20px;
+        background-image: linear-gradient(rgba(white, .1),rgba(white, .1));
+    }
+</style>
+
+<section id="tabs" class="project-tab">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 bgcolor">
+                <nav>
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a href="@Url.Action("AttendanceDetails", "AttendancePersonal", new{ EmployeeID = employeeID})" class="nav-item nav-link" >Attendance Details</a>
+                        <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Apply Leave</a>
+                    </div>
+                </nav>
+                <div class="tab-content mt-5" id="nav-tabContent">
+                    <div class="tab-pane fade show active row" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        
+                            <form class="bg-light py-4 px-4 mx-auto col-6 " asp-action="LeaveRequest" method="post">
+                            <h1>Leave Application Form</h1>
+                            <div class="NeededExtras">
+                                <input type="hidden" value="@employeeID" asp-for="EmployeeID">
+                            </div>
+							<div class="row mt-3">
+                                <div class="row my-3 col" id="SetLeave">
+                                    <div class="col">
+                                        <label>Date From *</label>
+                                        <input id="setLeaveFrom" type="date" value="2023-01-01" id="datePickerId" class="form-control input-sm" required asp-for="DateFrom">
+                                    </div>
+                                    <div class="col">
+                                        <label>To Date *</label>
+                                        <input id="setLeaveTo" type="date" value="2023-01-01" class="form-control input-sm" required asp-for="ToDate">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mt-3">                                
+                                <label for="reason">Reason *</label>
+                                <textarea type="text" class="form-control input-sm col" id="reason" rows="3" required asp-for="Reason"></textarea>
+                            </div>
+                            <div class="row mx-auto my-3">
+                                <input class="btn btn-outline-primary mx-auto col-6" type="submit">
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+
+            @if (successfulRequest != null)
+            {
+                <div class="alert alert-warning">
+                <span>Your Request : No.@successfulRequest was successful.</span>
+                <script>alert(Your Request : No.@successfulRequest was succesful)</script>
+        </div>
+            }
+        </div>
+    </div>
+</section>
+
+                                    

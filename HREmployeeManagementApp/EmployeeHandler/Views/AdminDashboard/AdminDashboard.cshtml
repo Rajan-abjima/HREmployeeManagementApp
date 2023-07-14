@@ -1,0 +1,108 @@
+﻿@model AdminPersonal
+
+@section head{
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+}
+
+<style>
+    .dashboard{
+        max-width:100% !important;
+        height:100% !important;
+    }
+    
+    .sidebar {
+        height: 100%;
+		background-color: #007bff;
+        padding: 20px;
+        color:white;
+    }
+
+    .sidebarItem > a{
+        color: white;
+        text-decoration:none;
+    }
+
+    .sidebarItem{
+        margin-top: 2rem;
+        margin-left: 1rem;
+
+    }
+
+    .main-area {
+        padding: 20px;
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+    }
+
+    .cardsize{
+        width:70%; 
+        text-align:center
+    }
+</style>
+
+<section>
+    <div class="container dashboard">
+        <div class="row">
+        
+            <div class="col-lg-2 sidebar">
+                <div class="sidebarItem"><h6>Admin: </h6></div>
+                <div style="padding:.25rem .25rem; color: #007bff; background-color:white; text-align:center;"><h5 style="">@Model.FirstName @Model.LastName</h5></div>
+                <div class="list-group">
+					<div class="sidebarItem"><a href="@Url.Action("EmployeeList","EmployeeAdmin")"><h6>Employee Details</h6></a></div>
+					<div class="sidebarItem"><a href="@Url.Action("RegularizationRecord","AttendanceAdmin")"><h6>Regulariztion Record</h6></a></div>
+                    <div class="sidebarItem"><a href="@Url.Action("LeaveRecord","AttendanceAdmin")"><h6>Leave Record</h6></a></div>
+                </div>
+            </div>
+
+
+		    <div class="col-md-10 main">
+			    <h1 align="center">All Requests</h1>
+                <div class="row mt-5">
+                    
+                    <!-- Regularization Requests -->
+                    <div class="col-lg-6">
+                        <div class="mx-auto cardsize">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Regularization Requests</h5>
+                            </div>
+                                <div id="pendingRegularizationRequests">
+
+                                </div>
+						    </div>
+						</div>
+                    </div>
+
+                    <!-- Leave Requests -->
+                    <div class="col-lg-6">
+                        <div class="mx-auto cardsize">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Leave Requests</h5>
+                                </div>
+                                <div id="pendingLeaveRequests">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+	    </div>
+    </div>
+@section Scripts{
+    <script>
+            $('#pendingLeaveRequests').load("/AdminDashboard/PendingLeaveRequestsPartial")
+    </script>
+    <script>
+            $('#pendingRegularizationRequests').load("/AdminDashboard/PendingRegularizationRequestsPartial")
+    </script>
+}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</section>

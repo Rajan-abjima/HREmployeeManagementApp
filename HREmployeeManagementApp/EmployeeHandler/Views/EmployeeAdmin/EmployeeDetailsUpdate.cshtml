@@ -1,0 +1,118 @@
+﻿@model Management.Entities.EmployeeEntities.EmployeeAdmin
+
+@{
+    ViewData["Title"] = "EmployeeDetailsUpdate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body{
+        background-image: linear-gradient(#0062cc,white,white);
+	}
+
+    h3{
+        color: aliceblue;
+        text-shadow: 0 0 0.1em white;
+    }
+
+    .form-group{
+        margin-bottom: 1rem;
+    }
+
+	.whitebackground{
+        background-color:white;
+        border-radius: 1rem;
+    }
+</style>
+
+
+<h3>Employee Profile</h3>
+<hr />
+<div class="row whitebackground p-3">
+    <div class="col-md-4">
+        <form asp-action="EmployeeDetailsUpdate">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmployeeID"  class="control-label"></label>
+                <input asp-for="EmployeeID" class="form-control" readonly />
+                <span asp-validation-for="EmployeeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <input asp-for="Gender" class="form-control" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contact" class="control-label"></label>
+                <input asp-for="Contact" class="form-control" />
+                <span asp-validation-for="Contact" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Designation" class="control-label"></label>
+                <input asp-for="Designation" class="form-control" />
+                <span asp-validation-for="Designation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SignInApprovedBy" class="control-label"></label>
+                <input asp-for="SignInApprovedBy" class="form-control" readonly/>
+                <span asp-validation-for="SignInApprovedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JoiningDate" class="control-label"></label>
+                <input asp-for="JoiningDate" type="date" class="form-control" />
+                <span asp-validation-for="JoiningDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModifiedDate" class="control-label"></label>
+                <input asp-for="ModifiedDate" type="date" class="form-control" readonly/>
+                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModifiedBy" class="control-label"></label>
+                <input asp-for="ModifiedBy" class="form-control" readonly/>
+                <span asp-validation-for="ModifiedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeavingDate" class="control-label"></label>
+                <input asp-for="LeavingDate" type="date" class="form-control" readonly/>
+                <span asp-validation-for="LeavingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AdminStatus" /> @Html.DisplayNameFor(model => model.AdminStatus)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="EmployeeList">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

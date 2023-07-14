@@ -1,0 +1,15 @@
+﻿@model List<RegularizationAdmin>
+
+<div>
+    <div class="list-group list-group-flush">
+        @foreach(RegularizationAdmin request in Model)
+        {
+            <a href="@Url.Action("CheckRegularizationRequest","AttendanceAdmin",new {RegularizeID = request.RegularizeID})">
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span>@request.RegularizeDate.ToString("dd/MM/yyyy")</span>
+                <span>@request.Reason</span>
+            </div>
+            </a>
+        }
+	</div>
+</div>

@@ -1,0 +1,15 @@
+﻿@model List<LeaveAdmin>
+
+<div>
+<div class="list-group list-group-flush">
+    @foreach (LeaveAdmin request in Model)
+    {
+        <a href="@Url.Action("CheckLeaveRequest","AttendanceAdmin",new {LeaveID = request.LeaveID})">
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span>@request.ToDate.ToString("dd/MMM/yyyy")</span>
+                <span>@request.Reason</span>
+            </div>
+        </a>
+    }
+</div>
+</div>

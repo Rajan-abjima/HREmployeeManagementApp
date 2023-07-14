@@ -1,0 +1,114 @@
+﻿@model EmployeeRegularization
+
+@section head{
+    <!-- Include Bootstrap CDN -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+}
+
+@{
+    var employeeID = Context.Request.Query["EmployeeID"];
+    var attendanceID = Context.Request.Query["AttendanceID"];
+    var attendanceDate = Context.Request.Query["AttendanceDate"];
+    var checkIn = Context.Request.Query["CheckIn"];
+    var checkOut = Context.Request.Query["CheckOut"];
+}
+
+<style>
+    body {
+        background-image: linear-gradient(#0062cc,white,white);
+        background-size: cover;
+    }
+
+    nav {
+        border-bottom: #eaedef 1px solid;
+    }
+
+    form {
+        border: 2px #0062cc solid;
+        border-radius: 20px;
+        background-image: linear-gradient(rgba(white, .1),rgba(white, .1));
+    }
+</style>
+
+<section id="tabs" class="project-tab">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="mt-lg-5 p-lg-4 mx-auto col-10 col-md-8 col-lg-6">
+                            <form class="bg-light py-4 px-4" asp-action="RegularizeRequest" method="post">
+                                <h1>Regularization Form</h1>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <label for="AttendanceDate">Attendance Date</label>
+                                        <input type="date" class="form-control input-sm" placeholder="" readonly value=@attendanceDate asp-for="RegularizeDate">
+                                    </div>
+                                    <div class="col">
+                                        <label for="reason">Reason *</label>
+                                        <select onchange="myFunction()" class="custom-select" id="reason" required asp-for="Reason">
+                                            <option disabled selected hidden>PLease select a reason</option>
+                                            <option value="Forgot To check In">Forgot To check In</option>
+                                            <option value="Forgot To check Out">Forgot To check Out</option>
+                                            <option value="Absent">Absent</option>
+                                            <option value="Leave">Leave</option>
+                                            <option value="Present">Present</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="row my-3 col">
+                                        <div class="col">
+                                            <label>Check In - Recorded</label>
+                                            <input type="time" class="form-control input-sm" readonly value="@checkIn" asp-for="CheckedIn">
+                                        </div>
+                                        <div class="col mt-2">
+                                            <label>Check Out - Recorded</label>
+                                            <input type="time" class="form-control input-sm" readonly value="@checkOut" asp-for="CheckedOut">
+                                        </div>
+                                    </div>
+                                    <div class="row my-3 col" id="SetChecks">
+                                        <div class="col">
+                                            <label>Set Check In *</label>
+                                            <input id="setCheckIn" type="time" step="1" class="form-control input-sm" required asp-for="AppliedCheckIn">
+                                        </div>
+                                        <div class="col mt-2">
+                                            <label>Set Check Out *</label>
+                                            <input id="setCheckOut" type="time" step="1" class="form-control input-sm" required asp-for="AppliedCheckOut">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="NeededExtras">
+                                    <input type="hidden" value="@attendanceID" asp-for="AttendanceID">
+                                    <input type="hidden" value="@employeeID" asp-for="EmployeeID">
+                                </div>
+                                <div class="row mx-auto my-3">
+                                    <input class="btn btn-outline-primary col" type="submit">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#reason').change(function () {
+                var selectX = $('#reason').val();
+                if (selectX === "Absent" || selectX === "Leave") {
+                    $("#setCheckIn").attr('disabled', 'disabled');
+                    $("#setCheckOut").attr('disabled', 'disabled');
+                } else {
+                    $("#setCheckIn").removeAttr('disabled');
+                    $("#setCheckOut").removeAttr('disabled');
+                }
+            })
+        });
+
+    </script>
+</section>
+           

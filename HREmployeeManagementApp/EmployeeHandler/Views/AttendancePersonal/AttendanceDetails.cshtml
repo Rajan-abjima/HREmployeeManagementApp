@@ -1,0 +1,74 @@
+﻿@model List<AttendancePersonal>
+
+@section head{
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+}
+
+@{
+    var employeeID = Context.Request.Query["EmployeeID"];
+}
+
+<style>
+    .regularizelink{
+        visibility:hidden;
+    }
+
+    .regularize:hover > td > .regularizelink{
+        visibility: visible;
+    }
+</style>
+
+<section id="tabs" class="project-tab">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <nav>
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Attendance Details</a>
+                        <a href="@Url.Action("Leave", "AttendancePersonal", new {EmployeeID = employeeID})" class="nav-item nav-link" >Apply Leave</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <table class="table" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Status</th>
+                                    <th>Regularized</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var attendance in Model)
+                                {
+                                    <tr class="regularize">
+                                        <td>@attendance.Date.ToString("dd/MMM/yyyy")</td>
+                                        <td>@attendance.CheckIn</td>
+                                        <td>@attendance.CheckOut</td>
+                                        <td>@attendance.Status</td>                                        
+                                    @if (attendance.ModifiedBy != null)
+                                        {<td style="padding-left:3.3vw;"><img width="20" height="20" src="/confirm-icon_black.svg" /></td>}
+                                        else{
+                                        <td>
+                                            <span class="regularizelink">
+                                                @Html.ActionLink("Regularize","RegularizationForm","AttendancePersonal",
+                                            new{ EmployeeID = employeeID, AttendanceID = attendance.AttendanceID, AttendanceDate = attendance.Date.ToString("yyyy-MM-dd"),
+                                                    CheckIn = attendance.CheckIn, CheckOut = attendance.CheckOut},null)
+                                            </span>
+                                        </td>}
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
