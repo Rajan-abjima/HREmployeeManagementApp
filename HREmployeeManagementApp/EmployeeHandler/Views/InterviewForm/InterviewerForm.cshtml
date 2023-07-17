@@ -1,0 +1,124 @@
+﻿@section head{
+  <meta charset="utf-8">
+  <title>Interviewer CheckList</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" 
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <meta name="author" content="Interviewer CheckList">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+}
+<style>
+    table,th,td{
+    border: solid 2px black !important;
+    }
+
+    .dashboard {
+        max-width: 100% !important;
+        height: 100% !important;
+    }
+    body>header>.hidingNav{
+        display:none;
+    }
+</style>
+
+<section>
+    <nav class="navbar navbar-light" style="background-color:#dbeffd">
+        <div class="col-4">
+            <a href="https://www.abjima.com" class="navbar-brand "><img class="" src="/abjima-logo.png" width="100px"></a>
+        </div>
+        <p style="font-size: 23px; font-weight: bolder; margin: 8px 0; text-align: center;" class="col-4">Candidate Interview Evaluation Form</p>
+        <div class="col-4"></div>
+    </nav>
+
+    <div class="Container-fluid">
+        <div class="row mt-5">
+            <div class="col-10 mx-auto">
+                <form>
+                    <div class="row justify-content-between">
+                        <div class="col-5 row">
+                            <label for="" class="form-label-sm col-6">Name of the Candidate</label>
+                            <input type="text" class="form-control-sm col-6" id="">
+                        </div>
+                        <div class="col-5 row">
+                            <label for="" class="form-label-sm col-6">Position Applied</label>
+                            <input type="text" class="form-control-sm col" id="">
+                        </div>
+                    </div>
+                    <div class="row justify-content-between mt-3">
+                        <div class="col-5 row">
+                            <label for="" class="form-label-sm col-6">Date of Interview</label>
+                            <input type="date" class="form-control-sm col" id="">
+                        </div>
+                        <div class="col-5 row">
+                            <label for="" class="form-label-sm col-6">Time of Interview</label>
+                            <input type="time" step="1" class="form-control-sm col" id="">
+                        </div>
+                    </div>
+
+                    <div class="row mt-3" style="background-color:#dbeffd;">
+                        <div class="col-12">
+                            <p align="center" style="font-weight: bolder;">
+                                Rate the candidate based of the following:<br>
+                                <sub style="font-weight: lighter; font-style: italic;">(Mark appropriately wherever applicable: Below Average, Average, Good, Excellent)</sub>
+                            </p>
+                        </div>
+                    </div>
+                    <table style="text-align:center; list-style: none;" class="col-12 mt-3 table">
+                        <thead>
+                        <th class="col-3"></th>
+                        <th class="col-3">Interview Round 1</th>
+                        <th class="col-3">Interview Round 2</th>
+                        <th class="col-3">Interview Round 3</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Reviewer Name</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th class="col-3" style="vertical-align: middle;">
+                                    Communication<br>
+                                    <sub style="font-weight: lighter; font-style: italic;">(Way of talking, and English Communication)</sub>
+                                </th>
+                                <td class="col-3 pl-4" style="text-align: left;">
+                                    <label for="BelowAverage">
+                                        Below Average
+                                        <input type="radio" name="rating" id="BelowAverage">
+                                    </label><br>
+                                    <label for="Average">
+                                        Average
+                                        <input type="radio" name="rating" id="Average">
+                                    </label><br>
+                                    <label for="Good">
+                                        Good
+                                        <input type="radio" name="rating" id="Good">
+                                    </label><br>
+                                    <label for="Excellent">
+                                        Excellent
+                                        <input type="radio" name="rating" id="Excellent">
+                                    </label>
+                                </td>
+                                <td class="col-3"></td>
+                                <td class="col-3"></td>
+                            </tr>
+                            <tr><th class="col-3">Presentation</th></tr>
+                            <tr><th class="col-3">Problem Solving Skills</th></tr>
+                            <tr><th class="col-3">Coding Skills</th></tr>
+                            <tr><th class="col-3">Technical Knowledge<br><sub style="font-weight: lighter; font-style: italic;">(Depending on position Applied)</sub></th></tr>
+
+                            <tr>
+                                <th class="col-3">Organization Fit</th>
+                                <td class="col-3"><textarea name="" id=""></textarea></td>
+                                <td class="col-3"></td>
+                                <td class="col-3"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
