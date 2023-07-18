@@ -1,4 +1,7 @@
-﻿@section head{
+﻿@model Management.Entities.InterviewEntities.Interview
+
+
+@section head{
   <meta charset="utf-8">
   <title>Interviewer CheckList</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" 
@@ -34,25 +37,25 @@
     <div class="Container-fluid">
         <div class="row mt-5">
             <div class="col-10 mx-auto">
-                <form>
+                <form asp-action="">
                     <div class="row justify-content-between">
                         <div class="col-5 row">
-                            <label for="" class="form-label-sm col-6">Name of the Candidate</label>
-                            <input type="text" class="form-control-sm col-6" id="">
+                            <label asp-for="CandidateName" class="form-label-sm col-6">Name of the Candidate</label>
+                            <input asp-for="CandidateName" type="text" class="form-control-sm col-6" id="">
                         </div>
                         <div class="col-5 row">
-                            <label for="" class="form-label-sm col-6">Position Applied</label>
-                            <input type="text" class="form-control-sm col" id="">
+                            <label asp-for="PositionApplied" class="form-label-sm col-6">Position Applied</label>
+                            <input asp-for="PositionApplied" type="text" class="form-control-sm col" id="">
                         </div>
                     </div>
                     <div class="row justify-content-between mt-3">
                         <div class="col-5 row">
-                            <label for="" class="form-label-sm col-6">Date of Interview</label>
-                            <input type="date" class="form-control-sm col" id="">
+                            <label asp-for="InterviewDate" class="form-label-sm col-6">Date of Interview</label>
+                            <input asp-for="InterviewDate" type="date" class="form-control-sm col" id="">
                         </div>
                         <div class="col-5 row">
-                            <label for="" class="form-label-sm col-6">Time of Interview</label>
-                            <input type="time" step="1" class="form-control-sm col" id="">
+                            <label asp-for="InterviewTime" class="form-label-sm col-6">Time of Interview</label>
+                            <input asp-for="InterviewTime" type="time" step="1" class="form-control-sm col" id="">
                         </div>
                     </div>
 
@@ -66,23 +69,30 @@
                     </div>
                     <table style="text-align:center; list-style: none;" class="col-12 mt-3 table">
                         <thead>
-                        <th class="col-3"></th>
-                        <th class="col-3">Interview Round 1</th>
-                        <th class="col-3">Interview Round 2</th>
-                        <th class="col-3">Interview Round 3</th>
+                            <th class="col-3"></th>
+                            @foreach(var column in Model.ColumnData){
+                            <th class="col-3">@column.ColummName</th>
+                            }
                         </thead>
-                        <tbody>
+						<tbody>
+							@foreach (var column in Model.ColumnData)
+							{
                             <tr>
                                 <th>Reviewer Name</th>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
+                        
+                            @foreach(var row in Model.RowData)
+                            {
                             <tr>
                                 <th class="col-3" style="vertical-align: middle;">
-                                    Communication<br>
-                                    <sub style="font-weight: lighter; font-style: italic;">(Way of talking, and English Communication)</sub>
+                                    @row.RowName<br>
+                                    <sub style="font-weight: lighter; font-style: italic;">@row.Description</sub>
                                 </th>
+                                @for(int i =1 ; i<= column.ColSequence; i++)
+                                {
                                 <td class="col-3 pl-4" style="text-align: left;">
                                     <label for="BelowAverage">
                                         Below Average
@@ -101,10 +111,11 @@
                                         <input type="radio" name="rating" id="Excellent">
                                     </label>
                                 </td>
-                                <td class="col-3"></td>
-                                <td class="col-3"></td>
+                                }
                             </tr>
-                            <tr><th class="col-3">Presentation</th></tr>
+                            }
+                        }
+                            @*<tr><th class="col-3">Presentation</th></tr>
                             <tr><th class="col-3">Problem Solving Skills</th></tr>
                             <tr><th class="col-3">Coding Skills</th></tr>
                             <tr><th class="col-3">Technical Knowledge<br><sub style="font-weight: lighter; font-style: italic;">(Depending on position Applied)</sub></th></tr>
@@ -114,7 +125,7 @@
                                 <td class="col-3"><textarea name="" id=""></textarea></td>
                                 <td class="col-3"></td>
                                 <td class="col-3"></td>
-                            </tr>
+                            </tr>*@
                         </tbody>
                     </table>
                 </form>
