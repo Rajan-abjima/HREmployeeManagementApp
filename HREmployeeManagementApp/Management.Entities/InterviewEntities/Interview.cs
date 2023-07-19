@@ -1,8 +1,8 @@
-﻿using Management.Core.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,10 +21,22 @@ public class Interview
     [Required]
     public DateTime InterviewTime { get; set; }
 
-    public List<TableRowData>? RowData { get; set; }
-    public List<TableColumnData>? ColumnData { get; set; }
+    public List<TableColumnData> ColumnData { get; set; }
+    public List<TableRowData> RowData { get; set; }
 
 
+    public class TableRowData
+    {
+        public List<string> RowName { get; set; }
+        public string? Description { get; set; }
+        public int RowSequence { get; set; }
+    }
+
+    public class TableColumnData
+    {
+        public string? ColumnName { get; set; }
+        public int ColSequence { get; set; }
+    }
 
 
     public Interview()
@@ -37,23 +49,30 @@ public class Interview
         {
             new TableRowData
             {
-                RowName = "Communication",
-                Description = "(Way of talking, and English Communication)",
+                RowName = new(){"Reviewer", "OK1", "", "OK3" },
+                Description = "",
                 RowSequence = 1
             },
-
+            
             new TableRowData
             {
-                RowName = "Presentation",
-                Description = "",
+                RowName = new(){ "Communication","Good", "Average" },
+                Description = "(Way of talking, and English Communication)",
                 RowSequence = 2
             },
 
             new TableRowData
             {
-                RowName = "Problem Solving Skills",
+                RowName = new() { "Presentation" },
                 Description = "",
                 RowSequence = 3
+            },
+
+            new TableRowData
+            {
+                RowName = new() { "Problem Solving Skills" },
+                Description = "",
+                RowSequence = 4
             }
         };
 
@@ -61,18 +80,21 @@ public class Interview
         {
             new TableColumnData
             {
-                ColummName = "Interview Round 1",
+                ColumnName = "Interview Round",
                 ColSequence = 1
             },
 
             new TableColumnData
             {
-                ColummName = "Interview Round 2",
+                ColumnName = "Interview Round",
                 ColSequence = 2
+            },
+            
+            new TableColumnData
+            {
+                ColumnName = "Interview Round",
+                ColSequence = 3
             }
         };
     }
-
-
-
 }

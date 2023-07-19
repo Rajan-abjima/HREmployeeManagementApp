@@ -1,5 +1,8 @@
 ﻿@model Management.Entities.InterviewEntities.Interview
 
+@{
+    
+}
 
 @section head{
   <meta charset="utf-8">
@@ -28,7 +31,7 @@
 <section>
     <nav class="navbar navbar-light" style="background-color:#dbeffd">
         <div class="col-4">
-            <a href="https://www.abjima.com" class="navbar-brand "><img class="" src="/abjima-logo.png" width="100px"></a>
+            <a href="https://www.abjima.com" class="navbar-brand "><img class="user-select-none" src="/abjima-logo.png" width="100px"></a>
         </div>
         <p style="font-size: 23px; font-weight: bolder; margin: 8px 0; text-align: center;" class="col-4">Candidate Interview Evaluation Form</p>
         <div class="col-4"></div>
@@ -61,7 +64,7 @@
 
                     <div class="row mt-3" style="background-color:#dbeffd;">
                         <div class="col-12">
-                            <p align="center" style="font-weight: bolder;">
+                            <p align="center" style="font-weight: bolder; margin: 8px 0">
                                 Rate the candidate based of the following:<br>
                                 <sub style="font-weight: lighter; font-style: italic;">(Mark appropriately wherever applicable: Below Average, Average, Good, Excellent)</sub>
                             </p>
@@ -70,50 +73,22 @@
                     <table style="text-align:center; list-style: none;" class="col-12 mt-3 table">
                         <thead>
                             <th class="col-3"></th>
-                            @foreach(var column in Model.ColumnData){
-                            <th class="col-3">@column.ColummName</th>
-                            }
+                         @foreach (var col in Model.ColumnData)
+                        {<th class="col-3">@col.ColumnName</th>}
                         </thead>
-						<tbody>
-							@foreach (var column in Model.ColumnData)
-							{
-                            <tr>
-                                <th>Reviewer Name</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
                         
-                            @foreach(var row in Model.RowData)
-                            {
+						<tbody>
+                        @foreach (var row in Model.RowData)
+						{                            
                             <tr>
+                                @for(var i = 0; i <= Model.ColumnData.Count; i++){
                                 <th class="col-3" style="vertical-align: middle;">
-                                    @row.RowName<br>
+                                    @foreach(var item in row.RowName)
+                                    {@item}
                                     <sub style="font-weight: lighter; font-style: italic;">@row.Description</sub>
                                 </th>
-                                @for(int i =1 ; i<= column.ColSequence; i++)
-                                {
-                                <td class="col-3 pl-4" style="text-align: left;">
-                                    <label for="BelowAverage">
-                                        Below Average
-                                        <input type="radio" name="rating" id="BelowAverage">
-                                    </label><br>
-                                    <label for="Average">
-                                        Average
-                                        <input type="radio" name="rating" id="Average">
-                                    </label><br>
-                                    <label for="Good">
-                                        Good
-                                        <input type="radio" name="rating" id="Good">
-                                    </label><br>
-                                    <label for="Excellent">
-                                        Excellent
-                                        <input type="radio" name="rating" id="Excellent">
-                                    </label>
-                                </td>
                                 }
                             </tr>
-                            }
                         }
                             @*<tr><th class="col-3">Presentation</th></tr>
                             <tr><th class="col-3">Problem Solving Skills</th></tr>

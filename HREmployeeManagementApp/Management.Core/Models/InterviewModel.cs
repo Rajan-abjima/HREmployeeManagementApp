@@ -23,27 +23,6 @@ public class InterviewModel
 
     public List<TableRowData>? RowData { get; set; }
     public List<TableColumnData>? ColumnData { get; set; }
-
-
-
-
-
-
-
-    //class Table<T>
-    //{
-    //    private T[][]? _Data;
-
-    //    public T[][]? Data
-    //    {
-    //        get { return _Data; }
-    //        set { _Data = value; }
-    //    }
-    //}
-
-    //public IDictionary<int, TableRowData> rowData = new Dictionary<int, TableRowData>();
-
-    //public object[][] TableData = new object[][] {new TableRowData[] { }, new TableColumnData[] { }};
 }
 
 public class TableRowData
@@ -55,7 +34,7 @@ public class TableRowData
 
 public class TableColumnData
 {
-    public string? ColummName { get; set; }
+    public string? ColumnName { get; set; }
     public int ColSequence { get; set; }
 }
 
