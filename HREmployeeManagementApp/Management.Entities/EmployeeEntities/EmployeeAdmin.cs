@@ -12,7 +12,7 @@ public class EmployeeAdmin
     public string? SignInApprovedBy { get; set; }
     public DateTime JoiningDate { get; set; }
 
-    public DateTime ModifiedDate { get; set; }
+    public DateTime ModifiedOn { get; set; }
     public string? ModifiedBy { get; set; }
 
     public DateTime LeavingDate { get; set; }

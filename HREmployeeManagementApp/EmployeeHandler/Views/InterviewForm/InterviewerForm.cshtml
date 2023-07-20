@@ -26,6 +26,11 @@
     body>header>.hidingNav{
         display:none;
     }
+
+    .cellInput{
+        width:max-content;
+        height:max-content;
+    }
 </style>
 
 <section>
@@ -74,33 +79,44 @@
                         <thead>
                             <th class="col-3"></th>
                          @foreach (var col in Model.ColumnData)
-                        {<th class="col-3">@col.ColumnName</th>}
+                        {<th class="col-3">@col.ColumnName @col.ColSequence</th>}
                         </thead>
                         
 						<tbody>
                         @foreach (var row in Model.RowData)
 						{                            
-                            <tr>
-                                @for(var i = 0; i <= Model.ColumnData.Count; i++){
-                                <th class="col-3" style="vertical-align: middle;">
-                                    @foreach(var item in row.RowName)
-                                    {@item}
-                                    <sub style="font-weight: lighter; font-style: italic;">@row.Description</sub>
-                                </th>
+                        <tr>
+                            @for(int item = 0; item < row.RowName.Length; item++)
+                            {
+                            @if (item == 0)
+                                {
+                            <th class="col-3" style="vertical-align: middle;">
+                                @row.RowName[item] <br>
+                                <sub style="font-weight: lighter; font-style: italic;">
+                                    @row.Description[item]
+                                    </sub>
+                            </th>}
+                            @*else if (item == Model.ColumnData.Count+1)
+                                { 
+                                    {<td><input class="cellInput" type="text"/></td>}
+                                }*@
+                            else
+                                {
+                                @*<td class="col-3 pl-4" style="text-align: left;">
+                                    <label for="BelowAverage">Below Average 
+                                    <input type="radio" name="rating" id="BelowAverage"></label><br>
+                                    <label for="Average">Average 
+                                    <input type="radio" name="rating" id="Average"></label><br>
+                                    <label for="Good">Good 
+                                    <input type="radio" name="rating" id="Good"></label><br>
+                                    <label for="Excellent">Excellent 
+                                    <input type="radio" name="rating" id="Excellent"></label>
+                                </td>*@
+                                <td class="col-3" style="vertical-align: middle;">@row.RowName[item]</td>
                                 }
-                            </tr>
+                            }
+                        </tr>
                         }
-                            @*<tr><th class="col-3">Presentation</th></tr>
-                            <tr><th class="col-3">Problem Solving Skills</th></tr>
-                            <tr><th class="col-3">Coding Skills</th></tr>
-                            <tr><th class="col-3">Technical Knowledge<br><sub style="font-weight: lighter; font-style: italic;">(Depending on position Applied)</sub></th></tr>
-
-                            <tr>
-                                <th class="col-3">Organization Fit</th>
-                                <td class="col-3"><textarea name="" id=""></textarea></td>
-                                <td class="col-3"></td>
-                                <td class="col-3"></td>
-                            </tr>*@
                         </tbody>
                     </table>
                 </form>

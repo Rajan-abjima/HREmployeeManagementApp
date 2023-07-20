@@ -16,17 +16,17 @@ public class RegularizationAdmin
 
 	public DateTime RegularizeDate { get; set; }
 
-	public TimeSpan CheckedIn { get; set; }
+	public DateTime CheckedIn { get; set; }
 
-	public TimeSpan CheckedOut { get; set; }
+	public DateTime CheckedOut { get; set; }
 
 	public DateTime DateOfRequest { get; set; }
 
 
-	public TimeSpan AppliedCheckIn { get; set; }
+	public DateTime AppliedCheckIn { get; set; }
 
 
-	public TimeSpan AppliedCheckOut { get; set; }
+	public DateTime AppliedCheckOut { get; set; }
 
 	public string? Reason { get; set; }
 
@@ -36,4 +36,12 @@ public class RegularizationAdmin
 	public bool Approved { get; set; }
 
 	public string? Comment { get; set; }
+
+    public DateTime CreatedOn { get; set; }
+
+    public Guid CreatedBy { get; set; }
+
+    public DateTime ModifiedOn { get; set; }
+
+    public Guid ModifiedBy { get; set; }
 }

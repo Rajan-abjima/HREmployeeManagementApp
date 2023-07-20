@@ -15,15 +15,15 @@ public class EmployeeRegularization
 
 	public DateTime RegularizeDate { get; set; }
 
-	public TimeSpan CheckedIn { get; set; }
+	public DateTime CheckedIn { get; set; }
 
-	public TimeSpan CheckedOut { get; set; }
+	public DateTime CheckedOut { get; set; }
 
 	public DateTime DateOfRequest { get; set; }
 
-	public TimeSpan AppliedCheckIn { get; set; }
+	public DateTime AppliedCheckIn { get; set; }
 
-	public TimeSpan AppliedCheckOut { get; set; }
+	public DateTime AppliedCheckOut { get; set; }
 
 	public string? Reason { get; set; }
 }

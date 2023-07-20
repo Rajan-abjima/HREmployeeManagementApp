@@ -17,6 +17,6 @@ public class DayCheckOut
     public int EmployeeID { get; set;}
     
     [Required]
-    public TimeSpan CheckOut { get; set; }
+    public DateTime CheckOut { get; set; }
 
 }

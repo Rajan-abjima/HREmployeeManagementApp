@@ -205,7 +205,7 @@ public class EmployeeRepository : IEmployeeRepository
             param.Add("@Designation", employee.Designation);
             param.Add("@SignInApprovedBy", employee.SignInApprovedBy);
             param.Add("@JoiningDate", employee.JoiningDate);
-            param.Add("@ModifiedDate", employee.ModifiedDate);
+            param.Add("@ModifiedDate", employee.ModifiedOn);
             param.Add("@ModifiedBy", employee.ModifiedBy);
             param.Add("@AdminStatus", employee.AdminStatus);
 

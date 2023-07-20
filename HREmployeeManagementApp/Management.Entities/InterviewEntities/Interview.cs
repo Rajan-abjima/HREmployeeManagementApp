@@ -27,8 +27,8 @@ public class Interview
 
     public class TableRowData
     {
-        public List<string> RowName { get; set; }
-        public string? Description { get; set; }
+        public string[] RowName { get; set; }
+        public string[] Description { get; set; }
         public int RowSequence { get; set; }
     }
 
@@ -49,29 +49,29 @@ public class Interview
         {
             new TableRowData
             {
-                RowName = new(){"Reviewer", "OK1", "", "OK3" },
-                Description = "",
+                RowName = new[]{"Reviewer", "OK1", "" },
+                Description = new[]{"","",""},
                 RowSequence = 1
             },
             
             new TableRowData
             {
-                RowName = new(){ "Communication","Good", "Average" },
-                Description = "(Way of talking, and English Communication)",
+                RowName = new[]{ "Communication","Good", "Average" },
+                Description = new[] {"(Way of talking, and English Communication)","",""},
                 RowSequence = 2
             },
 
             new TableRowData
             {
-                RowName = new() { "Presentation" },
-                Description = "",
+                RowName = new[] {"Presentation", "Good", "Below Average" },
+                Description = new[] {"", "", "" },
                 RowSequence = 3
             },
 
             new TableRowData
             {
-                RowName = new() { "Problem Solving Skills" },
-                Description = "",
+                RowName = new[] {"Problem Solving Skills", "", "" },
+                Description = new[] {"", "", "" },
                 RowSequence = 4
             }
         };
@@ -80,7 +80,7 @@ public class Interview
         {
             new TableColumnData
             {
-                ColumnName = "Interview Round",
+                ColumnName = $"Interview Round",
                 ColSequence = 1
             },
 

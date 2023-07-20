@@ -66,13 +66,11 @@ public class EmployeePersonalController : Controller
         string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
         int.TryParse(stringEmployeeID, out employeeID);
         /****************************************************************************************************/
-#nullable disable
         var employeeSession = JsonConvert.DeserializeObject<EmployeePersonal>(HttpContext.Session.GetString("EmployeeSession"));
         PersonalDetails personalDetails = new()
         {
             EmployeePersonal = await _employeeRepository.GetByIdAsync(employeeSession.EmployeeID)
         };
-#nullable enable
         return View(personalDetails);
     }
 
@@ -127,10 +125,8 @@ public class EmployeePersonalController : Controller
 
 	public async Task<IActionResult> UpdatesLeaveRequestRecordPartial(int employeeID)
 	{
-#nullable disable
         var employeeSession = JsonConvert.DeserializeObject<EmployeePersonal>(HttpContext.Session.GetString("EmployeeSession"));
 		employeeID = employeeSession.EmployeeID;
-#nullable enable
         var response = await _attendanceRepository.GetAllLeaveRequestsByID(employeeID);
 		return PartialView("_UpdatesLeaveRequestRecord", response);
 	}

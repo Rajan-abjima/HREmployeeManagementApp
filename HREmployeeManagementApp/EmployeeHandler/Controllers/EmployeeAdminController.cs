@@ -37,7 +37,7 @@ public class EmployeeAdminController : Controller
         var adminSession = JsonConvert.DeserializeObject<AdminPersonal>(HttpContext.Session.GetString("AdminSession"));
         employee.ModifiedBy = $"{adminSession.FirstName} {adminSession.LastName}";
 #nullable enable
-        employee.ModifiedDate = DateTime.Today;
+        employee.ModifiedOn = DateTime.Today;
 
         var result = await _employeeRepository.UpdateEmployeeByIdAsync(employee);
         return RedirectToAction("EmployeeList");

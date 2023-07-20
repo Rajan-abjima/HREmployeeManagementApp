@@ -12,8 +12,14 @@ public class EmployeePersonal
     public string? SignInApprovedBy { get; set; }
     public DateTime JoiningDate { get; set; }
 
-    public DateTime ModifiedDate { get; set; }
+    public DateTime ModifiedOn { get; set; }
 
-    public string? ModifiedBy { get; set; }
+    public Guid ModifiedBy { get; set; }
     public bool AdminStatus { get; set; }
+
+    public DateTime CreatedOn { get; set; }
+
+    public Guid CreatedBy { get; set; }
 }
+
+    

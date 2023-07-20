@@ -23,19 +23,19 @@ public class RegularizationRecord
     public DateTime RegularizeDate { get; set; }
     
     [Required]
-    public TimeSpan CheckedIn { get; set; }
+    public DateTime CheckedIn { get; set; }
 
     [Required]
-    public TimeSpan CheckedOut { get; set; }
+    public DateTime CheckedOut { get; set; }
 
     [Required]
     public DateTime DateOfRequest { get; set; }
 
     
-    public TimeSpan AppliedCheckIn { get; set; }
+    public DateTime  AppliedCheckIn { get; set; }
 
     
-    public TimeSpan AppliedCheckOut { get; set; }
+    public DateTime AppliedCheckOut { get; set; }
 
     [Required(ErrorMessage = "You must state a reason for requesting regularization", AllowEmptyStrings = false)]
     [MaxLength(300)]
@@ -50,4 +50,12 @@ public class RegularizationRecord
 
     [MaxLength(300)]
     public string? Comment { get; set; }
+
+    public DateTime CreatedOn { get; set; }
+
+    public Guid CreatedBy { get; set; }
+
+    public DateTime ModifiedOn { get; set; }
+
+    public Guid ModifiedBy { get; set; }
 }

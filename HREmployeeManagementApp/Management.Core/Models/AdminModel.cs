@@ -22,6 +22,12 @@ public class AdminModel
     [Required]
     public string? Designation { get; set; }
     [Required]
-    public DateTime AdminCreationDate { get; set; }
+    public DateTime CreatedOn { get; set; }
     public DateTime AdminTerminationDate { get; set; }
+
+    public Guid CreatedBy { get; set; }
+
+    public DateTime ModifiedOn { get; set; }
+
+    public Guid ModifiedBy { get; set; }
 }

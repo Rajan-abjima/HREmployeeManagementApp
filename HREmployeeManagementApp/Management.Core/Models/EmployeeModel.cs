@@ -35,17 +35,18 @@ public class EmployeeModel
     public string? Designation { get; set; }
 
     [Required]
-    public string? SignInApprovedBy { get; set; }
-
-    [Required]
     public DateTime JoiningDate { get; set; }
 
-    public DateTime ModifiedDate { get; set; }
+    public DateTime ModifiedOn { get; set; }
 
-    public string? ModifiedBy { get; set; }
+    public Guid ModifiedBy { get; set; }
 
     public DateTime LeavingDate { get; set; }
 
     [Required]
     public bool AdminStatus { get; set; }
+
+    public Guid CreatedBy { get; set; }
+
+    public DateTime CreatedOn { get; set; }
 }

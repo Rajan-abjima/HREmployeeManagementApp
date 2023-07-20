@@ -29,5 +29,5 @@ public class DayCheckIn
     public string? Status { get; set; }
 
     [Required]
-    public TimeSpan CheckIn { get; set; }
+    public DateTime CheckIn { get; set; }
 }

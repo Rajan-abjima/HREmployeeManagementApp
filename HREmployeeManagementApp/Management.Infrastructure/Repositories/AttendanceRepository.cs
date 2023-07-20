@@ -22,7 +22,7 @@ public class AttendanceRepository : IAttendanceRepository
     {
         dayCheckIn.Status = "Present";
         dayCheckIn.Date = DateTime.UtcNow.Date;
-        TimeSpan currentTime = DateTime.Now.TimeOfDay;
+        DateTime currentTime = DateTime.Now;
         dayCheckIn.CheckIn = currentTime;
         using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
         {
@@ -51,7 +51,7 @@ public class AttendanceRepository : IAttendanceRepository
 
     public async Task<DayCheckOut> UpdateCheckOutAsync(DayCheckOut dayCheckOut)
     {
-		TimeSpan currentTime = DateTime.Now.TimeOfDay;
+		DateTime currentTime = DateTime.Now;
 		dayCheckOut.CheckOut = currentTime;
 		using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
         {
