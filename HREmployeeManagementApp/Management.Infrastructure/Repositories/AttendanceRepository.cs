@@ -123,6 +123,16 @@ public class AttendanceRepository : IAttendanceRepository
         }
     }
 
+    public async Task<AttendancePersonal> GetAttendanceByAttendanceID(int attendanceID)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
+        {
+            connection.Open();
+            var result = await connection.QueryFirstOrDefaultAsync<AttendancePersonal>("spAttendance_SingleByID", new { AttendanceID = attendanceID }, commandType: CommandType.StoredProcedure);
+            return result;
+        }
+    }
+
     public async Task<EmployeeRegularization> RegularizationRequestAsync(EmployeeRegularization regularization)
     {
         regularization.DateOfRequest = DateTime.Now;

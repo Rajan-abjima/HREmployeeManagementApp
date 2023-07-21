@@ -55,11 +55,11 @@
                                 <div class="row my-3 col" id="SetLeave">
                                     <div class="col">
                                         <label>Date From *</label>
-                                        <input id="setLeaveFrom" type="date" value="2023-01-01" id="datePickerId" class="form-control input-sm" required asp-for="DateFrom">
+                                        <input id="setLeaveFrom" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="datePickerId" class="form-control input-sm" required asp-for="DateFrom">
                                     </div>
                                     <div class="col">
                                         <label>To Date *</label>
-                                        <input id="setLeaveTo" type="date" value="2023-01-01" class="form-control input-sm" required asp-for="ToDate">
+                                        <input id="setLeaveTo" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control input-sm" required asp-for="ToDate">
                                     </div>
                                 </div>
                             </div>

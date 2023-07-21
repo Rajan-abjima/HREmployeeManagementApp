@@ -10,9 +10,6 @@
 @{
     var employeeID = Context.Request.Query["EmployeeID"];
     var attendanceID = Context.Request.Query["AttendanceID"];
-    var attendanceDate = Context.Request.Query["AttendanceDate"];
-    var checkIn = Context.Request.Query["CheckIn"];
-    var checkOut = Context.Request.Query["CheckOut"];
 }
 
 <style>
@@ -45,7 +42,7 @@
                                 <div class="row mt-3">
                                     <div class="col">
                                         <label for="AttendanceDate">Attendance Date</label>
-                                        <input type="date" class="form-control input-sm" placeholder="" readonly value=@attendanceDate asp-for="RegularizeDate">
+                                        <input type="date" class="form-control input-sm" placeholder="" readonly value=@Model.RegularizeDate.ToString("yyyy-MM-dd") asp-for="RegularizeDate">
                                     </div>
                                     <div class="col">
                                         <label for="reason">Reason *</label>
@@ -62,28 +59,24 @@
                                 <div class="row">
                                     <div class="row my-3 col">
                                         <div class="col">
-                                            <label>Check In - Recorded</label>
-                                            <input type="time" class="form-control input-sm" readonly value="@checkIn" asp-for="CheckedIn">
+                                            <label >Check In - Recorded</label>
+                                            <input type="time" class="form-control input-sm" readonly value="@Model.CheckedIn.TimeOfDay">
                                         </div>
                                         <div class="col mt-2">
                                             <label>Check Out - Recorded</label>
-                                            <input type="time" class="form-control input-sm" readonly value="@checkOut" asp-for="CheckedOut">
+                                            <input type="time" class="form-control input-sm" readonly value="@Model.CheckedOut.TimeOfDay">
                                         </div>
                                     </div>
                                     <div class="row my-3 col" id="SetChecks">
                                         <div class="col">
                                             <label>Set Check In *</label>
-                                            <input id="setCheckIn" type="time" step="1" class="form-control input-sm" required asp-for="AppliedCheckIn">
+                                            <input id="setCheckIn" type="time" step="1" class="form-control input-sm" required asp-for="AppliedCheckIn" >
                                         </div>
                                         <div class="col mt-2">
                                             <label>Set Check Out *</label>
                                             <input id="setCheckOut" type="time" step="1" class="form-control input-sm" required asp-for="AppliedCheckOut">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="NeededExtras">
-                                    <input type="hidden" value="@attendanceID" asp-for="AttendanceID">
-                                    <input type="hidden" value="@employeeID" asp-for="EmployeeID">
                                 </div>
                                 <div class="row mx-auto my-3">
                                     <input class="btn btn-outline-primary col" type="submit">

@@ -30,9 +30,20 @@ public class AttendancePersonalController : Controller
     }
 
     [HttpGet]
-    public IActionResult RegularizationForm()
+    public async Task<IActionResult> RegularizationForm(int attendanceID, int employeeID)
     {
-        return View();
+        
+        var record = await _attendanceRepository.GetAttendanceByAttendanceID(attendanceID);
+
+        EmployeeRegularization newRecord = new()
+        {
+            AttendanceID = attendanceID,
+            EmployeeID = employeeID,
+            RegularizeDate = record.Date,
+            CheckedIn = record.CheckIn,
+            CheckedOut = record.CheckOut
+        };
+        return View(newRecord);
     }
 
     [HttpPost]
