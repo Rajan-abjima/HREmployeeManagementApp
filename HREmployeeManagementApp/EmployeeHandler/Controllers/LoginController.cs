@@ -25,8 +25,10 @@ public class LoginController : Controller
 
 
     [HttpPost]
-    public async Task<IActionResult> Login(EmployeeLogin employeeLogin)
+    public async Task<IActionResult> Login(EmployeeLogin employeeLogin, AdminLogin adminLogin)
     {
+        
+        
         var response = await _employeeRepository.CheckEmployeeAysnc(employeeLogin);
 
 
@@ -70,6 +72,7 @@ public class LoginController : Controller
         {
             var profile = await _employeeRepository.GetAdminByIdAsync(response.EmployeeID, response.AdminID);
             //var admin = new AdminPersonal() { AdminID = profile.AdminID, EmployeeID = profile.EmployeeID, FirstName = profile.FirstName, LastName = profile.LastName};
+            //HttpContext.Session.SetString("AdminSession", JsonConvert.SerializeObject(profile));
             HttpContext.Session.SetString("AdminSession", JsonConvert.SerializeObject(profile));
             // Credentials are valid, perform the desired action
             //var url = Url.Action("AdminDashboard", "AdminDashboard", new { AdminID = response.AdminID, EmployeeID = response.EmployeeID });

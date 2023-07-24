@@ -24,11 +24,10 @@ public class Interview
     public List<TableColumnData> ColumnData { get; set; }
     public List<TableRowData> RowData { get; set; }
 
-
     public class TableRowData
     {
-        public string[] RowName { get; set; }
-        public string[] Description { get; set; }
+        public string[] RowName { get; set; } = Array.Empty<string>();
+        public string[] Description { get; set; } = Array.Empty<string>();
         public int RowSequence { get; set; }
     }
 

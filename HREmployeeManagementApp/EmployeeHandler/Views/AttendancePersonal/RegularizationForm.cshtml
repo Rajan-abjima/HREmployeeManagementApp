@@ -51,7 +51,6 @@
                                             <option value="Forgot To check In">Forgot To check In</option>
                                             <option value="Forgot To check Out">Forgot To check Out</option>
                                             <option value="Absent">Absent</option>
-                                            <option value="Leave">Leave</option>
                                             <option value="Present">Present</option>
                                         </select>
                                     </div>
@@ -70,11 +69,11 @@
                                     <div class="row my-3 col" id="SetChecks">
                                         <div class="col">
                                             <label>Set Check In *</label>
-                                            <input id="setCheckIn" type="time" step="1" class="form-control input-sm" required asp-for="AppliedCheckIn" >
+                                            <input id="setCheckIn" type="time" step="1" class="form-control input-sm" required asp-for="CheckInTime" >
                                         </div>
                                         <div class="col mt-2">
                                             <label>Set Check Out *</label>
-                                            <input id="setCheckOut" type="time" step="1" class="form-control input-sm" required asp-for="AppliedCheckOut">
+                                            <input id="setCheckOut" type="time" step="1" class="form-control input-sm" required asp-for="CheckOutTime">
                                         </div>
                                     </div>
                                 </div>

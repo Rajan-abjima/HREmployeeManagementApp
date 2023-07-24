@@ -63,8 +63,8 @@ public class EmployeePersonalController : Controller
     public async Task<IActionResult> GetPersonalDetails(int employeeID)
     {
         //Getting the parameter from query string as string and converting it to employeeID which is Integer//        
-        string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
-        int.TryParse(stringEmployeeID, out employeeID);
+        //string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
+        //int.TryParse(stringEmployeeID, out employeeID);
         /****************************************************************************************************/
         var employeeSession = JsonConvert.DeserializeObject<EmployeePersonal>(HttpContext.Session.GetString("EmployeeSession"));
         PersonalDetails personalDetails = new()

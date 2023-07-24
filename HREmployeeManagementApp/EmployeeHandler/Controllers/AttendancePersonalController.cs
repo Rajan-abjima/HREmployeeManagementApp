@@ -66,6 +66,10 @@ public class AttendancePersonalController : Controller
 
         var result = await _attendanceRepository.GetAttendancePersonalAsync(employeeID);
 
-        return View(result);
+        AttendanceViewModel attendanceViewModel = new()
+        {
+            AttendanceList = result
+        };
+        return View(attendanceViewModel);
     }
 }

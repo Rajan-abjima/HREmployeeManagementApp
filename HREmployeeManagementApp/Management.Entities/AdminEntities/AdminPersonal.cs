@@ -11,9 +11,9 @@ public class AdminPersonal
     public bool AdminStatus { get; set; }
     public int AdminID { get; set; }
     public int EmployeeID { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
-    public string? Designation { get; set; }
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string Designation { get; set; } = string.Empty;
     public DateTime AdminCreationDate { get; set; }
     public DateTime AdminTerminationDate { get; set; }
 }

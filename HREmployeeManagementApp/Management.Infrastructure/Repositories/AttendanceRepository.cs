@@ -85,7 +85,7 @@ public class AttendanceRepository : IAttendanceRepository
         }        
     }
 
-    public async Task<IReadOnlyList<AttendancePersonal>> GetAttendancePersonalAsync(int employeeID)
+    public async Task<IEnumerable<AttendancePersonal>> GetAttendancePersonalAsync(int employeeID)
     {
         using (var connection = new SqlConnection(_configuration.GetConnectionString("default")))
         {

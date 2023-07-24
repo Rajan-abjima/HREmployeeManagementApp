@@ -1,4 +1,4 @@
-﻿@model List<AttendancePersonal>
+﻿@model AttendanceViewModel
 
 @section head{
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -35,7 +35,13 @@
                         <table class="table" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
+                                    <th col-4>Date <br>
+                                        <form asp-action="AttendanceDetails">
+                                            <input class="col-3" type="date" asp-for="DateTo">
+											<input class="col-3" type="date" asp-for="DateFrom">
+                                            <input type="submit" value="Go" />
+										</form>
+									</th>
                                     <th>Check In</th>
                                     <th>Check Out</th>
                                     <th>Status</th>
@@ -44,7 +50,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var attendance in Model)
+                                
+                                @foreach (var attendance in Model.AttendanceList.Where(x => x.Date < Model.DateFrom && x.Date > Model.DateTo ))
                                 {
                                     <tr class="regularize">
                                         <td>@attendance.Date.ToString("dd/MMM/yyyy")</td>
@@ -70,4 +77,7 @@
             </div>
         </div>
     </div>
+ <script>
+     #(document).
+ </script>
 </section>

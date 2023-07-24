@@ -21,9 +21,20 @@ public class EmployeeRegularization
 
 	public DateTime DateOfRequest { get; set; }
 
-	public DateTime AppliedCheckIn { get; set; }
+    public DateTime AppliedCheckIn { get; set; }
 
-	public DateTime AppliedCheckOut { get; set; }
+    public DateTime AppliedCheckOut { get; set; }
 
-	public string? Reason { get; set; }
+     public EmployeeRegularization()
+    {
+		AppliedCheckIn = RegularizeDate + CheckInTime;
+		AppliedCheckOut = RegularizeDate + CheckOutTime;
+    }
+
+    public string? Reason { get; set; }
+
+
+
+	public TimeSpan CheckInTime { get; set; }
+	public TimeSpan CheckOutTime { get; set; }
 }
