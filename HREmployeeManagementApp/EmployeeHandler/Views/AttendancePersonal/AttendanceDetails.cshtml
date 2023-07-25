@@ -10,16 +10,6 @@
     var employeeID = Context.Request.Query["EmployeeID"];
 }
 
-<style>
-    .regularizelink{
-        visibility:hidden;
-    }
-
-    .regularize:hover > td > .regularizelink{
-        visibility: visible;
-    }
-</style>
-
 <section id="tabs" class="project-tab">
     <div class="container">
         <div class="row">
@@ -37,9 +27,9 @@
                                 <tr>
                                     <th col-4>Date <br>
                                         <form asp-action="AttendanceDetails">
-                                            <input class="col-3" type="date" asp-for="DateTo">
-											<input class="col-3" type="date" asp-for="DateFrom">
-                                            <input type="submit" value="Go" />
+											<label>From <input style="width:25px; height:auto;" id="fromDate" class="" type="date" asp-for="DateFrom"></label>
+											<label>To <input style="width:25px; height:auto;" class="" type="date" asp-for="DateTo"></label>
+                                            <input style="padding:2px 3px" class="btn btn-outline-dark" type="submit" value="Go" />
 										</form>
 									</th>
                                     <th>Check In</th>
@@ -49,26 +39,8 @@
 
                                 </tr>
                             </thead>
-                            <tbody>
-                                
-                                @foreach (var attendance in Model.AttendanceList.Where(x => x.Date < Model.DateFrom && x.Date > Model.DateTo ))
-                                {
-                                    <tr class="regularize">
-                                        <td>@attendance.Date.ToString("dd/MMM/yyyy")</td>
-                                        <td>@attendance.CheckIn.ToString("hh:mm:ss")</td>
-                                        <td>@attendance.CheckOut.ToString("hh:mm:ss")</td>
-                                        <td>@attendance.Status</td>                                        
-                                    @if (attendance.ModifiedBy == null)
-                                        {<td style="padding-left:3.3vw;"><img width="20" height="20" src="/confirm-icon_black.svg" /></td>}
-                                        else{
-                                        <td>
-                                            <span class="regularizelink">
-                                                @Html.ActionLink("Regularize","RegularizationForm","AttendancePersonal",
-                                            new{ EmployeeID = employeeID, AttendanceID = attendance.AttendanceID},null)
-                                            </span>
-                                        </td>}
-                                    </tr>
-                                }
+                                <!------------------------Partially Adding Attendance List based on filters---------------------------->
+							<tbody id="myTable">
                             </tbody>
                         </table>
                     </div>
@@ -77,7 +49,9 @@
             </div>
         </div>
     </div>
- <script>
-     #(document).
- </script>
+@section Scripts{
+<script>
+        $('#myTable').load("/AttendancePersonal/FullAttendanceListPartial", @employeeID)
+</script>
+}
 </section>

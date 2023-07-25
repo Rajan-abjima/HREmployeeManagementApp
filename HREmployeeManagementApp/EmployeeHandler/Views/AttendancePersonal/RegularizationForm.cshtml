@@ -41,40 +41,22 @@
                                 <h1>Regularization Form</h1>
                                 <div class="row mt-3">
                                     <div class="col">
-                                        <label for="AttendanceDate">Attendance Date</label>
-                                        <input type="date" class="form-control input-sm" placeholder="" readonly value=@Model.RegularizeDate.ToString("yyyy-MM-dd") asp-for="RegularizeDate">
+                                        <label>Check In *</label>
+                                        <input id="setCheckIn" type="time" class="form-control input-sm" required asp-for="CheckInTime" >
                                     </div>
                                     <div class="col">
-                                        <label for="reason">Reason *</label>
-                                        <select onchange="myFunction()" class="custom-select" id="reason" required asp-for="Reason">
-                                            <option disabled selected hidden>PLease select a reason</option>
-                                            <option value="Forgot To check In">Forgot To check In</option>
-                                            <option value="Forgot To check Out">Forgot To check Out</option>
-                                            <option value="Absent">Absent</option>
-                                            <option value="Present">Present</option>
-                                        </select>
+                                        <label>Check Out *</label>
+                                        <input id="setCheckOut" type="time" class="form-control input-sm" required asp-for="CheckOutTime">
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="row my-3 col">
-                                        <div class="col">
-                                            <label >Check In - Recorded</label>
-                                            <input type="time" class="form-control input-sm" readonly value="@Model.CheckedIn.TimeOfDay">
-                                        </div>
-                                        <div class="col mt-2">
-                                            <label>Check Out - Recorded</label>
-                                            <input type="time" class="form-control input-sm" readonly value="@Model.CheckedOut.TimeOfDay">
-                                        </div>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <label for="AttendanceDate">Attendance Date</label>
+                                        <input type="date" class="form-control input-sm" required asp-for="RegularizeDate">
                                     </div>
-                                    <div class="row my-3 col" id="SetChecks">
-                                        <div class="col">
-                                            <label>Set Check In *</label>
-                                            <input id="setCheckIn" type="time" step="1" class="form-control input-sm" required asp-for="CheckInTime" >
-                                        </div>
-                                        <div class="col mt-2">
-                                            <label>Set Check Out *</label>
-                                            <input id="setCheckOut" type="time" step="1" class="form-control input-sm" required asp-for="CheckOutTime">
-                                        </div>
+                                    <div class="col">
+                                        <label for="reason">Reason</label>
+                                        <textarea id="Reason" class="form-control input-sm" cols="" rows="1" asp-for="Reason"></textarea>
                                     </div>
                                 </div>
                                 <div class="row mx-auto my-3">
@@ -87,20 +69,5 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function () {
-            $('#reason').change(function () {
-                var selectX = $('#reason').val();
-                if (selectX === "Absent" || selectX === "Leave") {
-                    $("#setCheckIn").attr('disabled', 'disabled');
-                    $("#setCheckOut").attr('disabled', 'disabled');
-                } else {
-                    $("#setCheckIn").removeAttr('disabled');
-                    $("#setCheckOut").removeAttr('disabled');
-                }
-            })
-        });
-
-    </script>
 </section>
            

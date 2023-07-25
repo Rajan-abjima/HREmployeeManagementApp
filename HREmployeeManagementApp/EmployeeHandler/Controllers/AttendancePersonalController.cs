@@ -30,7 +30,7 @@ public class AttendancePersonalController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> RegularizationForm(int attendanceID, int employeeID)
+    public async Task<IActionResult> RegularizeEntry(int attendanceID, int employeeID)
     {
         
         var record = await _attendanceRepository.GetAttendanceByAttendanceID(attendanceID);
@@ -59,17 +59,22 @@ public class AttendancePersonalController : Controller
     [HttpGet]
     public async Task<IActionResult> AttendanceDetails(int employeeID)
     {
-        //Getting the parameter from query string as string and converting it to employeeID which is Integer//        
-        string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
-        int.TryParse(stringEmployeeID, out employeeID);
-        /****************************************************************************************************/
 
         var result = await _attendanceRepository.GetAttendancePersonalAsync(employeeID);
+        return View();
+    }
 
-        AttendanceViewModel attendanceViewModel = new()
-        {
-            AttendanceList = result
-        };
-        return View(attendanceViewModel);
+    public async Task<IActionResult> FullAttendanceListPartial(int employeeID)
+    {
+        var response = await _attendanceRepository.GetAttendancePersonalAsync(employeeID);
+
+        return PartialView("_FullAttendanceList",response);
+    }
+
+
+    [HttpGet]
+    public IActionResult RegularizationForm(int employeeID)
+    {
+        return View();
     }
 }
