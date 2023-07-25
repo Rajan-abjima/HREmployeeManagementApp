@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Management.Core\Management.Core.csproj" />
     <ProjectReference Include="..\Management.Entities\Management.Entities.csproj" />
     <ProjectReference Include="..\Management.ViewModel\Management.ViewModel.csproj" />
   </ItemGroup>

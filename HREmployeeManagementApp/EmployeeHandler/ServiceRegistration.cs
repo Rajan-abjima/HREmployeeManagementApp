@@ -17,6 +17,7 @@ public static class ServiceRegistration
         services.AddAutoMapper(typeof(AttendanceProfile));
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+        services.AddScoped<IApplicantRepository, ApplicantRepository>();
 
     }
 }

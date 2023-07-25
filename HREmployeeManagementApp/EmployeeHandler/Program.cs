@@ -1,4 +1,6 @@
 using EmployeeHandler;
+using Management.Application.Interfaces;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection;
 

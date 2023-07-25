@@ -5,7 +5,20 @@
     var errormessage = TempData["Error"];
     var success = TempData["SignUpSuccess"];
 }
+@if (TempData["AlertMessage"] != null)
+{
+    <div id="successMessage" class="alert alert-success" style="background-color:aliceblue; color:black; width:30%;margin-left:35%; text-align:center; font-weight:bold;">
+        @TempData["AlertMessage"]
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var successMessage = $("#successMessage");
+            successMessage.delay(2000).fadeOut(500);
+        });
+    </script>
 
+}
 
 <div class="container login-container">
     @if (TempData["SignUpSuccess"] != null)
