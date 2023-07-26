@@ -1,7 +1,10 @@
 ﻿using Management.Application.Interfaces;
 using Management.Entities.AttendanceEntities;
+using Management.Infrastructure.Repositories;
 using Management.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using static Management.Entities.AttendanceEntities.LeavePersonal;
 
 namespace EmployeeHandler.Controllers;
 public class AttendancePersonalController : Controller
@@ -14,16 +17,26 @@ public class AttendancePersonalController : Controller
     }
 
     [HttpGet]
-    public IActionResult Leave(int employeeID)
+    public async Task<IActionResult> Leave(int employeeID)
     {
-        var response = new LeavePersonal();
-        return View(response);
+
+        var leavesTypes = await _attendanceRepository.GetLeavesTypes();
+
+        LeavePersonal leaveView = new LeavePersonal()
+        {
+            LeaveType = leavesTypes.Select(a => a.LeaveTypeName)
+    };
+        /*new SelectList(leavesTypes, "LeaveTypeName", "LeaveTypeName")*/
+        //TempData["LeaveType"] = selectList;
+        return View(leaveView);
+
     }
 
     [HttpPost]
     public async Task<IActionResult> LeaveRequest(LeavePersonal leavePersonal)
     {
         leavePersonal.DateOfRequest = DateTime.Now;
+        
         var leaveRequest = await _attendanceRepository.LeaveRequestAsync(leavePersonal);
         TempData["LeaveRequestID"] = leaveRequest.LeaveID;
         return RedirectToAction("Leave", new {EmployeeID = leaveRequest.EmployeeID, LeaveRequestID = leaveRequest.LeaveID});

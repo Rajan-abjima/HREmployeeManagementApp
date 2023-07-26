@@ -14,6 +14,9 @@ public class LeavePersonal
     public int EmployeeID { get; set; }
 
     [Required]
+    public  IEnumerable<string> LeaveType { get; set; }
+
+    [Required]
     public DateTime DateFrom { get; set; }
 
     [Required]
@@ -30,4 +33,9 @@ public class LeavePersonal
 
     [MaxLength(300)]
     public string? Comment { get; set; }
+
+    
+    public string LeaveTypeName { get; set; }
+    
+   
 }

@@ -29,4 +29,7 @@ public interface IAttendanceRepository
     Task<IEnumerable<RegularizationAdmin>> GetAllRegularizationsAsync();
     Task<RegularizationAdmin> GetRegualrizationByID(int regularizeID);
     Task<int> UpdateRegularizationRequest(RegularizationAdmin regularizationAdmin);
+
+    public Task<IEnumerable<LeavesType>> GetLeavesTypes();
+
 }

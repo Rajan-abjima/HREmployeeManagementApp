@@ -1,9 +1,9 @@
 ﻿@model LeavePersonal
 
 @section head{
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 }
 
 @{
@@ -12,22 +12,22 @@
 }
 
 <style>
-    body{
+    body {
         background-image: linear-gradient(#0062cc,white,white);
-        background-size:cover;
-
+        background-size: cover;
     }
+
     nav {
         border-bottom: #eaedef 2px solid;
         background-color: white;
     }
 
-    bgcolor{
+    bgcolor {
         background-color: white;
     }
 
-    form{
-		border: 2px #0062cc solid;
+    form {
+        border: 2px #0062cc solid;
         border-radius: 20px;
         background-image: linear-gradient(rgba(white, .1),rgba(white, .1));
     }
@@ -39,19 +39,30 @@
             <div class="col-md-12 bgcolor">
                 <nav>
                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a href="@Url.Action("AttendanceDetails", "AttendancePersonal", new{ EmployeeID = employeeID})" class="nav-item nav-link" >Attendance Details</a>
+                        <a href="@Url.Action("AttendanceDetails", "AttendancePersonal", new{ EmployeeID = employeeID})" class="nav-item nav-link">Attendance Details</a>
                         <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false">Apply Leave</a>
                     </div>
                 </nav>
                 <div class="tab-content mt-5" id="nav-tabContent">
                     <div class="tab-pane fade show active row" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        
-                            <form class="bg-light py-4 px-4 mx-auto col-6 " asp-action="LeaveRequest" method="post">
+
+                        <form class="bg-light py-4 px-4 mx-auto col-6 " asp-action="LeaveRequest" method="post">
                             <h1>Leave Application Form</h1>
                             <div class="NeededExtras">
                                 <input type="hidden" value="@employeeID" asp-for="EmployeeID">
                             </div>
-							<div class="row mt-3">
+                            <div class="col mt-3">
+                                <label class="input-label">Leave Type</label>
+                                <select>
+                                    @foreach(var leaveType in Model.LeaveType)
+                                    {<option>@leaveType</option>}
+                                </select>
+@*                                @Html.DropDownListFor(model => model.LeaveType,  TempData["LeaveType"] as SelectList, "Select LeaveType", new { @class = "form-control" })
+*@                                <span asp-validation-for="LeaveType" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="row mt-3">
                                 <div class="row my-3 col" id="SetLeave">
                                     <div class="col">
                                         <label>Date From *</label>
@@ -63,7 +74,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col mt-3">                                
+                            <div class="col mt-3">
                                 <label for="reason">Reason *</label>
                                 <textarea type="text" class="form-control input-sm col" id="reason" rows="3" required asp-for="Reason"></textarea>
                             </div>
@@ -72,19 +83,24 @@
                             </div>
                         </form>
                     </div>
-                    
+
                 </div>
             </div>
 
             @if (successfulRequest != null)
             {
                 <div class="alert alert-warning">
-                <span>Your Request : No.@successfulRequest was successful.</span>
-                <script>alert(Your Request : No.@successfulRequest was succesful)</script>
-        </div>
+                    <span>Your Request : No.@successfulRequest was successful.</span>
+                    <script>alert(Your Request : No.@successfulRequest was succesful)
+                    //setTimeout(function(){
+                    //        var alertDiv = document.querySelector('.alert.alert-warning');
+                    //        alertDiv.style.display='none';},3000)
+
+                    //})
+                    </script>
+                </div>
             }
         </div>
     </div>
 </section>
 
-                                    

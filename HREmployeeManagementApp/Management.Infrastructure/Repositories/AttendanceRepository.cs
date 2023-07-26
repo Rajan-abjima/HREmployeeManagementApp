@@ -166,7 +166,17 @@ public class AttendanceRepository : IAttendanceRepository
         }
     }
 
-	public async Task<LeavePersonal> LeaveRequestAsync(LeavePersonal leave)
+    //Get leave List
+    public async Task<IEnumerable<LeavesType>> GetLeavesTypes()
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var leavesTypes = await connection.QueryAsync<LeavesType>("GetAllLeavesTypes", commandType: CommandType.StoredProcedure);
+            return leavesTypes.ToList();
+        }
+    }
+    public async Task<LeavePersonal> LeaveRequestAsync(LeavePersonal leave)
     {
         using(var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
