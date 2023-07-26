@@ -1,4 +1,5 @@
 ﻿using Management.Application.Interfaces;
+using Management.Core.Models;
 using Management.Entities.AttendanceEntities;
 using Management.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -59,16 +60,21 @@ public class AttendancePersonalController : Controller
     [HttpGet]
     public async Task<IActionResult> AttendanceDetails(int employeeID)
     {
-
         var result = await _attendanceRepository.GetAttendancePersonalAsync(employeeID);
-        return View();
+
+        AttendanceViewModel attendanceView = new AttendanceViewModel()
+        {
+            AttendanceList = result
+        };
+
+        return View(attendanceView);
     }
 
     public async Task<IActionResult> FullAttendanceListPartial(int employeeID)
     {
         var response = await _attendanceRepository.GetAttendancePersonalAsync(employeeID);
 
-        return PartialView("_FullAttendanceList",response);
+        return PartialView("_FullAttendanceList", response);
     }
 
 

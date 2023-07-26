@@ -41,6 +41,28 @@
                             </thead>
                                 <!------------------------Partially Adding Attendance List based on filters---------------------------->
 							<tbody id="myTable">
+                                @*@foreach (AttendancePersonal attendance in Model.AttendanceList)
+                                {
+                                    <tr class="regularize">
+                                        <td class="date">@attendance.Date.ToString("dd/MMM/yyyy")</td>
+                                        <td>@attendance.CheckIn.ToString("hh:mm:ss")</td>
+                                        <td>@attendance.CheckOut.ToString("hh:mm:ss")</td>
+                                        <td>@attendance.Status</td>
+                                        @if (attendance.ModifiedBy == null)
+                                        {
+                                            <td style="padding-left:3.3vw;"><img width="20" height="20" src="/confirm-icon_black.svg"></td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <span class="regularizelink">
+                                                    @Html.ActionLink("Regularize","RegularizeEntry","AttendancePersonal",
+                                            new{ EmployeeID = attendance.EmployeeID, AttendanceID = attendance.AttendanceID},null)
+                                                </span>
+                                            </td>
+                                        }
+                                    </tr>
+                                }*@
                             </tbody>
                         </table>
                     </div>
@@ -51,7 +73,7 @@
     </div>
 @section Scripts{
 <script>
-        $('#myTable').load("/AttendancePersonal/FullAttendanceListPartial", @employeeID)
+        $('#myTable').load("/AttendancePersonal/FullAttendanceListPartial")
 </script>
 }
 </section>

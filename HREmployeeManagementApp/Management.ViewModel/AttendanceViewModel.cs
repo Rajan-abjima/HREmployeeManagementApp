@@ -13,12 +13,11 @@ public class AttendanceViewModel
     public DateTime DateFrom { get; set; } = DateTime.Today.AddDays(-30);
     public DateTime DateTo { get; set; } = DateTime.Today;
 
-    public List<AttendancePersonal> AttendanceList { get; set; }
+    public IEnumerable<AttendancePersonal> AttendanceList { get; set; }
 
-    public List<AttendancePersonal> FilteredListbyDate { get; set; }
-    public AttendanceViewModel()
-	{
-		AttendanceList = new List<AttendancePersonal>();
-        FilteredListbyDate = new List<AttendancePersonal>(AttendanceList.Where(x => x.Date < DateFrom && x.Date > DateTo ));
-	}
+ //   public List<AttendancePersonal> FilteredListbyDate { get; set; }
+ //   public AttendanceViewModel()
+	//{
+ //       FilteredListbyDate = new List<AttendancePersonal>(AttendanceList.Where(x => x.Date < DateFrom && x.Date > DateTo ));
+	//}
 }
