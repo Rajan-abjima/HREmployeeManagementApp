@@ -67,13 +67,15 @@ public class AttendancePersonalController : Controller
             AttendanceList = result
         };
 
+        TempData["EmployeeIDForAttendance"] = employeeID;
         return View(attendanceView);
     }
 
-    public async Task<IActionResult> FullAttendanceListPartial(int employeeID)
+    [HttpGet]
+    public async Task<IActionResult> FilterTablePartial (int employeeID)
     {
         var response = await _attendanceRepository.GetAttendancePersonalAsync(employeeID);
-
+        
         return PartialView("_FullAttendanceList", response);
     }
 

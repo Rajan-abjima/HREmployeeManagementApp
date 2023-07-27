@@ -26,22 +26,24 @@
                             <thead>
                                 <tr>
                                     <th col-4>Date <br>
-                                        <form asp-action="AttendanceDetails">
+                                        <form asp-action="FilterTablePartial" asp-controller="AttendancePersonal">
+                                            <input type="hidden" value="@employeeID" asp-for="EmployeeID" />
 											<label>From <input style="width:25px; height:auto;" id="fromDate" class="" type="date" asp-for="DateFrom"></label>
-											<label>To <input style="width:25px; height:auto;" class="" type="date" asp-for="DateTo"></label>
-                                            <input style="padding:2px 3px" class="btn btn-outline-dark" type="submit" value="Go" />
+											<label>To <input style="width:25px; height:auto;" id="toDate" class="" type="date" asp-for="DateTo"></label>
+                                            <input style="padding:2px 3px" class="btn btn-outline-dark" type="submit" id="btnFilter" value="Filter" />
 										</form>
 									</th>
                                     <th>Check In</th>
                                     <th>Check Out</th>
                                     <th>Status</th>
                                     <th>Regularized</th>
-
                                 </tr>
                             </thead>
                                 <!------------------------Partially Adding Attendance List based on filters---------------------------->
 							<tbody id="myTable">
-                                @*@foreach (AttendancePersonal attendance in Model.AttendanceList)
+                                @*<partial name="/AttendacePersonal/_FilterTable" model="AttendancePersonal" view-data="emp" />*@
+                                @*@Html.PartialAsync("/AttendancePersonal/FullAttendanceListPartial",employeeID)*@
+                                @foreach (AttendancePersonal attendance in Model.AttendanceList)
                                 {
                                     <tr class="regularize">
                                         <td class="date">@attendance.Date.ToString("dd/MMM/yyyy")</td>
@@ -62,7 +64,7 @@
                                             </td>
                                         }
                                     </tr>
-                                }*@
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -71,9 +73,81 @@
             </div>
         </div>
     </div>
-@section Scripts{
-<script>
-        $('#myTable').load("/AttendancePersonal/FullAttendanceListPartial")
-</script>
-}
+    @section Scripts
+        {
+        <script type="text/javascript">
+            $(function () {
+                LoadData();
+                $("#btnFilter").click(function () {
+                    //alert("");
+                    var dateCheck = {};
+                    dateCheck.DateFrom = $("#fromDate").val();
+                    stdCheck.DateTo = $("#toDate").val();
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("AttendnaceDetails")',
+                        data: '{dataCheck: ' + JSON.stringify(dateCheck) + '}',
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function () {
+                            // alert("Data has been added successfully.");
+                            LoadData();
+                        },
+                        error: function () {
+                            alert("Error while inserting data");
+                        }
+                    });
+                    return false;
+                });
+            });
+
+            function LoadData() {
+                $("#tblStudent tbody tr").remove();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getStudent")',
+                    dataType: 'json',
+                    data: { id: '' },
+                    success: function (data) {
+                        var items = '';
+                        $.each(data, function (i, item) {
+                            var rows = "<tr>"
+                                + "<td class='prtoducttd'>" + item.studentID + "</td>"
+                                + "<td class='prtoducttd'>" + item.studentName + "</td>"
+                                + "<td class='prtoducttd'>" + item.studentAddress + "</td>"
+                                + "</tr>";
+                            $('#tblStudent tbody').append(rows);
+                        });
+                    },
+                    error: function (ex) {
+                        var r = jQuery.parseJSON(response.responseText);
+                        alert("Message: " + r.Message);
+                        alert("StackTrace: " + r.StackTrace);
+                        alert("ExceptionType: " + r.ExceptionType);
+                    }
+                });
+                return false;
+            }
+        </script>
+    }
+@*@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#btn").click(function () {
+                var fromDate = $("#fromDate").val();
+                var toDate = $("#toDate").val();
+                $.ajax({
+                    url: 'AttendancePersonal/FilterTablePartial',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data : JSON.stringify({fromDate : fromDate, toDate : toDate}),
+                    dataType: 'json',
+                    success: function(result, status, xhr){
+                        $("#myTable").text(result)
+                    },
+                })
+            })
+        })
+    </script>
+}*@
 </section>
