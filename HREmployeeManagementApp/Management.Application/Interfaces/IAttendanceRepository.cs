@@ -1,4 +1,5 @@
 ﻿using Management.Entities.AttendanceEntities;
+using Management.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ public interface IAttendanceRepository
     Task<DayCheckOut> UpdateCheckOutAsync(DayCheckOut checkOutToday);
     Task<AttendancePersonal> GetExactAttendanceByEmployeeIDAsync(int employeeID);
     Task<IEnumerable<AttendancePersonal>> GetAttendancePersonalAsync(int employeeID);
-    Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByIDAndDateAsync (int employeeId, DateTime date);
+	Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByIDAndDateAsync (int employeeId, DateTime date);
     Task<IEnumerable<AttendanceAdmin>> GetAttendanceAdminByIDAsync(int employeeID);
     Task<AttendancePersonal> GetAttendanceByAttendanceID(int attendanceID);
     Task<EmployeeRegularization> RegularizationRequestAsync (EmployeeRegularization regularization);

@@ -10,8 +10,10 @@ namespace Management.ViewModel;
 public class AttendanceViewModel
 {
     public int EmployeeID { get; set; }
-    public DateTime DateFrom { get; set; } = DateTime.Today.AddDays(-30);
-    public DateTime DateTo { get; set; } = DateTime.Today;
+    public DateTime DateFrom { get; set; } 
+    public DateTime DateTo { get; set; } 
+
+    public string Status { get; set; } = string.Empty;
 
     public IEnumerable<AttendancePersonal> AttendanceList { get; set; }
 
