@@ -2,136 +2,124 @@
 
 @section head{
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+	<script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 }
 
 @{
 	var employeeID = Context.Request.Query["EmployeeID"];
 }
 
+<style>
+	table{
+		table-layout: fixed;
+		width: 100%;
+	}
+</style>
+
 <section id="tabs" class="project-tab">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-11">
 				<nav>
 					<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
 						<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" role="tab" aria-controls="nav-home" aria-selected="true">Attendance Details</a>
 						<a href="@Url.Action("Leave", "AttendancePersonal", new {EmployeeID = employeeID})" class="nav-item nav-link">Apply Leave</a>
+						<a href="@Url.Action("RegularizationForm", "AttendancePersonal", new {EmployeeID = employeeID})" class="nav-item nav-link">Regularization Form</a>
 					</div>
 				</nav>
+				
 				<div class="tab-content" id="nav-tabContent">
-					<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-						<table class="table" cellspacing="0">
+					<div class="tab-pane fade show active row" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+						<table class="table col-lg-auto" cellspacing="0">
 							<thead>
 								<tr>
-									<th col-4>
+									<th>
 										Date <br>
-										<form asp-action="FilterTablePartial" asp-controller="AttendancePersonal">
-											<input type="hidden" value="@employeeID" asp-for="EmployeeID" />
-											<label>From <input style="width:25px; height:auto;" id="fromDate" class="" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="DateFrom"></label>
-											<label>To <input style="width:25px; height:auto;" id="toDate" class="" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="DateTo"></label>
-											<input style="padding:2px 3px" class="btn btn-outline-dark" type="button" id="btnFilter" value="Filter" />
-										</form>
+										<input style="width:25px" type="date" id="fromDate" />
+										<input style ="width:25px" type="date" id="toDate" />
+										<button type="button" onclick="filterTable()">Filter</button>
 									</th>
 									<th>Check In</th>
 									<th>Check Out</th>
-									<th>Status</th>
+									<th>
+										Status
+										<br>
+										<select id="statusFilter">
+											<option value="">All</option>
+											<option value="Present">Present</option>
+											<option value="Absent">Absent</option>
+											<option value="Leave">Leave</option>
+										</select>
+										<button type="button" onclick="filterTable()">Filter</button>
+									</th>
 									<th>Regularized</th>
 								</tr>
 							</thead>
-							<!------------------------Partially Adding Attendance List based on filters---------------------------->
-							<tbody id="myTable">
-								@*<partial name="/AttendacePersonal/_FilterTable" model="AttendancePersonal" view-data="emp" />*@
-								@*@Html.PartialAsync("/AttendancePersonal/FullAttendanceListPartial",employeeID)*@
-								@*@foreach (AttendancePersonal attendance in Model.AttendanceList)
-								{
-								<tr class="regularize">
-								<td class="date">@attendance.Date.ToString("dd/MMM/yyyy")</td>
-								<td>@attendance.CheckIn.ToString("hh:mm:ss")</td>
-								<td>@attendance.CheckOut.ToString("hh:mm:ss")</td>
-								<td>@attendance.Status</td>
-								@if (attendance.ModifiedBy == null)
-								{
-								<td style="padding-left:3.3vw;"><img width="20" height="20" src="/confirm-icon_black.svg"></td>
-								}
-								else
-								{
-								<td>
-								<span class="regularizelink">
-								@Html.ActionLink("Regularize","RegularizeEntry","AttendancePersonal",
-								new{ EmployeeID = attendance.EmployeeID, AttendanceID = attendance.AttendanceID},null)
-								</span>
-								</td>
-								}
-								</tr>
-								}*@
-							</tbody>
 						</table>
+						<div id="myTable" data-employee-id="@TempData["EmployeeIDForAttendance"]">
+							<!------------------------Partially Adding Attendance List based on filters---------------------------->
+						</div>
 					</div>
-
 				</div>
 			</div>
+			<button class="btn btn-light col-1" type="button" style="float:right;"><img src="~/funnel.svg" width="25px" height="auto" /></button>
 		</div>
 	</div>
-	@*@section Scripts
-	{
-	<script type="text/javascript">
-	$(function () {
-	LoadData();
-	$("#btnFilter").click(function () {
-	//alert("");
-	var dateCheck = {};
-	dateCheck.DateFrom = $("#fromDate").val();
-	stdCheck.DateTo = $("#toDate").val();
-	$.ajax({
-	type: "POST",
-	url: '@Url.Action("AttendnaceDetails")',
-	data: '{dataCheck: ' + JSON.stringify(dateCheck) + '}',
-	dataType: "json",
-	contentType: "application/json; charset=utf-8",
-	success: function () {
-	// alert("Data has been added successfully.");
-	LoadData();
-	},
-	error: function () {
-	alert("Error while inserting data");
-	}
-	});
-	return false;
-	});
-	});
+</section>
 
-	function LoadData() {
-	$("#tblStudent tbody tr").remove();
-	$.ajax({
-	type: 'POST',
-	url: '@Url.Action("getStudent")',
-	dataType: 'json',
-	data: { id: '' },
-	success: function (data) {
-	var items = '';
-	$.each(data, function (i, item) {
-	var rows = "<tr>"
-	+ "<td class='prtoducttd'>" + item.studentID + "</td>"
-	+ "<td class='prtoducttd'>" + item.studentName + "</td>"
-	+ "<td class='prtoducttd'>" + item.studentAddress + "</td>"
-	+ "</tr>";
-	$('#tblStudent tbody').append(rows);
-	});
-	},
-	error: function (ex) {
-	var r = jQuery.parseJSON(response.responseText);
-	alert("Message: " + r.Message);
-	alert("StackTrace: " + r.StackTrace);
-	alert("ExceptionType: " + r.ExceptionType);
-	}
-	});
-	return false;
-	}
-	</script>*@
-	@*}*@
-	@section Scripts{
+@section scripts {
+	<script>
+		function filterTable() {
+			var fromDate = document.getElementById("fromDate").value;
+			var toDate = document.getElementById("toDate").value;
+			var statusFilter = document.getElementById("statusFilter").value;
+			var employeeID = @TempData["EmployeeIDForAttendance"]; 
+
+			$.ajax({
+				type: "GET",
+				url: "/AttendancePersonal/AttendanceDetailsPartial",
+				data: {
+					employeeID: employeeID,
+					fromDate: fromDate,
+					toDate: toDate,
+					status: statusFilter
+				},
+				success: function (data) {
+					
+					$("#myTable").html(data);		
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+		}
+
+		
+		$(document).ready(function () {
+			filterTable();
+		});
+	</script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@*@section Scripts{
 		<script>
 			$(document).ready(function () {
 				$("#btnFilter").click(function () {
@@ -155,5 +143,4 @@
 				})
 			})
 		</script>
-	}
-</section>
+	}*@

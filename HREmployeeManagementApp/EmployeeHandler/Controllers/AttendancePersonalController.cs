@@ -74,16 +74,34 @@ public class AttendancePersonalController : Controller
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> FilterTablePartial(int employeeID)
+	public async Task<IActionResult> AttendanceDetailsPartial(int employeeID, DateTime? fromDate, DateTime? toDate, string status)
 	{
-		var AdminSession = JsonConvert.DeserializeObject<EmployeePersonal>(HttpContext.Session.GetString("AdminSession"));
-		employeeID = AdminSession.EmployeeID;
-		var response = await _attendanceRepository.GetAttendancePersonalAsync(employeeID);
+		var result = await _attendanceRepository.GetAttendancePersonalAsync(employeeID);
+		if (fromDate != null)
+		{
+			result = result.Where(a => a.Date >= fromDate.Value);
+		}
 
-		return PartialView("_FilterTable", response);
+		if (toDate != null)
+		{
+			result = result.Where(a => a.Date <= toDate.Value);
+		}
+
+		if (!string.IsNullOrEmpty(status))
+		{
+			result = result.Where(a => a.Status == status);
+		}
+
+		AttendanceViewModel attendanceView = new AttendanceViewModel
+		{
+			EmployeeID = employeeID,
+			AttendanceList = result.ToList()
+		};
+
+		return PartialView("_AttendanceListPartial", attendanceView);
 	}
 
-	[HttpGet]
+[HttpGet]
 	public IActionResult RegularizationForm(int employeeID)
 	{
 		return View();
