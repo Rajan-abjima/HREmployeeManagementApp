@@ -22,25 +22,63 @@ public class AttendancePersonalController : Controller
 
         var leavesTypes = await _attendanceRepository.GetLeavesTypes();
 
-        LeavePersonal leaveView = new LeavePersonal()
+        LeavePersonalApply leaveView = new LeavePersonalApply()
         {
             LeaveType = leavesTypes.Select(a => a.LeaveTypeName)
-    };
-        /*new SelectList(leavesTypes, "LeaveTypeName", "LeaveTypeName")*/
-        //TempData["LeaveType"] = selectList;
+        };
+       
         return View(leaveView);
 
     }
-
     [HttpPost]
-    public async Task<IActionResult> LeaveRequest(LeavePersonal leavePersonal)
+    public async Task<IActionResult> LeaveRequest(LeavePersonalApply model)
     {
-        leavePersonal.DateOfRequest = DateTime.Now;
+        if (ModelState.IsValid)
+        {
+            
+            int leaveDaysExcludingWeekends = CalculateLeaveDaysExcludingWeekends(model.DateFrom, model.ToDate);
+
+            
+            model.LeaveDays = leaveDaysExcludingWeekends;
+
+            
+            var leaveRequestId = await _attendanceRepository.ApplyLeave(model);
+            TempData["LeaveRequestId"] = leaveRequestId;
+
+            // Redirect to the "Success" action, passing the leaveRequestId as a parameter
+            return RedirectToAction("Success", new { id = leaveRequestId });
+
+        }
+
         
-        var leaveRequest = await _attendanceRepository.LeaveRequestAsync(leavePersonal);
-        TempData["LeaveRequestID"] = leaveRequest.LeaveID;
-        return RedirectToAction("Leave", new {EmployeeID = leaveRequest.EmployeeID, LeaveRequestID = leaveRequest.LeaveID});
+        return View("~/Views/AttendancePersonal/Leave.cshtml", model);
     }
+
+    private int CalculateLeaveDaysExcludingWeekends(DateTime startDate, DateTime endDate)
+    {
+        int totalLeaveDays = (int)(endDate - startDate).TotalDays + 1;
+        int excludeWeekends = 0;
+
+        for (int i = 0; i < totalLeaveDays; i++)
+        {
+            DateTime currentDate = startDate.AddDays(i);
+            if (currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                excludeWeekends++;
+            }
+        }
+
+        return totalLeaveDays - excludeWeekends;
+    }
+    //[HttpPost]
+    //public async Task<IActionResult> LeaveRequest(LeavePersonal leavePersonal)
+    //{
+    //    leavePersonal.DateOfRequest = DateTime.Now;
+
+    //    var leaveRequest = await _attendanceRepository.LeaveRequestAsync(leavePersonal);
+    //    TempData["LeaveRequestID"] = leaveRequest.LeaveID;
+    //    return RedirectToAction("Leave", new {EmployeeID = leaveRequest.EmployeeID, LeaveRequestID = leaveRequest.LeaveID});
+    //}
 
     [HttpGet]
     public IActionResult RegularizationForm()

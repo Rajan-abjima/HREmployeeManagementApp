@@ -1,4 +1,4 @@
-﻿@model LeavePersonal
+﻿@model LeavePersonalApply
 
 @section head{
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -53,14 +53,15 @@
                             </div>
                             <div class="col mt-3">
                                 <label class="input-label">Leave Type</label>
-                                <select>
-                                    @foreach(var leaveType in Model.LeaveType)
-                                    {<option>@leaveType</option>}
+                                <select id="LeaveType" name="LeaveType">
+                                    @foreach (var leaveType in Model.LeaveType)
+                                    {
+                                        <option>@leaveType</option>
+                                    }
                                 </select>
-@*                                @Html.DropDownListFor(model => model.LeaveType,  TempData["LeaveType"] as SelectList, "Select LeaveType", new { @class = "form-control" })
-*@                                <span asp-validation-for="LeaveType" class="text-danger"></span>
+                                <span asp-validation-for="LeaveType" class="text-danger"></span>
                             </div>
-
+                           
 
                             <div class="row mt-3">
                                 <div class="row my-3 col" id="SetLeave">
@@ -75,9 +76,10 @@
                                 </div>
                             </div>
                             <div class="col mt-3">
-                                <label for="reason">Reason *</label>
-                                <textarea type="text" class="form-control input-sm col" id="reason" rows="3" required asp-for="Reason"></textarea>
+                                <label for="ReasonForLeave">Reason *</label>
+                                <textarea type="text" class="form-control input-sm col" id="ReasonForLeave" rows="3" required asp-for="ReasonForLeave"></textarea>
                             </div>
+
                             <div class="row mx-auto my-3">
                                 <input class="btn btn-outline-primary mx-auto col-6" type="submit">
                             </div>
@@ -91,12 +93,13 @@
             {
                 <div class="alert alert-warning">
                     <span>Your Request : No.@successfulRequest was successful.</span>
-                    <script>alert(Your Request : No.@successfulRequest was succesful)
-                    //setTimeout(function(){
-                    //        var alertDiv = document.querySelector('.alert.alert-warning');
-                    //        alertDiv.style.display='none';},3000)
+                    <script>
+                        alert(Your Request : No.@successfulRequest was succesful)
+                                            //setTimeout(function(){
+                                            //        var alertDiv = document.querySelector('.alert.alert-warning');
+                                            //        alertDiv.style.display='none';},3000)
 
-                    //})
+                                            //})
                     </script>
                 </div>
             }

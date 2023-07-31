@@ -27,14 +27,14 @@ public class LeavePersonal
 
     [Required]
     [MaxLength(300)]
-    public string? Reason { get; set; }
+    public string? ReasonForLeave { get; set; }
     
     public bool ApprovalStatus { get; set; }
 
     [MaxLength(300)]
     public string? Comment { get; set; }
 
-    
+    public int LeaveDays { get; set; }
     public string LeaveTypeName { get; set; }
     
    

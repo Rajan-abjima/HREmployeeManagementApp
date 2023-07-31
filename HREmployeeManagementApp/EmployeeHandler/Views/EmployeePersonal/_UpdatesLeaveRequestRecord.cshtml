@@ -9,7 +9,7 @@
 
     @foreach(var leave in Model)
     {
-        <span style="font-size: .9rem;"> @leave.Reason <br>/ @leave.ToDate.ToString("MMM,dd")</span>
+        <span style="font-size: .9rem;"> @leave.ReasonForLeave<br>/ @leave.ToDate.ToString("MMM,dd")</span>
          @if (leave.ApprovalStatus == true)
         {
 		    <span class="CheckToRight"><img src="/confirm-icon.svg" /></span>
