@@ -3,6 +3,7 @@
 @section head{
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<link href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+	<link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' rel='stylesheet'>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -34,44 +35,74 @@
 				
 				<div class="tab-content" id="nav-tabContent">
 					<div class="tab-pane fade show active row" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-						<table class="table col-lg-auto" cellspacing="0">
+						<table id="myTable" class="table col-lg-auto" cellspacing="0">
 							<thead>
 								<tr>
 									<th>
-										Date <br>
+										Date @*<br>
 										<input style="width:25px" type="date" id="fromDate" />
 										<input style ="width:25px" type="date" id="toDate" />
-										<button type="button" onclick="filterTable()">Filter</button>
+										<button type="button" onclick="filterTable()">Filter</button>*@
 									</th>
 									<th>Check In</th>
 									<th>Check Out</th>
 									<th>
 										Status
-										<br>
+										@*<br>
 										<select id="statusFilter">
 											<option value="">All</option>
 											<option value="Present">Present</option>
 											<option value="Absent">Absent</option>
 											<option value="Leave">Leave</option>
 										</select>
-										<button type="button" onclick="filterTable()">Filter</button>
+										<button type="button" onclick="filterTable()">Filter</button>*@
 									</th>
 									<th>Regularized</th>
 								</tr>
 							</thead>
 						</table>
-						<div id="myTable" data-employee-id="@TempData["EmployeeIDForAttendance"]">
+						@*<tbody id="" data-employee-id="@TempData["EmployeeIDForAttendance"]">
+
 							<!------------------------Partially Adding Attendance List based on filters---------------------------->
-						</div>
+						</tbody>*@
 					</div>
 				</div>
 			</div>
-			<button class="btn btn-light col-1" type="button" style="float:right;"><img src="~/funnel.svg" width="25px" height="auto" /></button>
+			<div class="col-1">
+				<button class="btn btn-light" id="allFilters" type="button" style="float:right;" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-title="Filters">
+					<img src="~/funnel.svg" width="25px" height="auto" />
+				</button>
+			</div>
+			<div hidden>
+				<div data-name="popover-content">
+					<div>
+						<input class="form-control form-control-sm mt-1" type="date" id="fromDate" />
+						<input class="form-control form-control-sm mt-1" type="date" id="toDate" />
+						<select class="dropdown mt-1" style="width:100%" id="statusFilter">
+							<option value="">All</option>
+							<option value="Present">Present</option>
+							<option value="Absent">Absent</option>
+							<option value="Leave">Leave</option>
+						</select><br>
+						<button type="button" class="btn btn-outline-dark mt-1" onclick="filterTable()">Filter</button>
+					</div>
+				</div>
+			</div>
+			@*<div>
+				<div id="example" data-bs-content="And here's some amazing content. It's very engaging. Right?">
+					
+				</div>
+			</div>*@
 		</div>
 	</div>
 </section>
 
-@section scripts {
+@*@section Scripts
+{
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+
+
 	<script>
 		function filterTable() {
 			var fromDate = document.getElementById("fromDate").value;
@@ -100,47 +131,92 @@
 
 		
 		$(document).ready(function () {
-			filterTable();
+			var dataTable = filterTable().dataTable();
 		});
+	</script>
+
+	<script>
+		$(document).ready(function () {
+
+			var options = {
+				html: true,
+				content: $('[data-name="popover-content"]')
+			}
+			var exampleEl = document.getElementById('allFilters')
+			var popover = new bootstrap.Popover(exampleEl, options)
+		})
+	</script>
+
+	<script>
+		$(document).ready(function () {
+			$('#myTable').dataTable({
+			});
+		});
+	</script>
+}*@
+
+@section Scripts
+	{
+	<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+
+	<script>
+		function filterTable() {
+			var fromDate = document.getElementById("fromDate").value;
+			var toDate = document.getElementById("toDate").value;
+			var statusFilter = document.getElementById("statusFilter").value;
+			var employeeID = '@employeeID';
+
+			$.ajax({
+				type: "GET",
+				url: "/AttendancePersonal/AttendanceDetailsPartial",
+				data: {
+					employeeID: employeeID,
+					fromDate: fromDate,
+					toDate: toDate,
+					status: statusFilter
+				},
+				success: function (data) {
+					var tableData = data;
+
+					$('#myTable').DataTable().destroy();
+
+					$('#myTable').DataTable({
+						data: tableData,
+						columns: [
+							{ data: 'Date' },
+							{ data: 'CheckIn' },
+							{ data: 'CheckOut' },
+							{ data: 'Status' },
+							{ data: 'Regularized' }
+						]
+					});
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+		}
+
+
+
+		$(document).ready(function () {
+			$('#myTable').DataTable();
+		});
+	</script>
+
+	<script>
+		$(document).ready(function () {
+
+			var options = {
+				html: true,
+				content: $('[data-name="popover-content"]')
+			}
+			var exampleEl = document.getElementById('allFilters')
+			var popover = new bootstrap.Popover(exampleEl, options)
+		})
 	</script>
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-	@*@section Scripts{
-		<script>
-			$(document).ready(function () {
-				$("#btnFilter").click(function () {
-					var fromDate = $("#fromDate").val();
-					var toDate = $("#toDate").val();
-					$.ajax({
-						url: "FilterTablePartial",
-						type: 'GET',
-						contentType: 'application/json',
-						data: JSON.stringify({ fromDate: fromDate, toDate: toDate }),
-						dataType: 'json',
-						success: function (result, status, xhr) {
-							console.log(result);
-
-							$("#myTable").text(result)
-						},
-						error: function (error) {
-							console.log(error);
-						}
-					})
-				})
-			})
-		</script>
-	}*@

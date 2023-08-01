@@ -98,7 +98,7 @@ public class AttendancePersonalController : Controller
 			AttendanceList = result.ToList()
 		};
 
-		return PartialView("_AttendanceListPartial", attendanceView);
+		return Json("_AttendanceListPartial", attendanceView);
 	}
 
 [HttpGet]
