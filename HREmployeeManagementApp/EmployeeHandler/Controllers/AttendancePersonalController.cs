@@ -49,6 +49,22 @@ public class AttendancePersonalController : Controller
 		return View(newRecord);
 	}
 
+	[HttpGet]
+	public async Task<IActionResult> RegularizeFromEntryPartial(int attendanceID, int employeeID)
+	{
+		var record = await _attendanceRepository.GetAttendanceByAttendanceID(attendanceID);
+
+		EmployeeRegularization newRecord = new()
+		{
+			AttendanceID = attendanceID,
+			EmployeeID = employeeID,
+			RegularizeDate = record.Date,
+			CheckedIn = record.CheckIn,
+			CheckedOut = record.CheckOut
+		};
+		return PartialView("_RegularizeEntryForm",newRecord);
+	}
+
 	[HttpPost]
 	public async Task<IActionResult> RegularizeRequest(EmployeeRegularization regularization)
 	{
@@ -98,7 +114,7 @@ public class AttendancePersonalController : Controller
 			AttendanceList = result.ToList()
 		};
 
-		return Json("_AttendanceListPartial", attendanceView);
+		return Json(result);
 	}
 
 [HttpGet]

@@ -8,6 +8,8 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 	<script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 }
 
 @{
@@ -18,6 +20,24 @@
 	table{
 		table-layout: fixed;
 		width: 100%;
+	}
+
+	.modal{
+		height: fit-content !important;
+		padding: 0;
+		border: 2px #0062cc solid !important;
+	}
+
+	.close-modal{
+		display: none !important;
+	}
+
+	.regularizelink {
+		visibility: hidden;
+	}
+
+	.regularize:hover > td > .regularizelink {
+		visibility: visible;
 	}
 </style>
 
@@ -35,31 +55,17 @@
 				
 				<div class="tab-content" id="nav-tabContent">
 					<div class="tab-pane fade show active row" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-						<table id="myTable" class="table col-lg-auto" cellspacing="0">
+						<table id="myTable" class="table table-striped table-light col-lg-auto" cellspacing="0">
 							<thead>
 								<tr>
-									<th>
-										Date @*<br>
-										<input style="width:25px" type="date" id="fromDate" />
-										<input style ="width:25px" type="date" id="toDate" />
-										<button type="button" onclick="filterTable()">Filter</button>*@
-									</th>
+									<th>Date</th>
 									<th>Check In</th>
 									<th>Check Out</th>
-									<th>
-										Status
-										@*<br>
-										<select id="statusFilter">
-											<option value="">All</option>
-											<option value="Present">Present</option>
-											<option value="Absent">Absent</option>
-											<option value="Leave">Leave</option>
-										</select>
-										<button type="button" onclick="filterTable()">Filter</button>*@
-									</th>
-									<th>Regularized</th>
+									<th>Status</th>
+									<th>Altered</th>
 								</tr>
 							</thead>
+							<tbody></tbody>
 						</table>
 						@*<tbody id="" data-employee-id="@TempData["EmployeeIDForAttendance"]">
 
@@ -88,16 +94,11 @@
 					</div>
 				</div>
 			</div>
-			@*<div>
-				<div id="example" data-bs-content="And here's some amazing content. It's very engaging. Right?">
-					
-				</div>
-			</div>*@
 		</div>
 	</div>
 </section>
 
-@*@section Scripts
+@section Scripts
 {
     <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
     <script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
@@ -113,15 +114,19 @@
 			$.ajax({
 				type: "GET",
 				url: "/AttendancePersonal/AttendanceDetailsPartial",
+				dataType: 'html',
 				data: {
 					employeeID: employeeID,
 					fromDate: fromDate,
 					toDate: toDate,
-					status: statusFilter
+					status: statusFilter,
 				},
 				success: function (data) {
-					
-					$("#myTable").html(data);		
+					$('#myTable tbody').html($(data).find('tbody').html());
+					//$('#myTable').DataTable({
+					//	"lenghtMenu": [ 10, 25, 50, 100 ],
+					//	"order": [[0, 'asc'], [1, 'asc']]
+					//});
 				},
 				error: function (error) {
 					console.log(error);
@@ -131,7 +136,7 @@
 
 		
 		$(document).ready(function () {
-			var dataTable = filterTable().dataTable();
+		 filterTable();
 		});
 	</script>
 
@@ -150,73 +155,12 @@
 	<script>
 		$(document).ready(function () {
 			$('#myTable').dataTable({
+				//data:data
 			});
 		});
-	</script>
-}*@
-
-@section Scripts
-	{
-	<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
-	<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
-
-	<script>
-		function filterTable() {
-			var fromDate = document.getElementById("fromDate").value;
-			var toDate = document.getElementById("toDate").value;
-			var statusFilter = document.getElementById("statusFilter").value;
-			var employeeID = '@employeeID';
-
-			$.ajax({
-				type: "GET",
-				url: "/AttendancePersonal/AttendanceDetailsPartial",
-				data: {
-					employeeID: employeeID,
-					fromDate: fromDate,
-					toDate: toDate,
-					status: statusFilter
-				},
-				success: function (data) {
-					var tableData = data;
-
-					$('#myTable').DataTable().destroy();
-
-					$('#myTable').DataTable({
-						data: tableData,
-						columns: [
-							{ data: 'Date' },
-							{ data: 'CheckIn' },
-							{ data: 'CheckOut' },
-							{ data: 'Status' },
-							{ data: 'Regularized' }
-						]
-					});
-				},
-				error: function (error) {
-					console.log(error);
-				}
-			});
-		}
-
-
-
-		$(document).ready(function () {
-			$('#myTable').DataTable();
-		});
-	</script>
-
-	<script>
-		$(document).ready(function () {
-
-			var options = {
-				html: true,
-				content: $('[data-name="popover-content"]')
-			}
-			var exampleEl = document.getElementById('allFilters')
-			var popover = new bootstrap.Popover(exampleEl, options)
-		})
 	</script>
 }
+
 
 
 

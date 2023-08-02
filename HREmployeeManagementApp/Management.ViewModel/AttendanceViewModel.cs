@@ -10,6 +10,5 @@ namespace Management.ViewModel;
 public class AttendanceViewModel
 {
     public int EmployeeID { get; set; }
-
     public IEnumerable<AttendancePersonal> AttendanceList { get; set; }
 }

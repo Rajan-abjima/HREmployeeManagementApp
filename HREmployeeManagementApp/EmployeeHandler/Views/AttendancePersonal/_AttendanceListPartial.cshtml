@@ -8,8 +8,8 @@
         visibility: visible;
     }
 </style>
-
-
+<table>
+<tbody>
 		@foreach (var attendance in Model.AttendanceList)
 		{
 			<tr class="regularize">
@@ -25,10 +25,14 @@
 				{
 					<td>
 						<span class="regularizelink">
-							@Html.ActionLink("Regularize", "RegularizeEntry", "AttendancePersonal",
-					new { EmployeeID = attendance.EmployeeID, AttendanceID = attendance.AttendanceID }, null)
+							<a href="@Url.Action("RegularizeFromEntryPartial", "AttendancePersonal",
+					new { EmployeeID = attendance.EmployeeID, AttendanceID = attendance.AttendanceID })" rel="modal:open">Regularize</a>
+							@*@Html.ActionLink("Regularize", "RegularizeEntry", "AttendancePersonal",
+					new { EmployeeID = attendance.EmployeeID, AttendanceID = attendance.AttendanceID }, null)*@
 						</span>
 					</td>
 				}
 			</tr>
 		}
+</tbody>
+</table>
