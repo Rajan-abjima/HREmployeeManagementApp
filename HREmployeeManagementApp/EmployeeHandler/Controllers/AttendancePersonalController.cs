@@ -1,4 +1,5 @@
-﻿using Management.Application.Interfaces;
+﻿using Humanizer;
+using Management.Application.Interfaces;
 using Management.Core.Models;
 using Management.Entities.AttendanceEntities;
 using Management.Entities.EmployeeEntities;
@@ -50,7 +51,7 @@ public class AttendancePersonalController : Controller
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> RegularizeFromEntryPartial(int attendanceID, int employeeID)
+	public async Task<IActionResult> RegularizeEntryFormPartial(int attendanceID, int employeeID)
 	{
 		var record = await _attendanceRepository.GetAttendanceByAttendanceID(attendanceID);
 
@@ -90,31 +91,36 @@ public class AttendancePersonalController : Controller
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> AttendanceDetailsPartial(int employeeID, DateTime? fromDate, DateTime? toDate, string status)
+	public async Task<JsonResult> AttendanceDetailsPartial(int employeeID)
 	{
 		var result = await _attendanceRepository.GetAttendancePersonalAsync(employeeID);
-		if (fromDate != null)
-		{
-			result = result.Where(a => a.Date >= fromDate.Value);
-		}
+		//if (fromDate != null)
+		//{
+		//	result = result.Where(a => a.Date >= fromDate.Value);
+		//}
 
-		if (toDate != null)
-		{
-			result = result.Where(a => a.Date <= toDate.Value);
-		}
+		//if (toDate != null)
+		//{
+		//	result = result.Where(a => a.Date <= toDate.Value);
+		//}
 
-		if (!string.IsNullOrEmpty(status))
-		{
-			result = result.Where(a => a.Status == status);
-		}
+		//if (!string.IsNullOrEmpty(status))
+		//{
+		//	result = result.Where(a => a.Status == status);
+		//}
+
+		
+
 
 		AttendanceViewModel attendanceView = new AttendanceViewModel
 		{
-			EmployeeID = employeeID,
 			AttendanceList = result.ToList()
 		};
 
-		return Json(result);
+		//List<AttendancePersonal> records = new List<AttendancePersonal>();
+		//records = result.ToList();
+
+		return Json(result.ToList());
 	}
 
 [HttpGet]

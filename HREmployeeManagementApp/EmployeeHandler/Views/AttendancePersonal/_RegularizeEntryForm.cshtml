@@ -9,12 +9,12 @@ form{
 </style>
 
 
-<form class="bg-light p-4 modal-content" id="" asp-action="RegularizeRequest" method="post">
+<form class="bg-light p-4 modal fade" id="" asp-action="RegularizeRequest" method="post">
     <a href="#" rel="modal:close"><h2 class="float-end">&times;</h2></a>
     <h1>Regularization Form</h1>
     <div class="row mt-3">
         <div class="col">
-            <label for="AttendanceDate">Attendance Date</label>
+            <label for="AttendanceDate">Attendance Date *</label>
             <input type="date" class="form-control input-sm" placeholder="" readonly value=@Model.RegularizeDate.ToString("yyyy-MM-dd") asp-for="RegularizeDate">
         </div>
         <div class="col">

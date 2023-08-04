@@ -17,23 +17,22 @@
 }
 
 <style>
-	table{
+	table {
 		table-layout: fixed;
 		width: 100%;
 	}
 
-	.modal{
+	.modal {
 		height: fit-content !important;
 		padding: 0;
 		border: 2px #0062cc solid !important;
 	}
 
-	.close-modal{
+	.close-modal {
 		display: none !important;
 	}
 
 	.regularizelink {
-		visibility: hidden;
 	}
 
 	.regularize:hover > td > .regularizelink {
@@ -52,24 +51,36 @@
 						<a href="@Url.Action("RegularizationForm", "AttendancePersonal", new {EmployeeID = employeeID})" class="nav-item nav-link">Regularization Form</a>
 					</div>
 				</nav>
-				
+
 				<div class="tab-content" id="nav-tabContent">
 					<div class="tab-pane fade show active row" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-						<table id="myTable" class="table table-striped table-light col-lg-auto" cellspacing="0">
+						<table id="myTable" class="table table-striped table-light table-hover col-lg-auto" cellspacing="0">
 							<thead>
 								<tr>
 									<th>Date</th>
 									<th>Check In</th>
 									<th>Check Out</th>
 									<th>Status</th>
-									<th>Altered</th>
+									<th>Modified</th>
+									<th></th>
 								</tr>
 							</thead>
-							<tbody></tbody>
+							<tbody>
+								@*<tr>
+								<td>Date</td>
+								<td>CheckIn</td>
+								<td>CheckOut</td>
+								<td>Status</td>
+								<td>Modified</td>
+								</tr>*@
+							</tbody>
 						</table>
+						<div id="regularizeModal" style="display:none">
+
+						</div>
 						@*<tbody id="" data-employee-id="@TempData["EmployeeIDForAttendance"]">
 
-							<!------------------------Partially Adding Attendance List based on filters---------------------------->
+						<!------------------------Partially Adding Attendance List based on filters---------------------------->
 						</tbody>*@
 					</div>
 				</div>
@@ -99,44 +110,99 @@
 </section>
 
 @section Scripts
-{
-    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+	{
+	<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
 
 
 	<script>
 		function filterTable() {
-			var fromDate = document.getElementById("fromDate").value;
-			var toDate = document.getElementById("toDate").value;
-			var statusFilter = document.getElementById("statusFilter").value;
-			var employeeID = @TempData["EmployeeIDForAttendance"]; 
+			//var fromDate = document.getElementById("fromDate").value;
+			//var toDate = document.getElementById("toDate").value;
+			//var statusFilter = document.getElementById("statusFilter").value;
+			var employeeID = @TempData["EmployeeIDForAttendance"];
 
+			$("#myTable tbody tr").remove();
 			$.ajax({
 				type: "GET",
 				url: "/AttendancePersonal/AttendanceDetailsPartial",
-				dataType: 'html',
+				dataType: 'json',
 				data: {
-					employeeID: employeeID,
-					fromDate: fromDate,
-					toDate: toDate,
-					status: statusFilter,
+					employeeID: employeeID
+					//fromDate: fromDate,
+					//toDate: toDate,
+					//status: statusFilter,
 				},
 				success: function (data) {
-					$('#myTable tbody').html($(data).find('tbody').html());
-					//$('#myTable').DataTable({
-					//	"lenghtMenu": [ 10, 25, 50, 100 ],
-					//	"order": [[0, 'asc'], [1, 'asc']]
-					//});
+
+					var rows = "";
+					for (var x = 0; x < data.length; x++) {
+						rows += "<tr class='Regularize'>"
+						rows += "<td>" + data[x].date.substring(0, 10) + "</td>"
+						rows += "<td>" + data[x].checkIn.substring(11, 19) + "</td>"
+						rows += "<td>" + data[x].checkOut.substring(11, 19) + "</td>"
+						rows += "<td>" + data[x].status + "</td>"
+						rows += "<td>" + data[x].modifiedBy + "</td>"
+						rows += "<td><button onClick='regularize("+data[x].attendanceID+")' class='btn btn-outline-primary regularize'>Regularize</button></td>"
+						//rows += '<td> <a  asp-action="RegularizeEntryFormPartial" asp-route-EmployeeID='+data[x].employeeID+'>Regularize</a></td>'
+						//rows += "<td> <a href='Url.Action("RegularizeFromEntryPartial",new{AttendanceID="+data[x].attendanceID+"})' rel='modal-open'>Regularize</a></td>"
+						//rows += "<td> <a href='/AttendancePersonal/RegularizeEntryFormPartial?EmployeeID="+data[x].employeeID+"&AttendanceID="+data[x].attendanceID+"' rel='modal-open'>Regularize</a></td>"
+						rows += "</tr>";
+					};
+					$('#myTable tbody').html(rows);
+					$('#myTable').dataTable({
+					});
 				},
-				error: function (error) {
-					console.log(error);
+				error: function (ex) {
+					//console.log(error);
+					var r = jQuery.parseJSON(response.responseText);
+					alert("Message: " + r.Message);
+					alert("StackTrace: " + r.StackTrace);
+					alert("ExceptionType: " + r.ExceptionType);
 				}
 			});
 		}
 
-		
 		$(document).ready(function () {
-		 filterTable();
+			$("#modalbtn").click(function () {
+
+			})
+		})
+
+		//function regularize(data) {
+		//	const myJson = JSON.stringify(data);
+		//	console.log(myJson);
+
+			$(function () {
+				$("#regularizeModal").dialog({
+					autoOpen: false,
+					modal: true,
+					title: "View Details"
+				});
+				$("#mytable .regularize").click(function regularize(data) {
+					var attendanceID = JSON.stringify(data);
+					$.ajax({
+						type: "GET",
+						url: "/AttendancePersonal/RegularizeEntryFormPartial",
+						data: { attendanceID: attendanceID,
+								employeeID: @employeeID
+						},
+						success: function (response) {
+							$('#regularizeModal').html(response);
+							$('#regularizeModal').dialog('open');
+						},
+						failure: function (response) {
+							alert(response.responseText);
+						},
+						error: function (response) {
+							alert(response.responseText);
+						}
+					});
+				});
+			});
+
+		$(document).ready(function () {
+			filterTable();
 		});
 	</script>
 
@@ -154,9 +220,9 @@
 
 	<script>
 		$(document).ready(function () {
-			$('#myTable').dataTable({
-				//data:data
-			});
+			//$('#myTable').dataTable({
+			//	//data:data
+			//});
 		});
 	</script>
 }
