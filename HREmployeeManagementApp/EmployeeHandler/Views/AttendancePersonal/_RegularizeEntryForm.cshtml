@@ -1,15 +1,17 @@
 ﻿@model EmployeeRegularization
 
-<style>
+@*<style>
 form{
     background-image: linear-gradient(rgba(white, .1),rgba(white, .1)) !important;
 }
 
 
 </style>
+*@
 
 
-<form class="bg-light p-4 modal fade" id="" asp-action="RegularizeRequest" method="post">
+<div class="modal-content">
+<form class="bg-light p-4 modal-body" id="" asp-action="RegularizeRequest" method="post">
     <a href="#" rel="modal:close"><h2 class="float-end">&times;</h2></a>
     <h1>Regularization Form</h1>
     <div class="row mt-3">
@@ -52,3 +54,4 @@ form{
         <input class="btn btn-outline-primary col" type="submit">
     </div>
 </form>
+</div>
