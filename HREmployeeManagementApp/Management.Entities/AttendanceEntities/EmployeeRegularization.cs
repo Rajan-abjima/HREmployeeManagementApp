@@ -25,11 +25,6 @@ public class EmployeeRegularization
 
     public DateTime AppliedCheckOut { get; set; }
 
-     public EmployeeRegularization()
-    {
-		AppliedCheckIn = RegularizeDate + CheckInTime;
-		AppliedCheckOut = RegularizeDate + CheckOutTime;
-    }
 
     public string? Reason { get; set; }
 

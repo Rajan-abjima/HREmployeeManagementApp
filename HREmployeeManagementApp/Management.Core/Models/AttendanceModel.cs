@@ -41,4 +41,6 @@ public class AttendanceModel
     public DateTime ModifiedOn { get; set; }
 
     public Guid ModifiedBy { get; set; }
+
+    public bool IsRegularised { get; set; }
 }

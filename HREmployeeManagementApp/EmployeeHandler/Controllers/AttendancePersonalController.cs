@@ -63,12 +63,20 @@ public class AttendancePersonalController : Controller
 			CheckedIn = record.CheckIn,
 			CheckedOut = record.CheckOut
 		};
-		return PartialView("_RegularizeEntryForm",newRecord);
+		//return PartialView("_RegularizeEntryForm",newRecord);
+		return Json(newRecord);
 	}
 
 	[HttpPost]
 	public async Task<IActionResult> RegularizeRequest(EmployeeRegularization regularization)
 	{
+		var record = await _attendanceRepository.GetAttendanceByAttendanceID(regularization.AttendanceID);
+
+		regularization.CheckedIn = regularization.RegularizeDate + record.CheckIn.TimeOfDay;
+		regularization.CheckedOut = regularization.RegularizeDate + record.CheckOut.TimeOfDay;
+		regularization.AppliedCheckIn = regularization.RegularizeDate + regularization.CheckInTime;
+		regularization.AppliedCheckOut = regularization.RegularizeDate + regularization.CheckOutTime;
+
 		var requestDetails = await _attendanceRepository.RegularizationRequestAsync(regularization);
 		TempData["RegularizeRequest"] = requestDetails.RegularizeID;
 		return RedirectToAction("GetPersonalDetails", "EmployeePersonal",

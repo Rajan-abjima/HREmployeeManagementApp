@@ -82,7 +82,7 @@
 									<th>Check In</th>
 									<th>Check Out</th>
 									<th>Status</th>
-									<th>Modified</th>
+									<th>Is Regularised</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -101,17 +101,20 @@
 
 
 						<!----------------------------------Regularize Form Modal Popup-------------------------------------------->
-						<form class="bg-light p-4" id="" asp-action="RegularizeRequest" method="post">
-							<div id="regularizeModal" tabindex="-1" class="modal" role="dialog" aria-hidden="true">
+						
+							<div id="regularizeModal" tabindex="-1" class="modal bg-light p-4" role="dialog" aria-hidden="true">
 								<div class="modal-">
 									<div class="modal-content">
 										<div class="modal-body">
 											<a href="#" rel="modal:close"><h3 class="float-end">&times;</h3></a><br>
 											<h2>Regularization Entry</h2>
+											<form asp-action="RegularizeRequest" method="post">
+												<input type="hidden" id="attendanceIDforRegularization" asp-for="regularization.AttendanceID" />
+												<input type="hidden" value="@employeeID" asp-for="regularization.EmployeeID" />
 											<div class="row mt-4">
 												<div class="col">
 													<label for="AttendanceDate">Attendance Date *</label>
-													<input type="date" class="form-control input-sm" placeholder="" readonly asp-for="regularization.RegularizeDate">
+													<input type="date" id="AttendanceDate" class="form-control input-sm" placeholder="" readonly asp-for="regularization.RegularizeDate">
 												</div>
 												<div class="col">
 													<label for="reason">Reason *</label>
@@ -126,11 +129,11 @@
 												<div class="row my-3 col">
 													<div class="col">
 														<label>Check In - Recorded</label>
-														<input type="time" class="form-control input-sm" readonly>
+														<input type="time" id="CheckedInTime" class="form-control input-sm" readonly>
 													</div>
 													<div class="col mt-2">
 														<label>Check Out - Recorded</label>
-														<input type="time" class="form-control input-sm" readonly>
+														<input type="time" id="CheckedOutTime" class="form-control input-sm" readonly>
 													</div>
 												</div>
 												<div class="row my-3 col" id="SetChecks">
@@ -145,13 +148,13 @@
 												</div>
 											</div>
 											<div class="row mx-auto my-3">
-												<input class="btn btn-outline-primary col" type="submit">
+												<input class="btn btn-outline-primary col" asp-action="RegularizeRequest" type="submit" />
 											</div>
+											</form>
 										</div>
 									</div>
 								</div>
 							</div>
-						</form>
 
 					</div>
 				</div>
@@ -213,11 +216,11 @@
 						rows += "<td>" + data[x].checkIn.substring(11, 19) + "</td>"
 						rows += "<td>" + data[x].checkOut.substring(11, 19) + "</td>"
 						rows += "<td>" + data[x].status + "</td>"
-						rows += "<td>" + data[x].modifiedBy + "</td>"
+						if (data[x].isRegularised == true)
+						{rows += '<td><img width="20" src="/confirm-icon_black.svg"></td>'}
+						else
+						{rows += "<td>"+JSON.stringify(data[x].isRegularised)+"</td>"}
 						rows += "<td><a onClick='regularize(" + data[x].attendanceID + ")' class='btn btn-outline-primary regularize' data-toggle='modal' rel='modal:open' href='#regularizeModal'>Regularize</a></td>"
-						//rows += '<td> <a  asp-action="RegularizeEntryFormPartial" asp-route-EmployeeID='+data[x].employeeID+'>Regularize</a></td>'
-						//rows += "<td> <a href='Url.Action("RegularizeFromEntryPartial",new{AttendanceID="+data[x].attendanceID+"})' rel='modal-open'>Regularize</a></td>"
-						//rows += "<td> <a href='/AttendancePersonal/RegularizeEntryFormPartial?EmployeeID="+data[x].employeeID+"&AttendanceID="+data[x].attendanceID+"' rel='modal-open'>Regularize</a></td>"
 						rows += "</tr>";
 					};
 					$('#myTable tbody').html(rows);
@@ -237,12 +240,29 @@
 
 		function regularize(data){
 			var attendanceID = JSON.stringify(data);
+			var employeeID = JSON.stringify(@employeeID);
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				url: "/AttendancePersonal/RegularizeEntryFormPartial",
 				data: {
-					attendanceID = attendanceID,
-					employeeID = @employeeID
+					attendanceID,employeeID
+				},
+				success: function (response){
+					var myjson = JSON.stringify(response)
+					console.log(myjson);
+					//$('#form').html(response);
+					$('#attendanceIDforRegularization').val(response.attendanceID);
+					$('#AttendanceDate').val(response.regularizeDate.substring(0, 10));
+					$('#CheckedInTime').val(response.checkedIn.substring(11, 19));
+					$('#CheckedOutTime').val(response.checkedOut.substring(11, 19));
+					$('#setCheckIn').attr("placeholder",response.checkedIn.substring(11, 19));
+					$('#setCheckOut').attr(response.checkedOut.substring(11, 19));
+				},
+				error: function (ex) {
+					var r = jQuery.parseJSON(response.responseText);
+					alert("Message: " + r.Message);
+					alert("StackTrace: " + r.StackTrace);
+					alert("ExceptionType: " + r.ExceptionType);
 				}
 			});
 		};
@@ -254,7 +274,7 @@
 		//		url: "/AttendancePersonal/RegularizeEntryFormPartial",
 		//		dataType: 'json',
 		//		data: {
-		//			employeeID: @employeeID,
+		//			employeeID: @@employeeID,
 		//			attendanceID = attendanceID
 		//		},
 		//		success: function (response){

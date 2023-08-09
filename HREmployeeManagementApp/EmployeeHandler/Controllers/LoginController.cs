@@ -27,27 +27,35 @@ public class LoginController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(EmployeeLogin employeeLogin, AdminLogin adminLogin)
     {
-        
-        
-        var response = await _employeeRepository.CheckEmployeeAysnc(employeeLogin);
 
-
-        if (response == 0)
+        try
         {
-            // Credentials are invalid, return an error message or redirect to a login failure page
-            TempData["Error"] = ("Credentials are invalid. Please try again.");
-            return View();
 
+            var response = await _employeeRepository.CheckEmployeeAysnc(employeeLogin);
+
+
+            if (response == 0)
+            {
+                // Credentials are invalid, return an error message or redirect to a login failure page
+                TempData["Error"] = ("Credentials are invalid. Please try again.");
+                return View();
+
+            }
+            else
+            {
+                var employee = new EmployeePersonal() { EmployeeID = response };
+                HttpContext.Session.SetString("EmployeeSession", JsonConvert.SerializeObject(employee));
+                // Credentials are valid, perform the desired action
+                var url = Url.Action("GetPersonalDetails", "EmployeePersonal", new { EmployeeID = response });
+                /*Using assert to declare that "url" will never be null so Redirect doesnt show null warning*/
+                Debug.Assert(url != null, "The generated URL should not be null.");
+                return Redirect(url);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            var employee = new EmployeePersonal() { EmployeeID = response};
-            HttpContext.Session.SetString("EmployeeSession",JsonConvert.SerializeObject(employee));
-            // Credentials are valid, perform the desired action
-            var url = Url.Action("GetPersonalDetails", "EmployeePersonal", new { EmployeeID = response });
-            /*Using assert to declare that "url" will never be null so Redirect doesnt show null warning*/
-            Debug.Assert(url != null, "The generated URL should not be null.");
-            return Redirect(url);
+
+            throw ex;
         }
     }
 

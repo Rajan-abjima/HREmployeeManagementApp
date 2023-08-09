@@ -94,12 +94,9 @@ public class EmployeeRepository : IEmployeeRepository
 		using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
 		{
 			connection.Open();
-
-			var param = new
-			{
-				username = employeeLogin.UserName,
-				password = employeeLogin.Password,
-			};
+            var param = new DynamicParameters();
+			param.Add("@username", employeeLogin.UserName);
+            param.Add("@password", employeeLogin.Password);
 
 			var result = await connection.QueryFirstOrDefaultAsync<int>(
 				"EmployeeLogin",

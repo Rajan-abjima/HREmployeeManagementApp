@@ -20,4 +20,6 @@ public class AttendancePersonal
 	public DateTime CheckOut { get; set; }
 
     public Guid? ModifiedBy { get; set; }
+
+	public bool IsRegularised { get; set; }
 }
