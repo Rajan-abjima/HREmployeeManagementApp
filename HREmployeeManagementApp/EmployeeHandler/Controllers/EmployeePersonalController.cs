@@ -62,16 +62,24 @@ public class EmployeePersonalController : Controller
     [HttpGet]
     public async Task<IActionResult> GetPersonalDetails(int employeeID)
     {
-        //Getting the parameter from query string as string and converting it to employeeID which is Integer//        
-        //string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
-        //int.TryParse(stringEmployeeID, out employeeID);
-        /****************************************************************************************************/
-        var employeeSession = JsonConvert.DeserializeObject<EmployeePersonal>(HttpContext.Session.GetString("EmployeeSession"));
-        PersonalDetails personalDetails = new()
+        try
         {
-            EmployeePersonal = await _employeeRepository.GetByIdAsync(employeeSession.EmployeeID)
-        };
-        return View(personalDetails);
+            //Getting the parameter from query string as string and converting it to employeeID which is Integer//        
+            //string? stringEmployeeID = HttpContext.Request.Query["EmployeeID"];
+            //int.TryParse(stringEmployeeID, out employeeID);
+            /****************************************************************************************************/
+            var employeeSession = JsonConvert.DeserializeObject<EmployeePersonal>(HttpContext.Session.GetString("EmployeeSession"));
+            PersonalDetails personalDetails = new()
+            {
+                EmployeePersonal = await _employeeRepository.GetByIdAsync(employeeSession.EmployeeID)
+            };
+            return View(personalDetails);
+        }
+        catch (Exception ex)
+        {
+
+            throw ex;
+        }
     }
 
     [HttpGet]

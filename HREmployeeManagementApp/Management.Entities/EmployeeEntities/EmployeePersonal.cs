@@ -2,14 +2,14 @@
 public class EmployeePersonal
 {
     public int EmployeeID { get; set; }
+    public Guid Identifier { get; set; }
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Gender { get; set; } = string.Empty;
     public DateTime DateOfBirth { get; set; }
-    public string Address { get; set; } = string.Empty;
-    public string Contact { get; set; } = string.Empty;
+    public string PresentAddress { get; set; } = string.Empty;
+    public string MobileNumber { get; set; } = string.Empty;
     public string Designation { get; set; } = string.Empty;
-    public string SignInApprovedBy { get; set; } = string.Empty;
     public DateTime JoiningDate { get; set; }
 
     public DateTime ModifiedOn { get; set; }

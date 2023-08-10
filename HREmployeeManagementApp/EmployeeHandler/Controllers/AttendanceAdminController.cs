@@ -16,10 +16,9 @@ public class AttendanceAdminController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> EmployeeAttendanceList(int employeeID, DateTime date)
+    public async Task<IActionResult> EmployeeAttendanceList(int employeeID)
     {
-        date = DateTime.Today;
-        var result = await _attendanceRepository.GetAttendanceAdminByIDAndDateAsync(employeeID, date);
+        var result = await _attendanceRepository.GetAttendanceAdminByIDAsync(employeeID);
         return View(result);
     }
 

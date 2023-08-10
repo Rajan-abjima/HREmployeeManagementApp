@@ -8,6 +8,8 @@ public class EmployeeModel
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int EmployeeID { get; set; }
 
+    public Guid Identifier { get; set; }
+
     [Required(ErrorMessage ="First name is required", AllowEmptyStrings =false)]
     [MaxLength(50)]
     public string FirstName { get; set; } = string.Empty;
@@ -25,11 +27,11 @@ public class EmployeeModel
     public DateTime DateOfBirth { get; set; }
 
     [Required(ErrorMessage = "Address required", AllowEmptyStrings = false)]
-    public string? Address { get; set; }
+    public string? PresentAddress { get; set; }
 
     [Required(ErrorMessage = "Contact Number required", AllowEmptyStrings = false)]
     [RegularExpression("^[0-9]{10}$", ErrorMessage = "This should be 10 digit numeric data")]
-    public string? Contact { get; set; }
+    public string? MobileNumber { get; set; }
 
     [Required(ErrorMessage = "Designation Required", AllowEmptyStrings = false)]
     public string? Designation { get; set; }

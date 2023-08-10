@@ -21,5 +21,5 @@ public class AttendancePersonal
 
     public Guid? ModifiedBy { get; set; }
 
-	public bool IsRegularised { get; set; }
+	public bool IsRegularized { get; set; }
 }

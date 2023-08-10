@@ -68,25 +68,33 @@ public class LoginController : Controller
     [HttpPost]
     public async Task<IActionResult> AdminLogin(AdminLogin adminLogin)
     {
-        var response = await _employeeRepository.CheckAdminAsync(adminLogin);
+        try
+        {
+            var response = await _employeeRepository.CheckAdminAsync(adminLogin);
 
-        if (response is null)
-        {
-            // Credentials are invalid, return an error message or redirect to a login failure page
-            TempData["AdminError"] = ("You are not an Administrator.");
-            return View();
+            if (response is null)
+            {
+                // Credentials are invalid, return an error message or redirect to a login failure page
+                TempData["AdminError"] = ("You are not an Administrator.");
+                return View();
+            }
+            else
+            {
+                var profile = await _employeeRepository.GetAdminByIdAsync(response.EmployeeID, response.AdminID);
+                //var admin = new AdminPersonal() { AdminID = profile.AdminID, EmployeeID = profile.EmployeeID, FirstName = profile.FirstName, LastName = profile.LastName};
+                //HttpContext.Session.SetString("AdminSession", JsonConvert.SerializeObject(profile));
+                HttpContext.Session.SetString("AdminSession", JsonConvert.SerializeObject(profile));
+                // Credentials are valid, perform the desired action
+                //var url = Url.Action("AdminDashboard", "AdminDashboard", new { AdminID = response.AdminID, EmployeeID = response.EmployeeID });
+                /*Using assert to declare that "url" will never be null so Redirect doesnt show null warning*/
+                //Debug.Assert(url != null, "The generated URL should not be null.");
+                return RedirectToAction("AdminDashboard", "AdminDashboard", new { AdminID = response.AdminID, EmployeeID = response.EmployeeID });
+            }
         }
-        else
+        catch (Exception ex)
         {
-            var profile = await _employeeRepository.GetAdminByIdAsync(response.EmployeeID, response.AdminID);
-            //var admin = new AdminPersonal() { AdminID = profile.AdminID, EmployeeID = profile.EmployeeID, FirstName = profile.FirstName, LastName = profile.LastName};
-            //HttpContext.Session.SetString("AdminSession", JsonConvert.SerializeObject(profile));
-            HttpContext.Session.SetString("AdminSession", JsonConvert.SerializeObject(profile));
-            // Credentials are valid, perform the desired action
-            //var url = Url.Action("AdminDashboard", "AdminDashboard", new { AdminID = response.AdminID, EmployeeID = response.EmployeeID });
-            /*Using assert to declare that "url" will never be null so Redirect doesnt show null warning*/
-            //Debug.Assert(url != null, "The generated URL should not be null.");
-            return RedirectToAction("AdminDashboard", "AdminDashboard", new { AdminID = response.AdminID, EmployeeID = response.EmployeeID });
+
+            throw ex;
         }
     }
 }

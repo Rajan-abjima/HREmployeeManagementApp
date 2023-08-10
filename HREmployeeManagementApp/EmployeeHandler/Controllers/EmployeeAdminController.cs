@@ -4,6 +4,7 @@ using Management.Entities.EmployeeEntities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
 
 namespace EmployeeHandler.Controllers;
@@ -33,10 +34,9 @@ public class EmployeeAdminController : Controller
     [HttpPost]
     public async Task<IActionResult> EmployeeDetailsUpdate(EmployeeAdmin employee)
     {
-#nullable disable
         var adminSession = JsonConvert.DeserializeObject<AdminPersonal>(HttpContext.Session.GetString("AdminSession"));
-        employee.ModifiedBy = $"{adminSession.FirstName} {adminSession.LastName}";
-#nullable enable
+        var admindata = await _employeeRepository.GetEmployeeByIdAsync(adminSession.EmployeeID);
+        employee.ModifiedBy = admindata.Identifier;
         employee.ModifiedOn = DateTime.Today;
 
         var result = await _employeeRepository.UpdateEmployeeByIdAsync(employee);

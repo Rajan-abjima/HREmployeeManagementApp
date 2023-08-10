@@ -66,7 +66,7 @@
 										<td><a href="@Url.Action("EmployeeDetailsUpdate","EmployeeAdmin",new{ EmployeeID = employee.EmployeeID})"><strong>@employee.EmployeeID</strong></a></td>
                                         <td>@employee.FirstName @employee.LastName </td>
                                         <td>@employee.Designation</td>
-                                        <td>@employee.Contact</td>
+                                        <td>@employee.MobileNumber</td>
                                         <td>@if (employee.AdminStatus){<span style="color:blue">true</span>}</td>
                                         <td><span class="attendancelink">
 												<a href="@Url.Action("EmployeeAttendanceList","AttendanceAdmin",new{ EmployeeID = employee.EmployeeID, EmployeeName =employee.FirstName})"><strong>View<br>Attendance</strong></a>

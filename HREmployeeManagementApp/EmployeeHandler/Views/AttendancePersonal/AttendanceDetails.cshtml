@@ -82,7 +82,7 @@
 									<th>Check In</th>
 									<th>Check Out</th>
 									<th>Status</th>
-									<th>Is Regularised</th>
+									<th>Is Regularized</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -102,59 +102,59 @@
 
 						<!----------------------------------Regularize Form Modal Popup-------------------------------------------->
 						
-							<div id="regularizeModal" tabindex="-1" class="modal bg-light p-4" role="dialog" aria-hidden="true">
-								<div class="modal-">
-									<div class="modal-content">
-										<div class="modal-body">
-											<a href="#" rel="modal:close"><h3 class="float-end">&times;</h3></a><br>
-											<h2>Regularization Entry</h2>
-											<form asp-action="RegularizeRequest" method="post">
-												<input type="hidden" id="attendanceIDforRegularization" asp-for="regularization.AttendanceID" />
-												<input type="hidden" value="@employeeID" asp-for="regularization.EmployeeID" />
-											<div class="row mt-4">
-												<div class="col">
-													<label for="AttendanceDate">Attendance Date *</label>
-													<input type="date" id="AttendanceDate" class="form-control input-sm" placeholder="" readonly asp-for="regularization.RegularizeDate">
-												</div>
-												<div class="col">
-													<label for="reason">Reason *</label>
-													<select class="form-control form-select" id="reason" required asp-for="regularization.Reason">
-														<option disabled selected hidden>PLease select a reason</option>
-														<option value="Forgot To check In">Forgot To check In</option>
-														<option value="Forgot To check Out">Forgot To check Out</option>
-													</select>
-												</div>
+						<div id="regularizeModal" tabindex="-1" class="modal bg-light p-4" role="dialog" aria-hidden="true">
+							<div class="modal-">
+								<div class="modal-content">
+									<div class="modal-body">
+										<a href="#" rel="modal:close"><h3 class="float-end">&times;</h3></a><br>
+										<h2>Regularization Entry</h2>
+										<form asp-action="RegularizeRequest" method="post">
+											<input type="hidden" id="attendanceIDforRegularization" asp-for="regularization.AttendanceID" />
+											<input type="hidden" value="@employeeID" asp-for="regularization.EmployeeID" />
+										<div class="row mt-4">
+											<div class="col">
+												<label for="AttendanceDate">Attendance Date *</label>
+												<input type="date" id="AttendanceDate" class="form-control input-sm" placeholder="" readonly asp-for="regularization.RegularizeDate">
 											</div>
-											<div class="row">
-												<div class="row my-3 col">
-													<div class="col">
-														<label>Check In - Recorded</label>
-														<input type="time" id="CheckedInTime" class="form-control input-sm" readonly>
-													</div>
-													<div class="col mt-2">
-														<label>Check Out - Recorded</label>
-														<input type="time" id="CheckedOutTime" class="form-control input-sm" readonly>
-													</div>
-												</div>
-												<div class="row my-3 col" id="SetChecks">
-													<div class="col">
-														<label>Set Check In *</label>
-														<input id="setCheckIn" type="time" step="1" class="form-control input-sm" required asp-for="regularization.CheckInTime">
-													</div>
-													<div class="col mt-2">
-														<label>Set Check Out *</label>
-														<input id="setCheckOut" type="time" step="1" class="form-control input-sm" required asp-for="regularization.CheckOutTime">
-													</div>
-												</div>
+											<div class="col">
+												<label for="reason">Reason *</label>
+												<select class="form-control form-select" id="reason" required asp-for="regularization.Reason">
+													<option disabled selected hidden>PLease select a reason</option>
+													<option value="Forgot To check In">Forgot To check In</option>
+													<option value="Forgot To check Out">Forgot To check Out</option>
+												</select>
 											</div>
-											<div class="row mx-auto my-3">
-												<input class="btn btn-outline-primary col" asp-action="RegularizeRequest" type="submit" />
-											</div>
-											</form>
 										</div>
+										<div class="row">
+											<div class="row my-3 col">
+												<div class="col">
+													<label>Check In - Recorded</label>
+													<input type="time" id="CheckedInTime" class="form-control input-sm" readonly>
+												</div>
+												<div class="col mt-2">
+													<label>Check Out - Recorded</label>
+													<input type="time" id="CheckedOutTime" class="form-control input-sm" readonly>
+												</div>
+											</div>
+											<div class="row my-3 col" id="SetChecks">
+												<div class="col">
+													<label>Set Check In *</label>
+													<input id="setCheckIn" type="time" step="1" class="form-control input-sm" required asp-for="regularization.CheckInTime">
+												</div>
+												<div class="col mt-2">
+													<label>Set Check Out *</label>
+													<input id="setCheckOut" type="time" step="1" class="form-control input-sm" required asp-for="regularization.CheckOutTime">
+												</div>
+											</div>
+										</div>
+										<div class="row mx-auto my-3">
+											<input class="btn btn-outline-primary col" asp-action="RegularizeRequest" type="submit" />
+										</div>
+										</form>
 									</div>
 								</div>
 							</div>
+						</div>
 
 					</div>
 				</div>
@@ -219,7 +219,7 @@
 						if (data[x].isRegularised == true)
 						{rows += '<td><img width="20" src="/confirm-icon_black.svg"></td>'}
 						else
-						{rows += "<td>"+JSON.stringify(data[x].isRegularised)+"</td>"}
+						{rows += "<td>"+JSON.stringify(data[x].isRegularized)+"</td>"}
 						rows += "<td><a onClick='regularize(" + data[x].attendanceID + ")' class='btn btn-outline-primary regularize' data-toggle='modal' rel='modal:open' href='#regularizeModal'>Regularize</a></td>"
 						rows += "</tr>";
 					};

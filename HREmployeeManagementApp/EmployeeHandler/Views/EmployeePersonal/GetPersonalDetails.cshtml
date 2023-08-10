@@ -70,7 +70,7 @@
                         class="rounded-circle img-fluid" style="width: 150px;">
                         <h5 class="my-3">@Model.EmployeePersonal.FirstName</h5>
                         <p class="text-muted mb-1">@Model.EmployeePersonal.Designation</p>
-                        <p class="text-muted mb-4">@Model.EmployeePersonal.Address</p>
+                        <p class="text-muted mb-4">@Model.EmployeePersonal.PresentAddress</p>
                         <div class="d-flex justify-content-center mb-2">
                             <button type="button" class="btn btn-primary">Edit Profile</button>
                         </div>
@@ -136,7 +136,7 @@
                                 <p class="mb-0">Mobile</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">+91-@Model.EmployeePersonal.Contact</p>
+                                <p class="text-muted mb-0">+91-@Model.EmployeePersonal.MobileNumber</p>
                             </div>
                         </div>
                         <hr>
@@ -145,7 +145,7 @@
                                 <p class="mb-0">Address</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">@Model.EmployeePersonal.Address</p>
+                                <p class="text-muted mb-0">@Model.EmployeePersonal.PresentAddress</p>
                             </div>
                         </div>
                     </div>

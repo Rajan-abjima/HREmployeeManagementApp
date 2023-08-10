@@ -24,5 +24,5 @@ public class AttendanceAdmin
 	public TimeSpan CheckOut { get; set; }
 
     public string? ModifiedBy { get; set; }
-	public bool IsRegularised { get; set;}
+	public bool IsRegularized { get; set;}
 }
