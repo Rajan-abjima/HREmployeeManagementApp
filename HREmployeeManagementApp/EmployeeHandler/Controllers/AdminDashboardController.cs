@@ -1,5 +1,6 @@
 ﻿using Management.Application.Interfaces;
 using Management.Entities.AdminEntities;
+using Management.Entities.EmployeeEntities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -15,14 +16,11 @@ public class AdminDashboardController : Controller
         _attendanceRepository = attendanceRepository;
     }
 
-    public async Task<IActionResult> AdminDashboard(int EmployeeID, int AdminID)
+    public async Task<IActionResult> AdminDashboard(int EmployeeID)
     {
-#nullable disable
-        var adminSession = JsonConvert.DeserializeObject<AdminPersonal>(HttpContext.Session.GetString("AdminSession"));
+        var adminSession = JsonConvert.DeserializeObject<EmployeeAdmin>(HttpContext.Session.GetString("AdminSession"));
         EmployeeID = adminSession.EmployeeID;
-        AdminID = adminSession.AdminID;
-#nullable enable
-        var response = await _employeeRepository.GetAdminByIdAsync(EmployeeID,AdminID);
+        var response = await _employeeRepository.GetEmployeeByIdAsync(EmployeeID);
         return View(response);
     }
 

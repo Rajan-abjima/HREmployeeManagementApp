@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace Management.ViewModel;
 public class LoginViewModel
 {
-    public EmployeeLogin EmployeeLogin = new EmployeeLogin();
-    public AdminLogin AdminLogin = new AdminLogin();
+    //public EmployeeLogin EmployeeLogin = new EmployeeLogin();
+    //public AdminLogin AdminLogin = new AdminLogin();
 
-    //public string Username { get; set; } = string.Empty;
-    //public string Password { get; set; } = string.Empty;
-    //public string Type { get; set; } = string.Empty;
+    public string Username { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+    public string LoginType { get; set; } = string.Empty;
 }

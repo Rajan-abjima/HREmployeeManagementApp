@@ -112,7 +112,7 @@ public class EmployeeRepository : IEmployeeRepository
             {
                 connection.Open();
                 var param = new DynamicParameters();
-                param.Add("@username", employeeLogin.UserName);
+                param.Add("@username", employeeLogin.Username);
                 param.Add("@password", employeeLogin.Password);
 
                 var result = await connection.QueryFirstOrDefaultAsync<int>(
@@ -209,7 +209,7 @@ public class EmployeeRepository : IEmployeeRepository
 		}
 	}
 
-    public async Task<AdminPersonal> GetAdminByIdAsync(int employeeID ,int adminID)
+    public async Task<AdminPersonal> GetAdminByIdAsync(int employeeID, int adminID)
     {
         try
         {
@@ -223,12 +223,12 @@ public class EmployeeRepository : IEmployeeRepository
                 return result;
             }
         }
-		catch (Exception ex)
-		{
+        catch (Exception ex)
+        {
 
-			throw ex;
-		}
-	}
+            throw ex;
+        }
+    }
 
     public async Task<EmployeeAdmin> GetEmployeeByIdAsync(int employeeID)
     {
