@@ -1,4 +1,5 @@
-﻿@model List<RegularizationAdmin>
+﻿@using Management.Entities.Common;
+@model List<RegularizationAdmin>
 
 @section head{
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,7 +68,7 @@
                                         <td class="text-center">@regularize.EmployeeID</td>
                                         <td class="text-center">@regularize.DateOfRequest.ToString("MMM-dd, yyyy")</td>
                                         <td class="text-center">
-                                            @if (regularize.Approved == true)
+                                            @if (regularize.Decision == RequestStatus.Approved)
                                             {
                                                 <span>Approved</span>
                                             }

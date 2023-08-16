@@ -1,4 +1,5 @@
-﻿@model RegularizationAdmin
+﻿@using Management.Entities.Common;
+@model RegularizationAdmin
 
 @section head{
     <!-- Include Bootstrap CDN -->
@@ -68,10 +69,14 @@
                                     </div>
                                 </div>
                                 <div class="col mt-3 d-flex justify-content-between align-items-center">
-                                    <span>Approve</span>
+                                    <span>Decision</span>
                                     <label class="radio inline m-1">
-                                        <input type="checkbox" value="true" asp-for="Approved">
-                                        <span> Accept </span>
+                                        <input type="radio" value="@RequestStatus.Approved" asp-for="Decision">
+                                        <span> Approve </span>
+                                    </label>
+                                    <label class="radio inline m-1">
+                                        <input type="radio" value="@RequestStatus.Declined" asp-for="Decision">
+                                        <span> Decline </span>
                                     </label>
                                 </div>
                                 <div class="col mt-3">

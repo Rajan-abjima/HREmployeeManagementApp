@@ -63,7 +63,6 @@ public class AttendancePersonalController : Controller
 			CheckedIn = record.CheckIn,
 			CheckedOut = record.CheckOut
 		};
-		//return PartialView("_RegularizeEntryForm",newRecord);
 		return Json(newRecord);
 	}
 

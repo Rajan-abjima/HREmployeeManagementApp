@@ -1,4 +1,4 @@
-﻿@model List<AttendanceAdmin>
+﻿@model AttendanceViewModel
 
 @section head{
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -7,18 +7,17 @@
 }
 
 @{
-    var name = Context.Request.Query["EmployeeName"];
+    var employeeID = Context.Request.Query["EmployeeID"];
 }
 
 <style>
-    body {
+    /*body {
         font-family: 'Akatab', sans-serif;
         background-color: #0076d1;
         background-image: url("https://www.transparenttextures.com/patterns/3px-tile.png");
-    }
+    }*/
 
     h1 {
-        color: white;
         font: 700;
     }
 
@@ -30,11 +29,11 @@
 <section id="tabs" class="project-tab">
     <div class="container">
         <div class="row">
-            <h1 align="center">@name's Attendance</h1>
+            <h1 align="center">@Model.EmployeeDetails.FirstName's Attendance</h1>
             <div class="col-md-12">
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <table id="EmployeeAttendanceTable" class="table table-bordered mx-auto bg-light" cellspacing="0">
+                        <table id="myTable" class="table table-bordered table-striped table-hover mx-auto bg-light" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th class="text-center" scope="col">Date</th>
@@ -64,12 +63,50 @@
             </div>
         </div>
     </div>
-
+</section>
 @section Scripts{
     <script>
-        function AttendanceTable(){
+        function employeeAttendanceTable(){
+            var employeeID = @employeeID;
+            $.ajax({
+				type: "GET",
+                url: "/AttendanceAdmin/EmployeeAttendanceListPartial",
+				dataType: 'json',
+				data: {
+					employeeID: employeeID
+				},
+				success: function (data) {
+
+					var rows = "";
+					for (var x = 0; x < data.length; x++) {
+						rows += "<tr class=''>"
+						rows += "<td>" + data[x].date.substring(0, 10) + "</td>"
+						rows += "<td>" + data[x].checkIn.substring(11, 19) + "</td>"
+						rows += "<td>" + data[x].checkOut.substring(11, 19) + "</td>"
+						rows += "<td>" + data[x].status + "</td>"
+						if (data[x].isRegularised == true)
+						{rows += '<td><img width="20" src="/confirm-icon_black.svg"></td>'}
+						else
+						{rows += "<td>"+JSON.stringify(data[x].isRegularized)+"</td>"}
+						rows += "<td><a onClick='regularize(" + data[x].attendanceID + ")' class='btn btn-outline-primary regularize' data-toggle='modal' rel='modal:open' href='#regularizeModal'>Regularize</a></td>"
+						rows += "</tr>";
+					};
+					$('#myTable tbody').html(rows);
+					$('#myTable').dataTable({
+					});
+				},
+				error: function (ex) {
+					//console.log(error);
+					var r = jQuery.parseJSON(response.responseText);
+					alert("Message: " + r.Message);
+					alert("StackTrace: " + r.StackTrace);
+					alert("ExceptionType: " + r.ExceptionType);
+				}
+			});
         }
+
+        $(document).ready(function () {
+            employeeAttendanceTable();
+        });
     </script>
 }
-
-</section>

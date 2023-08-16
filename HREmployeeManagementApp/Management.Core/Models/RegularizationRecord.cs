@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Management.Core.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,10 +23,8 @@ public class RegularizationRecord
     [Required]
     public DateTime RegularizeDate { get; set; }
     
-    [Required]
     public DateTime CheckedIn { get; set; }
 
-    [Required]
     public DateTime CheckedOut { get; set; }
 
     [Required]
@@ -42,11 +41,9 @@ public class RegularizationRecord
     public string? Reason { get; set; }
 
     
-    [MaxLength(50)]
-    public string? RegularizedBy { get; set; }
+    public Guid RegularizedBy { get; set; }
 
-    
-    public bool Approved { get; set; }
+    public RequestStatus Decision { get; set; }
 
     [MaxLength(300)]
     public string? Comment { get; set; }

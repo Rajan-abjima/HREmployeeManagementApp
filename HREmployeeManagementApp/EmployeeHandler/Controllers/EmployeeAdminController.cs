@@ -1,6 +1,7 @@
 ﻿using Management.Application.Interfaces;
 using Management.Entities.AdminEntities;
 using Management.Entities.EmployeeEntities;
+using Management.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics.CodeAnalysis;
@@ -17,12 +18,22 @@ public class EmployeeAdminController : Controller
         _employeeRepository = employeeRepository;
     }
 
-    [HttpGet]
     public async Task<IActionResult> EmployeeList()
     {
         var result = await _employeeRepository.GetAllEmployeesAsync();
-        return View(result);
+        EmployeeAdminViewModel viewModel = new();
+        return View(viewModel);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> EmployeeListPartial()
+    {
+        var result = await _employeeRepository.GetAllEmployeesAsync();
+
+        return Json(result.ToList());
+    }
+
+
 
     [HttpGet]
     public async Task<IActionResult> EmployeeDetailsUpdate(int EmployeeID)

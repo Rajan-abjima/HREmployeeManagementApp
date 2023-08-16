@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Management.Entities.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,10 +31,9 @@ public class RegularizationAdmin
 
 	public string? Reason { get; set; }
 
-	public string? RegularizedBy { get; set; }
+	public Guid RegularizedBy { get; set; }
 
-
-	public bool Approved { get; set; }
+	public RequestStatus Decision { get; set; }
 
 	public string? Comment { get; set; }
 
@@ -44,4 +44,7 @@ public class RegularizationAdmin
     public DateTime ModifiedOn { get; set; }
 
     public Guid ModifiedBy { get; set; }
+
+	public TimeSpan CheckInTime { get; set; }
+	public TimeSpan CheckOutTime { get; set; }
 }

@@ -425,7 +425,7 @@ public class AttendanceRepository : IAttendanceRepository
                 connection.Open();
                 var param = new DynamicParameters();
                 param.Add("@regularizedBy", regularizationAdmin.RegularizedBy);
-                param.Add("@approved", regularizationAdmin.Approved);
+                param.Add("@decision", regularizationAdmin.Decision);
                 param.Add("@comment", regularizationAdmin.Comment);
                 param.Add("@regularizeID", regularizationAdmin.RegularizeID);
                 var result = await connection.ExecuteAsync("spRegularization_Decision", param, commandType: CommandType.StoredProcedure);

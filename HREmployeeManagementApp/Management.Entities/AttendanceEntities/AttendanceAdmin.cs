@@ -20,9 +20,9 @@ public class AttendanceAdmin
 
 	public string? Status { get; set; }
 
-	public TimeSpan CheckIn { get; set; }
-	public TimeSpan CheckOut { get; set; }
+	public DateTime CheckIn { get; set; }
+	public DateTime CheckOut { get; set; }
 
-    public string? ModifiedBy { get; set; }
+    public Guid ModifiedBy { get; set; }
 	public bool IsRegularized { get; set;}
 }

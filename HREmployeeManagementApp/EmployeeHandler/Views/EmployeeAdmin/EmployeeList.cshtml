@@ -1,4 +1,4 @@
-﻿@model List<EmployeeAdmin>
+﻿@model EmployeeAdminViewModel
 
 @section head{
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -7,23 +7,17 @@
 }
 
 <style>
-    .attendancelink {
+    /*.attendancelink {
         visibility: hidden;
     }
 
     .attendance:hover > td > .attendancelink {
         visibility: visible;
-    }
+    }*/
 
-    body {
-        font-family: 'Akatab', sans-serif;
-        background-color: #0076d1;
-        background-image: url("https://www.transparenttextures.com/patterns/3px-tile.png");
-
-    }
+    
 
     h1{
-        color:white;
         font:700;
     }
 
@@ -47,20 +41,20 @@
             <div class="col-md-12">                
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <table class="table table-striped bg-light" cellspacing="0">
+                        <table id="myTable" class="table table-bordered table-striped table-hover bg-light" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Employee ID</th>
                                     <th>Employee Name</th>
                                     <th>Designation</th>
-                                    <th>Contact</th>
+                                    <th>Contact Number</th>
                                     <th>Admin Status</th>
                                     <th></th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var employee in Model)
+                               @* @foreach (var employee in Model)
                                 {
                                     <tr class="attendance">
 										<td><a href="@Url.Action("EmployeeDetailsUpdate","EmployeeAdmin",new{ EmployeeID = employee.EmployeeID})"><strong>@employee.EmployeeID</strong></a></td>
@@ -73,7 +67,7 @@
                                             </span>
                                         </td>
                                     </tr>
-                                }
+                                }*@
                             </tbody>
                         </table>
                     </div>
@@ -83,3 +77,45 @@
         </div>
     </div>
 </section>
+@section scripts{
+<script>
+    function employeeTable() {
+			$.ajax({
+				type: "GET",
+                url: "/EmployeeAdmin/EmployeeListPartial",
+				dataType: 'json',
+				data: '',
+				success: function (data) {
+					var rows = "";
+					for (var x = 0; x < data.length; x++) {
+						rows += "<tr class=''>"
+                        rows += "<td><a style='text-decoration:none' href='/EmployeeAdmin/EmployeeDetailsUpdate?EmployeeID="+data[x].employeeID+"'><strong>" + data[x].employeeID + "</strong></a></td>"
+						rows += "<td>" + data[x].firstName +"&nbsp;"+ data[x].lastName + "</td>"
+						rows += "<td>" + data[x].designation + "</td>"
+						rows += "<td>" + data[x].mobileNumber + "</td>"
+						if (data[x].adminStatus == true)
+						{rows += '<td><span style="color:blue">true</span></td>'}
+						else
+						{rows += "<td> </td>"}
+                        rows += "<td><a href='/AttendanceAdmin/EmployeeAttendanceList?EmployeeID="+data[x].employeeID+"'><strong class='btn btn-outline-primary' style='font-size:0.9rem'>View Attendance</strong></a></td>"
+						rows += "</tr>";
+					};
+					$('#myTable tbody').html(rows);
+					$('#myTable').dataTable({
+					});
+				},
+				error: function (ex) {
+					//console.log(error);
+					var r = jQuery.parseJSON(response.responseText);
+					alert("Message: " + r.Message);
+					alert("StackTrace: " + r.StackTrace);
+					alert("ExceptionType: " + r.ExceptionType);
+				}
+			});
+		};
+
+        $(document).ready(function () {
+            employeeTable();
+        });
+</script>
+}

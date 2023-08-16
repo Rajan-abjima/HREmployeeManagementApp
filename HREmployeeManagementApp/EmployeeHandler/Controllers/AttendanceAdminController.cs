@@ -1,6 +1,9 @@
 ﻿using Management.Application.Interfaces;
 using Management.Entities.AdminEntities;
 using Management.Entities.AttendanceEntities;
+using Management.Entities.Common;
+using Management.Entities.EmployeeEntities;
+using Management.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics.CodeAnalysis;
@@ -9,18 +12,41 @@ namespace EmployeeHandler.Controllers;
 public class AttendanceAdminController : Controller
 {
     private readonly IAttendanceRepository _attendanceRepository;
+    private readonly IEmployeeRepository _employeeRepository;
 
-    public AttendanceAdminController(IAttendanceRepository attendanceRepository)
+    public AttendanceAdminController(IAttendanceRepository attendanceRepository, IEmployeeRepository employeeRepository)
     {
         _attendanceRepository = attendanceRepository;
+        _employeeRepository = employeeRepository;
     }
 
     [HttpGet]
     public async Task<IActionResult> EmployeeAttendanceList(int employeeID)
     {
-        var result = await _attendanceRepository.GetAttendanceAdminByIDAsync(employeeID);
-        return View(result);
+        var details = await _employeeRepository.GetEmployeeByIdAsync(employeeID);
+
+        AttendanceViewModel viewModel = new()
+        {
+            EmployeeID = employeeID,
+            EmployeeDetails = details
+        };
+        return View(viewModel);
     }
+    
+    [HttpGet]
+    public async Task<IActionResult> EmployeeAttendanceListPartial(int employeeID)
+    {
+        var result = await _attendanceRepository.GetAttendanceAdminByIDAsync(employeeID);
+
+        AttendanceViewModel viewModel = new()
+        {
+            EmployeeID = employeeID,
+            EmployeeAttendanceList = result.ToList()
+        };
+        return Json(result.ToList());
+    }
+
+
 
     [HttpGet]
     public async Task<IActionResult> LeaveRecord()
@@ -52,14 +78,12 @@ public class AttendanceAdminController : Controller
         {
             leaveAdmin.ApprovalStatus = false;
         }
-#nullable disable
-        var adminSession = JsonConvert.DeserializeObject<AdminPersonal>(HttpContext.Session.GetString("AdminSession"));
+        var adminSession = JsonConvert.DeserializeObject<EmployeeAdmin>(HttpContext.Session.GetString("AdminSession"));
         leaveAdmin.AdministeredBy = $"{adminSession.FirstName} {adminSession.LastName}";
-#nullable enable
         var response = await _attendanceRepository.UpdateLeaveRequest(leaveAdmin);
 
 
-        return RedirectToAction("AdminDashboard", "AdminDashboard", new {AdminID = adminSession.AdminID, EmployeeID = adminSession.EmployeeID});
+        return RedirectToAction("AdminDashboard", "AdminDashboard", new {EmployeeID = adminSession.EmployeeID});
     }
 
     [HttpGet]
@@ -72,18 +96,17 @@ public class AttendanceAdminController : Controller
     [HttpPost]
     public async Task<IActionResult> ConfirmRegularizationRequest(RegularizationAdmin regularizationAdmin)
     {
-        if (regularizationAdmin.Approved != true)
-        {
-            regularizationAdmin.Approved = false;
-        }
-#nullable disable
-        var adminSession = JsonConvert.DeserializeObject<AdminPersonal>(HttpContext.Session.GetString("AdminSession"));
-        regularizationAdmin.RegularizedBy = $"{adminSession.FirstName} {adminSession.LastName}";
-#nullable enable
+        //if (regularizationAdmin.Approved !=true )
+        //{
+        //    regularizationAdmin.Approved = false;
+        //}
+
+        var adminSession = JsonConvert.DeserializeObject<EmployeeAdmin>(HttpContext.Session.GetString("AdminSession"));
+        regularizationAdmin.RegularizedBy = adminSession.Identifier;
         var response = await _attendanceRepository.UpdateRegularizationRequest(regularizationAdmin);
 
 
-        return RedirectToAction("AdminDashboard", "AdminDashboard", new {AdminID = adminSession.AdminID, EmployeeID = adminSession.EmployeeID});
+        return RedirectToAction("AdminDashboard", "AdminDashboard", new {EmployeeID = adminSession.EmployeeID});
     }
 
 
