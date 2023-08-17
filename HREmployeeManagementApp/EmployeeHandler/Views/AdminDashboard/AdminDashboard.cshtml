@@ -1,4 +1,5 @@
-﻿@model EmployeeAdmin
+﻿@using Management.Entities.Common;
+@model AdminDashboardViewModel
 
 @section head{
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -42,6 +43,12 @@
         width:70%; 
         text-align:center
     }
+
+    form {
+        border: 2px #0062cc solid;
+        border-radius: 20px;
+        background-image: linear-gradient(rgba(white, .1),rgba(white, .1));
+    }
 </style>
 
 <section>
@@ -50,7 +57,7 @@
         
             <div class="col-lg-2 sidebar">
                 <div class="sidebarItem"><h6>Admin: </h6></div>
-                <div style="padding:.25rem .25rem; color: #007bff; background-color:white; text-align:center;"><h5 style="">@Model.FirstName @Model.LastName</h5></div>
+                <div style="padding:.25rem .25rem; color: #007bff; background-color:white; text-align:center;"><h5 style="">@Model.EmployeeAdmin.FirstName @Model.EmployeeAdmin.LastName</h5></div>
                 <div class="list-group">
 					<div class="sidebarItem"><a href="@Url.Action("EmployeeList","EmployeeAdmin")"><h6>Employee Details</h6></a></div>
 					<div class="sidebarItem"><a href="@Url.Action("RegularizationRecord","AttendanceAdmin")"><h6>Regulariztion Record</h6></a></div>
@@ -70,9 +77,21 @@
                             <div class="card-header">
                                 <h5 class="mb-0">Regularization Requests</h5>
                             </div>
-                                <div id="pendingRegularizationRequests">
-
-                                </div>
+                                @*<div id="pendingRegularizationRequests">
+								</div>*@
+                                <div>
+									<div class="list-group list-group-flush">
+										@foreach (RegularizationAdmin request in Model.PendingRegularizationRequests)
+										{
+											<a href="#regularizeConfirmModal" onClick="regularizeConfirmForm(@request.RegularizeID)" data-toggle="modal" rel="modal:open">
+												<div class="list-group-item d-flex justify-content-between align-items-center">
+													<span>@request.RegularizeDate.ToString("dd/MM/yyyy")</span>
+													<span>@request.Reason</span>
+												</div>
+											</a>
+										}
+									</div>
+								</div>
 						    </div>
 						</div>
                     </div>
@@ -84,25 +103,124 @@
                                 <div class="card-header">
                                     <h5 class="mb-0">Leave Requests</h5>
                                 </div>
-                                <div id="pendingLeaveRequests">
+                                @*<div id="pendingLeaveRequests">
 
-                                </div>
+                                </div>*@
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-	    </div>
+            <div id="regularizeConfirmModal" tabindex="-1" class="modal bg-light p-4" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form class="bg-light py-4 px-4" asp-controller="AttendanceAdminController" asp-action="ConfirmRegularizationRequest" method="post">
+                                <h1>Regularization Form</h1>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <label for="AttendanceDate">Attendance Date</label>
+                                        <input type="date" class="form-control input-sm" readonly>
+                                    </div>
+                                    <div class="col">
+                                        <label for="reason">Reason *</label>
+                                        <input type="text" class="form-control input-sm" readonly />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="row my-3 col">
+                                        <div class="col">
+                                            <label>Check In - Recorded</label>
+                                            <input type="time" class="form-control input-sm" readonly>
+                                        </div>
+                                        <div class="col mt-2">
+                                            <label>Check Out - Recorded</label>
+                                            <input type="time" class="form-control input-sm" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row my-3 col" id="SetChecks">
+                                        <div class="col">
+                                            <label>Set Check In *</label>
+                                            <input id="setCheckIn" type="time" step="1" class="form-control input-sm" readonly>
+                                        </div>
+                                        <div class="col mt-2">
+                                            <label>Set Check Out *</label>
+                                            <input id="setCheckOut" type="time" step="1" class="form-control input-sm" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col mt-3 d-flex justify-content-between align-items-center">
+                                    <span>Decision</span>
+                                    <label class="radio inline m-1">
+                                        <input type="radio" value="@RequestStatus.Approved" asp-for="RegularizationAdmin.Decision">
+                                        <span> Approve </span>
+                                    </label>
+                                    <label class="radio inline m-1">
+                                        <input type="radio" value="@RequestStatus.Declined" asp-for="RegularizationAdmin.Decision">
+                                        <span> Decline </span>
+                                    </label>
+                                </div>
+                                <div class="col mt-3">
+                                    <label for="reason">Comment</label>
+                                    <textarea type="text" class="form-control input-sm col" id="reason" rows="3" asp-for="RegularizationAdmin.Comment"></textarea>
+                                </div>
+                                <div class="NeededExtras">
+                                    @*<input type="hidden" value="@Model.RegularizeID" asp-for="RegularizeID">*@
+                                    <input type="hidden" asp-for="RegularizationAdmin.RegularizeID">
+                                </div>
+                                <div class="row mx-auto my-3">
+                                    <input class="btn btn-outline-primary col" type="submit" value="Confirm">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</section>
 @section Scripts{
-    <script>
-            $('#pendingLeaveRequests').load("/AdminDashboard/PendingLeaveRequestsPartial")
-    </script>
-    <script>
-            $('#pendingRegularizationRequests').load("/AdminDashboard/PendingRegularizationRequestsPartial")
-    </script>
-}
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</section>
+
+<script>
+	$('#pendingLeaveRequests').load("/AdminDashboard/PendingLeaveRequestsPartial")
+</script>
+<script>
+	$('#pendingRegularizationRequests').load("/AdminDashboard/PendingRegularizationRequestsPartial")
+</script>
+
+
+<script>
+    function regularizeConfirmForm(data) {
+        var RegularizeID = JSON.stringify(data);
+        console.log(JSON.stringify(data));
+        $.ajax({
+            type: "GET",
+            url: "/AttendancePersonal/RegularizeEntryFormPartial",
+            data: {
+                RegularizeID
+            },
+            success: function (response) {
+                var myjson = JSON.stringify(response)
+                console.log(myjson);
+                $('#attendanceIDforRegularization').val(response.attendanceID);
+                $('#AttendanceDate').val(response.regularizeDate.substring(0, 10));
+                $('#CheckedInTime').val(response.checkedIn.substring(11, 19));
+                $('#CheckedOutTime').val(response.checkedOut.substring(11, 19));
+                $('#setCheckIn').attr("placeholder", response.checkedIn.substring(11, 19));
+                $('#setCheckOut').attr(response.checkedOut.substring(11, 19));
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
+            }
+        });
+    };
+</script>
+}

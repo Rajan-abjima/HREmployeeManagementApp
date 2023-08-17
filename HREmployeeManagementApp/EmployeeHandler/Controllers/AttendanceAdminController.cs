@@ -90,7 +90,7 @@ public class AttendanceAdminController : Controller
     public async Task<IActionResult> CheckRegularizationRequest(int regularizeID)
     {
         var response = await _attendanceRepository.GetRegualrizationByID(regularizeID);
-        return View(response);
+        return Json(response);
     }
     
     [HttpPost]

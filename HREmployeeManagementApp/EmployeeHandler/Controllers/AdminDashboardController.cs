@@ -1,6 +1,7 @@
 ﻿using Management.Application.Interfaces;
 using Management.Entities.AdminEntities;
 using Management.Entities.EmployeeEntities;
+using Management.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -20,8 +21,17 @@ public class AdminDashboardController : Controller
     {
         var adminSession = JsonConvert.DeserializeObject<EmployeeAdmin>(HttpContext.Session.GetString("AdminSession"));
         EmployeeID = adminSession.EmployeeID;
-        var response = await _employeeRepository.GetEmployeeByIdAsync(EmployeeID);
-        return View(response);
+        var AdminDetails = await _employeeRepository.GetEmployeeByIdAsync(EmployeeID);
+
+        var PendingRegularizationList = await _attendanceRepository.PendingRegularizationRequestAsync();
+
+        AdminDashboardViewModel viewModel = new AdminDashboardViewModel()
+        {
+            EmployeeAdmin = AdminDetails,
+            PendingRegularizationRequests = PendingRegularizationList.ToList()
+        };
+
+        return View(viewModel);
     }
 
     public async Task<IActionResult> PendingLeaveRequestsPartial()
