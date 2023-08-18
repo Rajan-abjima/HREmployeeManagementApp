@@ -33,7 +33,7 @@ public class RegularizationAdmin
 
 	public Guid RegularizedBy { get; set; }
 
-	public RequestStatus Decision { get; set; }
+	public int Decision { get; set; }
 
 	public string? Comment { get; set; }
 

@@ -68,7 +68,7 @@
                                         <td class="text-center">@regularize.EmployeeID</td>
                                         <td class="text-center">@regularize.DateOfRequest.ToString("MMM-dd, yyyy")</td>
                                         <td class="text-center">
-                                            @if (regularize.Decision == RequestStatus.Approved)
+                                            @if (regularize.Decision == (int)RequestStatus.Approved)
                                             {
                                                 <span>Approved</span>
                                             }

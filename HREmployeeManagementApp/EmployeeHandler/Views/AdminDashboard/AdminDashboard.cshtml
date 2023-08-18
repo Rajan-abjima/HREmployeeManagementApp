@@ -44,9 +44,9 @@
         text-align:center
     }
 
-    form {
-        border: 2px #0062cc solid;
+    .modal-content{
         border-radius: 20px;
+        border: 2px #0062cc solid;
         background-image: linear-gradient(rgba(white, .1),rgba(white, .1));
     }
 </style>
@@ -112,31 +112,32 @@
                     </div>
                 </div>
             </div>
-            <div id="regularizeConfirmModal" tabindex="-1" class="modal bg-light p-4" role="dialog" aria-hidden="true">
+            <!---------------------------------------------Regularization Request Confirmation From--------------------------------------->
+            <div id="regularizeConfirmModal" tabindex="-1" class="modal p-4" role="dialog" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <form class="bg-light py-4 px-4" asp-controller="AttendanceAdminController" asp-action="ConfirmRegularizationRequest" method="post">
+                            <form class="bg-light py-4 px-4" asp-controller="AttendanceAdmin" asp-action="ConfirmRegularizationRequest" method="post">
                                 <h1>Regularization Form</h1>
                                 <div class="row mt-3">
                                     <div class="col">
                                         <label for="AttendanceDate">Attendance Date</label>
-                                        <input type="date" class="form-control input-sm" readonly>
+										<input type="date" id="" class="form-control input-sm" readonly>
                                     </div>
                                     <div class="col">
                                         <label for="reason">Reason *</label>
-                                        <input type="text" class="form-control input-sm" readonly />
+										<input type="text" id="reason" class="form-control input-sm" readonly />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="row my-3 col">
                                         <div class="col">
                                             <label>Check In - Recorded</label>
-                                            <input type="time" class="form-control input-sm" readonly>
+                                            <input type="time" id="CheckedIn" class="form-control input-sm" readonly>
                                         </div>
                                         <div class="col mt-2">
                                             <label>Check Out - Recorded</label>
-                                            <input type="time" class="form-control input-sm" readonly>
+                                            <input type="time" id="" class="form-control input-sm" readonly>
                                         </div>
                                     </div>
                                     <div class="row my-3 col" id="SetChecks">
@@ -167,7 +168,7 @@
                                 </div>
                                 <div class="NeededExtras">
                                     @*<input type="hidden" value="@Model.RegularizeID" asp-for="RegularizeID">*@
-                                    <input type="hidden" asp-for="RegularizationAdmin.RegularizeID">
+                                    <input type="hidden" id="RegularizeID" asp-for="RegularizationAdmin.RegularizeID">
                                 </div>
                                 <div class="row mx-auto my-3">
                                     <input class="btn btn-outline-primary col" type="submit" value="Confirm">
@@ -186,33 +187,33 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-<script>
+@*<script>
 	$('#pendingLeaveRequests').load("/AdminDashboard/PendingLeaveRequestsPartial")
 </script>
 <script>
 	$('#pendingRegularizationRequests').load("/AdminDashboard/PendingRegularizationRequestsPartial")
-</script>
+</script>*@
 
 
 <script>
     function regularizeConfirmForm(data) {
         var RegularizeID = JSON.stringify(data);
-        console.log(JSON.stringify(data));
         $.ajax({
             type: "GET",
-            url: "/AttendancePersonal/RegularizeEntryFormPartial",
+                url: "/AttendanceAdmin/CheckRegularizationRequest",
             data: {
                 RegularizeID
             },
             success: function (response) {
                 var myjson = JSON.stringify(response)
                 console.log(myjson);
-                $('#attendanceIDforRegularization').val(response.attendanceID);
+                $('#RegularizeID').val(response.regularizeID);
                 $('#AttendanceDate').val(response.regularizeDate.substring(0, 10));
-                $('#CheckedInTime').val(response.checkedIn.substring(11, 19));
-                $('#CheckedOutTime').val(response.checkedOut.substring(11, 19));
-                $('#setCheckIn').attr("placeholder", response.checkedIn.substring(11, 19));
-                $('#setCheckOut').attr(response.checkedOut.substring(11, 19));
+                $('#reason').val(response.reason;
+                $('#CheckedIn').val(response.checkedIn.substring(11, 19));
+                $('#CheckedOut').val(response.checkedOut.substring(11, 19));
+                $('#setCheckIn').val(response.AppliedCheckIn.substring(11, 19));
+                $('#setCheckOut').attr(response.AppliedCheckOut.substring(11, 19));
             },
             error: function (ex) {
                 var r = jQuery.parseJSON(response.responseText);

@@ -16,15 +16,23 @@
 
 <style>
     .right-alignment{
-        float:right;
-        border-color: #0dcaf0;
+		float: right;
+		background-color: aliceblue;
+
     }
     .column{
         width:50%;
     }
-    .checkin, .checkout{
-        background-color:aliceblue;
+
+    .right-alignment>a{
+        text-decoration: none;
     }
+
+    .right-alignment:hover > a{
+        text-decoration: none;
+        color: white;
+    }
+
 
     .none{
         text-decoration: none;
@@ -43,11 +51,11 @@
             <div class="col">
                 <nav aria-label="breadcrumb" class="m-2 row">
 					<div class="col">
-						<div class="btn ms-1 right-alignment checkout">@Html.ActionLink("Check Out", "CheckOut", "EmployeePersonal",new { employeeID = Model.EmployeePersonal.EmployeeID, AttendanceID = attendanceId}, null)</div>
+						<div class="btn btn-outline-primary ms-1 right-alignment checkout">@Html.ActionLink("Check Out", "CheckOut", "EmployeePersonal",new { employeeID = Model.EmployeePersonal.EmployeeID, AttendanceID = attendanceId}, null)</div>
 						@if(attendanceId == null)
-                        { <div class="btn ms-1 right-alignment checkin">@Html.ActionLink("Check In", "CheckIn", "EmployeePersonal", new { employeeID = Model.EmployeePersonal.EmployeeID}, null)</div> }
+                        { <div class="btn btn-outline-primary ms-1 right-alignment checkin">@Html.ActionLink("Check In", "CheckIn", "EmployeePersonal", new { employeeID = Model.EmployeePersonal.EmployeeID}, null)</div> }
                         else
-                        {<text>Attendance ID : @attendanceId</text>}
+                        {<strong>Attendance ID : @attendanceId</strong>}
                     </div>
                 </nav>
                 <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4" style="display:flex;">

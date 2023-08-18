@@ -69,6 +69,7 @@ public class EmployeePersonalController : Controller
             //int.TryParse(stringEmployeeID, out employeeID);
             /****************************************************************************************************/
             var employeeSession = JsonConvert.DeserializeObject<EmployeePersonal>(HttpContext.Session.GetString("EmployeeSession"));
+
             PersonalDetails personalDetails = new()
             {
                 EmployeePersonal = await _employeeRepository.GetByIdAsync(employeeSession.EmployeeID)
@@ -77,8 +78,14 @@ public class EmployeePersonalController : Controller
         }
         catch (Exception ex)
         {
-
-            throw ex;
+            if (ex is ArgumentNullException)
+            {
+                return RedirectToAction("Login","Login");
+            }
+            else
+            {
+                throw ex;
+            }
         }
     }
 

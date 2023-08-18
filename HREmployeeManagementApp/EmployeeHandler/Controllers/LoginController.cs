@@ -53,7 +53,7 @@ public class LoginController : Controller
                 {
                     case "Employee":
                         HttpContext.Session.SetString("EmployeeSession", JsonConvert.SerializeObject(employeeData));
-                        return RedirectToAction("GetPersonalDetails", "EmployeePersonal", new { EmployeeID = response });
+                        return RedirectToAction("GetPersonalDetails", "EmployeePersonal");
 
                     case "Admin":
                         if (employeeData.AdminStatus == true) 
