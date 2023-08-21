@@ -20,9 +20,23 @@ public class EmployeeAdminController : Controller
 
     public async Task<IActionResult> EmployeeList()
     {
-        var result = await _employeeRepository.GetAllEmployeesAsync();
-        EmployeeAdminViewModel viewModel = new();
-        return View(viewModel);
+        try
+        {
+            var result = await _employeeRepository.GetAllEmployeesAsync();
+            EmployeeAdminViewModel viewModel = new();
+            return View(viewModel);
+        }
+        catch (Exception ex)
+        {
+			if (ex is ArgumentNullException)
+			{
+				return RedirectToAction("Login", "Login");
+			}
+			else
+			{
+				throw ex;
+			}
+		}
     }
 
     [HttpGet]
@@ -38,8 +52,15 @@ public class EmployeeAdminController : Controller
     [HttpGet]
     public async Task<IActionResult> EmployeeDetailsUpdate(int EmployeeID)
     {
-        var employeeData = await _employeeRepository.GetEmployeeByIdAsync(EmployeeID);
-        return View(employeeData);
+        try
+        {
+            var employeeData = await _employeeRepository.GetEmployeeByIdAsync(EmployeeID);
+            return View(employeeData);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 
     [HttpPost]

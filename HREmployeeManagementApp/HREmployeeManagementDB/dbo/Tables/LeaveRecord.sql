@@ -1,16 +1,22 @@
 ﻿CREATE TABLE [dbo].[LeaveRecord] (
-    [LeaveID]        INT            IDENTITY (1, 1) NOT NULL,
-    [EmployeeID]     INT            NOT NULL,
-    [FromDate]       DATE           NOT NULL,
-    [ToDate]         DATE           NOT NULL,
-    [DateOfRequest]  DATE           CONSTRAINT [DF_LeaveRecord_DateOfRequest] DEFAULT (getutcdate()) NOT NULL,
-    [Reason]         NVARCHAR (300) NOT NULL,
-    [AdministeredBy] NVARCHAR (50)  NULL,
-    [ApprovalStatus] BIT            NULL,
-    [Comment]        NVARCHAR (300) NULL,
+    [LeaveID]        INT              IDENTITY (1, 1) NOT NULL,
+    [EmployeeID]     INT              NOT NULL,
+    [FromDate]       DATE             NOT NULL,
+    [ToDate]         DATE             NOT NULL,
+    [DateOfRequest]  DATE             CONSTRAINT [DF_LeaveRecord_DateOfRequest] DEFAULT (getutcdate()) NOT NULL,
+    [Reason]         NVARCHAR (300)   NOT NULL,
+    [AdministeredBy] NVARCHAR (50)    NULL,
+    [ApprovalStatus] BIT              NULL,
+    [Comment]        NVARCHAR (300)   NULL,
+    [CreatedBy]      UNIQUEIDENTIFIER NOT NULL,
+    [ModifiedBy]     UNIQUEIDENTIFIER NOT NULL,
+    [CreatedOn]      DATETIME         DEFAULT (getutcdate()) NOT NULL,
+    [ModifiedOn]     DATETIME         DEFAULT (getutcdate()) NOT NULL,
     CONSTRAINT [PK_LeaveRecord] PRIMARY KEY CLUSTERED ([LeaveID] ASC),
     CONSTRAINT [FK_LeaveRecord_Employee] FOREIGN KEY ([EmployeeID]) REFERENCES [dbo].[Employee] ([EmployeeID])
 );
+
+
 
 
 GO

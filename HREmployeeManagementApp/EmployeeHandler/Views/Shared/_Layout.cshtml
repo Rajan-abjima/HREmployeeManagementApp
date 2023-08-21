@@ -70,7 +70,8 @@
 
 </head>
 <body>
-    <header>
+    @RenderSection("Header")
+    @*<header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 hidingNav">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Employee Management</a>
@@ -93,7 +94,7 @@
                 </div>
             </div>
         </nav>
-    </header>
+    </header>*@
     <div class="container dashboard">
         <main role="main" class="pb-3">
             @RenderBody()

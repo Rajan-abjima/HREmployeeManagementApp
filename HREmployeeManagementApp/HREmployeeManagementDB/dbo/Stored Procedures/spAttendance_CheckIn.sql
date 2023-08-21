@@ -10,8 +10,9 @@ CREATE PROCEDURE [dbo].[spAttendance_CheckIn]
 
 AS
 BEGIN
-	INSERT INTO [dbo].[Attendance](EmployeeID,FirstName,LastName,Date,Status,CheckIn)
-	VALUES (@EmployeeID,@FirstName,@LastName,@Date,@Status,@CheckIn)
+	INSERT INTO [dbo].[Attendance](EmployeeID,FirstName,LastName,Date,Status,CheckIn,CreatedBy,ModifiedBy,CreatedOn,ModifiedOn)
+	VALUES (@EmployeeID,@FirstName,@LastName,@Date,@Status,@CheckIn,(Select Identifier from [dbo].[User] where EmployeeID=@EmployeeID),
+	(Select Identifier from [dbo].[User] where EmployeeID=@EmployeeID),GETDATE(),GETDATE())
 
 	SET @AttendanceIdentity = SCOPE_IDENTITY()
 END

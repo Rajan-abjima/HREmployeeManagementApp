@@ -7,7 +7,7 @@
 	@IsValid bit
 AS
 BEGIN
-	INSERT INTO [dbo].[Registration](EmployeeID, FirstName, LastName,UserName,Password,IsValid)
+	INSERT INTO [dbo].[User](EmployeeID, FirstName, LastName,UserName,Password,IsValid)
 	VALUES (@EmployeeID, @FirstName,@LastName,@UserName,@Password,@IsValid)
 
 	select 'true'

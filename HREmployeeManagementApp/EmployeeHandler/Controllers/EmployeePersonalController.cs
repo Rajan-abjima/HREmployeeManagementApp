@@ -118,9 +118,12 @@ public class EmployeePersonalController : Controller
 	[HttpGet]
     public async Task<IActionResult> CheckOut(int attendanceID, int employeeID)
     {
-        DayCheckOut dayCheckOut = new DayCheckOut();
-        dayCheckOut.AttendanceID = attendanceID;
-        dayCheckOut.EmployeeID = employeeID;
+        DayCheckOut dayCheckOut = new DayCheckOut()
+        {
+            AttendanceID = attendanceID,
+            EmployeeID = employeeID
+        };
+        
 
         PersonalDetails personalDetails = new()
         {

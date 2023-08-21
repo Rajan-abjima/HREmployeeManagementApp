@@ -6,6 +6,10 @@
     var success = TempData["SignUpSuccess"];
 }
 
+@section Header{
+
+}
+
 
 <div class="container login-container">
     @if (TempData["SignUpSuccess"] != null)
@@ -59,8 +63,8 @@
             <h3>Login</h3>
 			<form asp-controller="Login" class="pt-1" method="post">
 				<div class="form-group text-light row my-3 justify-content-between">
-                    <label class="col-5 me-2"><input type="radio" class="" value="Employee" asp-for="LoginType" checked /> Employee</label>
-					<label class="col-5 me-2"><input type="radio" class="" value="Admin" asp-for="LoginType" /> Admin</label>
+                    <label class="col-5 me-2"><input type="radio" class="" value="Employee" id="loginEmployee" asp-for="LoginType" checked /> Employee</label>
+					<label class="col-5 me-2"><input type="radio" class="" value="Admin" id="loginAdmin" asp-for="LoginType" /> Admin</label>
 				</div>
                 <div class="form-group">
                     <input type="text" id="username" class="form-control my-3" placeholder="Username *" value="" asp-for="Username" required/>

@@ -17,29 +17,46 @@ public class AdminDashboardController : Controller
         _attendanceRepository = attendanceRepository;
     }
 
+    [HttpGet]
     public async Task<IActionResult> AdminDashboard(int EmployeeID)
     {
-        var adminSession = JsonConvert.DeserializeObject<EmployeeAdmin>(HttpContext.Session.GetString("AdminSession"));
-        EmployeeID = adminSession.EmployeeID;
-        var AdminDetails = await _employeeRepository.GetEmployeeByIdAsync(EmployeeID);
-
-        var PendingRegularizationList = await _attendanceRepository.PendingRegularizationRequestAsync();
-
-        AdminDashboardViewModel viewModel = new AdminDashboardViewModel()
+        try
         {
-            EmployeeAdmin = AdminDetails,
-            PendingRegularizationRequests = PendingRegularizationList.ToList()
-        };
+            var adminSession = JsonConvert.DeserializeObject<EmployeeAdmin>(HttpContext.Session.GetString("AdminSession"));
+            EmployeeID = adminSession.EmployeeID;
+            var AdminDetails = await _employeeRepository.GetEmployeeByIdAsync(EmployeeID);
 
-        return View(viewModel);
+            var PendingRegularizationList = await _attendanceRepository.PendingRegularizationRequestAsync();
+
+            AdminDashboardViewModel viewModel = new AdminDashboardViewModel()
+            {
+                EmployeeAdmin = AdminDetails,
+                PendingRegularizationRequests = PendingRegularizationList.ToList()
+            };
+
+            return View(viewModel);
+        }
+        catch (Exception ex)
+        {
+			if (ex is ArgumentNullException)
+			{
+				return RedirectToAction("Login", "Login");
+			}
+			else
+			{
+				throw ex;
+			}
+		}
     }
 
+    [HttpGet]
     public async Task<IActionResult> PendingLeaveRequestsPartial()
     {
         var response = await _attendanceRepository.PendingLeaveRequestAsync();
         return PartialView("_PendingLeaveRequests",response);
     }
 
+    [HttpGet]
     public async Task<IActionResult> PendingRegularizationRequestsPartial()
     {
         var response = await _attendanceRepository.PendingRegularizationRequestAsync();

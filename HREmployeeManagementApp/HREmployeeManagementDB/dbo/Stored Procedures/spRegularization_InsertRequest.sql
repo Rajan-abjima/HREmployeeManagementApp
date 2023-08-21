@@ -12,9 +12,13 @@
 AS
 BEGIN
 	INSERT INTO [dbo].[RegularizationRecord] 
-	(AttendanceID,EmployeeID,RegularizeDate,CheckedIn, CheckedOut, DateOfRequest,AppliedCheckIn,AppliedCheckOut,Reason)
+	(AttendanceID,EmployeeID,RegularizeDate,CheckedIn, CheckedOut, DateOfRequest,AppliedCheckIn,AppliedCheckOut,Reason,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn)
 	VALUES
-	(@AttendanceID,@EmployeeID,@RegularizeDate,@CheckedIn,@CheckedOut,@DateOfRequest,@AppliedCheckIn,@AppliedCheckOut,@Reason)
+	(@AttendanceID,@EmployeeID,@RegularizeDate,@CheckedIn,@CheckedOut,@DateOfRequest,@AppliedCheckIn,@AppliedCheckOut,@Reason,
+	(Select Identifier from [dbo].[User] where EmployeeID = @EmployeeID),
+	GETDATE(),
+	(Select Identifier from [dbo].[User] where EmployeeID = @EmployeeID),
+	GETDATE())
 
 	Set @RegularizeIdentity = SCOPE_IDENTITY();
 END
