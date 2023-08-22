@@ -32,6 +32,6 @@ public interface IAttendanceRepository
 
     public Task<IEnumerable<LeavesType>> GetLeavesTypes();
 
-    public  Task<int> ApplyLeave(LeavePersonalApply model);
+    public  Task<LeavePersonalApply> ApplyLeave(LeavePersonalApply model);
 
 }

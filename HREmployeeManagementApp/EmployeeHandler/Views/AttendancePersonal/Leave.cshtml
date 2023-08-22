@@ -8,10 +8,11 @@
 
 @{
     var employeeID = Context.Request.Query["EmployeeID"];
-    var successfulRequest = TempData["LeaveRequestID"];
+    var successfulRequest = TempData["LeaveRequestId"];
 }
 
 <style>
+   
     body {
         background-image: linear-gradient(#0062cc,white,white);
         background-size: cover;
@@ -31,7 +32,30 @@
         border-radius: 20px;
         background-image: linear-gradient(rgba(white, .1),rgba(white, .1));
     }
+
+    h1 {
+        text-align: center; 
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .btn-submit {
+        display: block; 
+        margin: 0 auto; 
+    }
+
+    .alert-warning {
+        position: absolute; 
+        top: 20px; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        width: 300px; 
+    }
 </style>
+
+
 
 <section id="tabs" class="project-tab">
     <div class="container">
@@ -45,61 +69,69 @@
                 </nav>
                 <div class="tab-content mt-5" id="nav-tabContent">
                     <div class="tab-pane fade show active row" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-
-                        <form class="bg-light py-4 px-4 mx-auto col-6 " asp-action="LeaveRequest" method="post">
-                            <h1>Leave Application Form</h1>
-                            <div class="NeededExtras">
-                                <input type="hidden" value="@employeeID" asp-for="EmployeeID">
+                        <form id="leaveForm" class="bg-light py-4 px-4 mx-auto col-6" asp-action="LeaveRequest" method="post">
+                            <h1 class="text-center">Leave Application Form</h1>
+                            <div class="form-group">
+                                <label asp-for="EmployeeID" class="control-label">Employee ID:</label>
+                                <input type="text" class="form-control" readonly asp-for="EmployeeID" />
                             </div>
-                            <div class="col mt-3">
-                                <label class="input-label">Leave Type</label>
-                                <select id="LeaveType" name="LeaveType">
-                                    @foreach (var leaveType in Model.LeaveType)
-                                    {
-                                        <option>@leaveType</option>
-                                    }
-                                </select>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.LeaveType, "LeaveType")
+                                @Html.DropDownListFor(model => model.LeaveType, TempData["LeaveType"] as SelectList, "Select LeaveType", new { @class = "form-control" })
                                 <span asp-validation-for="LeaveType" class="text-danger"></span>
                             </div>
-                           
 
-                            <div class="row mt-3">
-                                <div class="row my-3 col" id="SetLeave">
-                                    <div class="col">
-                                        <label>Date From *</label>
-                                        <input id="setLeaveFrom" type="date" value="2023-01-01" id="datePickerId" class="form-control input-sm" required asp-for="DateFrom">
-                                    </div>
-                                    <div class="col">
-                                        <label>To Date *</label>
-                                        <input id="setLeaveTo" type="date" value="2023-01-01" class="form-control input-sm" required asp-for="ToDate">
-                                    </div>
+                            <div class="form-group row">
+                                <div class="col">
+                                    <label>Date From *</label>
+                                    <input id="setLeaveFrom" type="date" class="form-control input-sm" required asp-for="DateFrom" onchange="validateDates()">
+                                </div>
+                                <div class="col">
+                                    <label>To Date *</label>
+                                    <input id="setLeaveTo" type="date" class="form-control input-sm" required asp-for="ToDate" onchange="validateDates()">
                                 </div>
                             </div>
-                            <div class="col mt-3">
+                            <div class="alert alert-warning" id="weekendAlert" style="display: none;">
+                                You cannot select weekends (Saturday/Sunday) for leave. Please choose weekdays.
+                            </div>
+
+
+                            <!-- Add the leaveDurationDiv element here -->
+                            <div class="form-group" id="leaveDurationDiv" style="display: none;">
+                                <label>Leave Duration:</label>
+                                <div>
+                                    <label class="radio-inline">
+                                        <input type="radio" asp-for="IsHalfDay" value="false"> Full Day
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" asp-for="IsHalfDay" value="true"> Half Day
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="ReasonForLeave">Reason *</label>
                                 <textarea type="text" class="form-control input-sm col" id="ReasonForLeave" rows="3" required asp-for="ReasonForLeave"></textarea>
                             </div>
-
-                            <div class="row mx-auto my-3">
-                                <input class="btn btn-outline-primary mx-auto col-6" type="submit">
+                            <div class="form-group text-center">
+                                <input class="btn btn-outline-primary btn-submit" type="submit" value="Submit">
+                                <p id="errorMessage" style="display:none; color:red;">To Date cannot be before From Date. Please select a valid date.</p>
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div>
 
             @if (successfulRequest != null)
             {
-                <div class="alert alert-warning">
-                    <span>Your Request : No.@successfulRequest was successful.</span>
+                <div class="alert alert-warning" id="successAlert">
+                    <span>Your Request: No.@successfulRequest was successful.</span>
                     <script>
-                        alert(Your Request : No.@successfulRequest was succesful)
-                                            //setTimeout(function(){
-                                            //        var alertDiv = document.querySelector('.alert.alert-warning');
-                                            //        alertDiv.style.display='none';},3000)
-
-                                            //})
+                        var alertDiv = document.querySelector('#successAlert');
+                        setTimeout(function () {
+                            alertDiv.style.display = 'none';
+                        }, 3000);
                     </script>
                 </div>
             }
@@ -107,3 +139,84 @@
     </div>
 </section>
 
+@section Scripts{
+<script>
+    // Function to check if a given date is a Saturday or Sunday
+    function isWeekend(date) {
+        return date.getDay() === 0 || date.getDay() === 6;
+    }
+
+    // Function to disable weekends in the date inputs
+    function disableWeekends() {
+        var fromDateInput = document.getElementById('setLeaveFrom');
+        var toDateInput = document.getElementById('setLeaveTo');
+        var weekendAlert = document.getElementById('weekendAlert');
+
+        fromDateInput.addEventListener('input', function () {
+            var fromDate = new Date(this.value);
+            if (isWeekend(fromDate)) {
+                this.value = ''; // Reset the value if it's a weekend
+                weekendAlert.style.display = 'block'; // Show the weekend alert
+                setTimeout(function () {
+                    weekendAlert.style.display = 'none'; // Hide the weekend alert after 3 seconds
+                }, 3000);
+            } else {
+                weekendAlert.style.display = 'none'; // Hide the weekend alert
+            }
+            validateDates(); // Revalidate dates after input change
+
+            // Disable toDate input if fromDate is later or equal to toDate
+            if (fromDate >= new Date(toDateInput.value)) {
+                toDateInput.disabled = true;
+                toDateInput.value = fromDateInput.value;
+                leaveDurationDiv.style.display = 'block'; // Show the leaveDurationDiv for full day/half day selection
+            } else {
+                toDateInput.disabled = false;
+            }
+        });
+
+        toDateInput.addEventListener('input', function () {
+            var toDate = new Date(this.value);
+            if (isWeekend(toDate)) {
+                this.value = ''; // Reset the value if it's a weekend
+                weekendAlert.style.display = 'block'; // Show the weekend alert
+                setTimeout(function () {
+                    weekendAlert.style.display = 'none'; // Hide the weekend alert after 3 seconds
+                }, 3000);
+            } else {
+                weekendAlert.style.display = 'none'; // Hide the weekend alert
+            }
+            validateDates(); // Revalidate dates after input change
+        });
+    }
+
+    // Function to validate dates and handle UI changes
+    function validateDates() {
+        var fromDate = new Date(document.getElementById('setLeaveFrom').value);
+        var toDate = new Date(document.getElementById('setLeaveTo').value);
+        var errorMessage = document.getElementById('errorMessage');
+        var leaveDurationDiv = document.getElementById('leaveDurationDiv');
+        var weekendAlert = document.getElementById('weekendAlert');
+
+        if (toDate < fromDate) {
+            errorMessage.style.display = 'block';
+            leaveDurationDiv.style.display = 'none';
+            weekendAlert.style.display = 'none'; // Hide the weekend alert on date validation error
+            document.getElementById('setLeaveTo').value = fromDate.toISOString().split('T')[0];
+            setTimeout(function () {
+                errorMessage.style.display = 'none'; // Hide the error message after 3 seconds
+            }, 3000);
+        } else {
+            errorMessage.style.display = 'none';
+            if (toDate.toISOString().split('T')[0] === fromDate.toISOString().split('T')[0]) {
+                leaveDurationDiv.style.display = 'block';
+            } else {
+                leaveDurationDiv.style.display = 'none';
+            }
+        }
+    }
+
+    // Call the function to disable weekends
+    disableWeekends();
+</script>
+}

@@ -56,9 +56,9 @@ public class LoginController : Controller
 
 
     [HttpPost]
-    public async Task<IActionResult> AdminLogin(AdminLogin adminLogin)
+    public async Task<IActionResult> AdminLogin(EmployeeSignUp employee)
     {
-        var response = await _employeeRepository.CheckAdminAsync(adminLogin);
+        var response = await _employeeRepository.CheckAdminAsync(employee);
 
         if (response is null)
         {
@@ -68,14 +68,14 @@ public class LoginController : Controller
         }
         else
         {
-            var profile = await _employeeRepository.GetAdminByIdAsync(response.EmployeeID, response.AdminID);
+            var profile = await _employeeRepository.GetEmployeeByIdAsync(response.EmployeeID);
             //var admin = new AdminPersonal() { AdminID = profile.AdminID, EmployeeID = profile.EmployeeID, FirstName = profile.FirstName, LastName = profile.LastName};
             HttpContext.Session.SetString("AdminSession", JsonConvert.SerializeObject(profile));
             // Credentials are valid, perform the desired action
             //var url = Url.Action("AdminDashboard", "AdminDashboard", new { AdminID = response.AdminID, EmployeeID = response.EmployeeID });
             /*Using assert to declare that "url" will never be null so Redirect doesnt show null warning*/
             //Debug.Assert(url != null, "The generated URL should not be null.");
-            return RedirectToAction("AdminDashboard", "AdminDashboard", new { AdminID = response.AdminID, EmployeeID = response.EmployeeID });
+            return RedirectToAction("AdminDashboard", "AdminDashboard", new {EmployeeID = response.EmployeeID });
         }
     }
 }

@@ -141,23 +141,22 @@ public class EmployeeRepository : IEmployeeRepository
     /// </summary>
     /// <param name="adminLogin"></param>
     /// <returns></returns>
-    public async Task<AdminLogin> CheckAdminAsync(AdminLogin adminLogin)
+    public async Task<AdminLogin> CheckAdminAsync(EmployeeSignUp employee)
     {
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
             connection.Open();
             var param = new DynamicParameters();
-            param.Add("@AdminID", adminLogin.AdminID);
-            param.Add("@AdminPassword", adminLogin.AdminPassword);
+            param.Add("@username", employee.UserName);
+            param.Add("@password", employee.Password);
 
-            var result = await connection.QueryFirstOrDefaultAsync<AdminLogin>(
+            var result = await connection.QueryFirstOrDefaultAsync<EmployeeSignUp>(
                 "spAdminLogin",
                 param,
                 commandType: CommandType.StoredProcedure);
 
             AdminLogin adminData = new AdminLogin()
             {
-                AdminID = result.AdminID,
                 EmployeeID = result.EmployeeID
             };
 

@@ -19,38 +19,51 @@ public class AttendancePersonalController : Controller
     [HttpGet]
     public async Task<IActionResult> Leave(int employeeID)
     {
-
         var leavesTypes = await _attendanceRepository.GetLeavesTypes();
+        
+        var leaveTypeList = leavesTypes.Select(a => a.LeaveType).ToList();
+      
+        var selectList = new SelectList(leaveTypeList);
 
-        LeavePersonalApply leaveView = new LeavePersonalApply()
-        {
-            LeaveType = leavesTypes.Select(a => a.LeaveTypeName)
-        };
-       
-        return View(leaveView);
+        TempData["LeaveType"] = selectList;
 
+        return View();
     }
+
+
     [HttpPost]
     public async Task<IActionResult> LeaveRequest(LeavePersonalApply model)
     {
         if (ModelState.IsValid)
         {
-            
+           
             int leaveDaysExcludingWeekends = CalculateLeaveDaysExcludingWeekends(model.DateFrom, model.ToDate);
 
             
-            model.LeaveDays = leaveDaysExcludingWeekends;
+            if (model.DateFrom == model.ToDate)
+            {
+                if (model.IsHalfDay)
+                {
+                    model.LeaveDays = 0.5; 
+                }
+                else
+                {
+                    model.LeaveDays = 1.0;
+                }
+            }
+            else
+            {
+                model.LeaveDays = leaveDaysExcludingWeekends;
+            }
 
-            
-            var leaveRequestId = await _attendanceRepository.ApplyLeave(model);
-            TempData["LeaveRequestId"] = leaveRequestId;
+            var leaveRequest = await _attendanceRepository.ApplyLeave(model);
+            TempData["LeaveRequestId"] = leaveRequest.LeaveId;
 
-            // Redirect to the "Success" action, passing the leaveRequestId as a parameter
-            return RedirectToAction("Success", new { id = leaveRequestId });
 
+            return RedirectToAction("Leave", new { EmployeeID = leaveRequest.EmployeeID, LeaveRequestId = leaveRequest.LeaveId });
+            // return RedirectToAction("GetPersonalDetails", "EmployeePersonal");
         }
 
-        
         return View("~/Views/AttendancePersonal/Leave.cshtml", model);
     }
 
@@ -67,9 +80,18 @@ public class AttendancePersonalController : Controller
                 excludeWeekends++;
             }
         }
-
+          
         return totalLeaveDays - excludeWeekends;
     }
+
+    //Show Leave request  
+
+    [HttpGet]
+    public IActionResult ShowLeaves()
+    {
+        return View();
+    }
+
     //[HttpPost]
     //public async Task<IActionResult> LeaveRequest(LeavePersonal leavePersonal)
     //{

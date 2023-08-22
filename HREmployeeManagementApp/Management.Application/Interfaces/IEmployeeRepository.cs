@@ -11,7 +11,7 @@ public interface IEmployeeRepository
     Task<EmployeeSignUp> AddCredentialsAsync(EmployeeSignUp employee);
     Task<int> CheckEmployeeAysnc(EmployeeLogin employeeLogin);
 
-    Task<AdminLogin> CheckAdminAsync(AdminLogin adminLogin);
+    Task<AdminLogin> CheckAdminAsync(EmployeeSignUp employee);
     Task<AdminPersonal> GetAdminByIdAsync(int employeeID, int adminID);
 
     Task<EmployeeAdmin> GetEmployeeByIdAsync(int employeeID);

@@ -9,30 +9,30 @@ namespace Management.Entities.AttendanceEntities
 {
     public class LeavePersonalApply
     {
-        public int LeaveID { get; set; }
+        public int LeaveId { get; set; }
 
         [Required(ErrorMessage = "EmployeeID Not Found!")]
         public int EmployeeID { get; set; }
 
-        [Required]
-        public IEnumerable<string> LeaveType { get; set; }
+        [Required(ErrorMessage = "Please select a Leave Type.")]
+        public string? LeaveType { get; set; }
+
+       
 
         [Required]
         public DateTime DateFrom { get; set; }
 
         [Required]
         public DateTime ToDate { get; set; }
-
+        public bool IsHalfDay { get; set; }
         [Required]
-        public DateTime DateOfRequest { get; set; }
 
-        [Required]
         [MaxLength(300)]
         public string? ReasonForLeave { get; set; }
 
         [Required]
-        public int LeaveDays { get; set; }
-        
+        public double LeaveDays { get; set; }
+
 
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Dynamic;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Management.Infrastructure.Repositories;
@@ -172,37 +173,37 @@ public class AttendanceRepository : IAttendanceRepository
         using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
         {
             connection.Open();
-            var leavesTypes = await connection.QueryAsync<LeavesType>("GetAllLeavesTypes", commandType: CommandType.StoredProcedure);
-            return leavesTypes.ToList();
+            var leavesTypes = await connection.QueryAsync<LeavesType>("spGetLeaveTypes", commandType: CommandType.StoredProcedure);
+            return leavesTypes;
         }
     }
 
 
     //Apply for leaves
-    public async Task<int> ApplyLeave(LeavePersonalApply model)
-    {
-        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
-        {
-            connection.Open();
+    //public async Task<int> ApplyLeave(LeavePersonalApply model)
+    //{
+    //    using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+    //    {
+    //        connection.Open();
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@EmployeeID", model.EmployeeID);
-            parameters.Add("@LeaveType", model.LeaveType);
-            parameters.Add("@DateFrom", model.DateFrom);
-            parameters.Add("@ToDate", model.ToDate);
-            //parameters.Add("@LeaveDays", model.LeaveDays);
-            parameters.Add("@ReasonForLeave", model.ReasonForLeave);
-            parameters.Add("@LeaveRequestId", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            await connection.ExecuteAsync(
-                "spApplyLeave",
-                parameters,
-                commandType: CommandType.StoredProcedure
-            );
+    //        var parameters = new DynamicParameters();
+    //        parameters.Add("@EmployeeID", model.EmployeeID);
+    //        parameters.Add("@LeaveType", model.LeaveType);
+    //        parameters.Add("@DateFrom", model.DateFrom);
+    //        parameters.Add("@ToDate", model.ToDate);
+    //        //parameters.Add("@LeaveDays", model.LeaveDays);
+    //        parameters.Add("@ReasonForLeave", model.ReasonForLeave);
+    //        parameters.Add("@LeaveRequestId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+    //        await connection.ExecuteAsync(
+    //            "spApplyLeave",
+    //            parameters,
+    //            commandType: CommandType.StoredProcedure
+    //        );
 
-            var leaveRequestId = parameters.Get<int>("@LeaveRequestId");
-            return leaveRequestId;
-        }
-    }
+    //        var leaveRequestId = parameters.Get<int>("@LeaveRequestId");
+    //        return leaveRequestId;
+    //    }
+    //}
 
     //public async Task<LeavePersonal> LeaveRequestAsync(LeavePersonal leave)
     //{
@@ -212,30 +213,33 @@ public class AttendanceRepository : IAttendanceRepository
     //    }
     //}
 
-    //public async Task<LeavePersonal> LeaveRequestAsync(LeavePersonal leave)
-    //{
-    //    using(var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
-    //    {
-    //        connection.Open();
-    //        var param = new DynamicParameters();
-    //        param.Add("@EmployeeID", leave.EmployeeID);
-    //        param.Add("@FromDate", leave.DateFrom);
-    //        param.Add("@ToDate", leave.ToDate);
-    //        param.Add("@DateOfRequest", leave.DateOfRequest);
-    //        param.Add("@Reason", leave.Reason);
-    //        param.Add("@LeaveRequestID", dbType:DbType.Int32, direction: ParameterDirection.Output);
-    //        var result = await connection.ExecuteAsync("spLeaveRecord_InsertRequest",param, commandType: CommandType.StoredProcedure);
+    public async Task<LeavePersonalApply> ApplyLeave(LeavePersonalApply leave)
+    {
+        using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            var param = new DynamicParameters();
+            param.Add("@EmployeeID", leave.EmployeeID);
+            param.Add("@LeaveType", leave.LeaveType);
+            param.Add("@DateFrom ", leave.DateFrom);
+            param.Add("@ToDate", leave.ToDate);
+            param.Add("@LeaveDays", leave.LeaveDays);
+            param.Add("@IsHalfDay", leave.IsHalfDay);
+            param.Add("@ReasonForLeave", leave.ReasonForLeave);
+            param.Add("@LeaveRequestId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var result = await connection.ExecuteAsync("spApplyLeave", param, commandType: CommandType.StoredProcedure);
 
-    //        var leaveRequestId = param.Get<int>("@LeaveRequestID");
+            var leaveRequestId = param.Get<int>("@LeaveRequestId");
 
-    //        LeavePersonal leavePersonal = new()
-    //        {
-    //            LeaveID = leaveRequestId
-    //        };
+            LeavePersonalApply leavePersonal = new()
+            {
+                LeaveId = leaveRequestId,
+                EmployeeID = leave.EmployeeID
+            };
 
-    //        return leavePersonal;
-    //    }
-    //}
+            return leavePersonal;
+        }
+    }
 
     public async Task<IReadOnlyList<LeaveAdmin>> PendingLeaveRequestAsync()
     {
@@ -336,4 +340,6 @@ public class AttendanceRepository : IAttendanceRepository
     {
         throw new NotImplementedException();
     }
+
+   
 }
