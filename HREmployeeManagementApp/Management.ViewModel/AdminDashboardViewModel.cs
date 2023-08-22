@@ -12,4 +12,5 @@ public class AdminDashboardViewModel
     public EmployeeAdmin EmployeeAdmin = new EmployeeAdmin();
     public RegularizationAdmin RegularizationAdmin = new RegularizationAdmin();
     public List<RegularizationAdmin> PendingRegularizationRequests = new List<RegularizationAdmin>();
+    public List<LeaveAdmin> PendingLeaveRequests = new List<LeaveAdmin>();
 }

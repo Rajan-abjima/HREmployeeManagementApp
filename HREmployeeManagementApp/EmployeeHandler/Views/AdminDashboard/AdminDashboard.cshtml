@@ -2,13 +2,15 @@
 @model AdminDashboardViewModel
 
 @section head{
+    <meta name="viewport" width="device-width, initial-scale=1.0 maximum-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 }
 
 <style>
     .dashboard{
         max-width:100% !important;
-        height:100% !important;
+        max-height:100% !important;
+        height: 85vh;
     }
     
     .sidebar {
@@ -53,7 +55,7 @@
 
 @section Header{
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 hidingNav">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Employee Management</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -87,7 +89,7 @@
 
 <section>
     <div class="container dashboard">
-        <div class="row">
+        <div style="height:100%" class="row">
         
             <div class="col-lg-2 sidebar">
                 <div class="sidebarItem"><h6>Admin: </h6></div>
@@ -140,7 +142,19 @@
                                 @*<div id="pendingLeaveRequests">
 
                                 </div>*@
-                                
+                                <div>
+                                    <div class="list-group list-group-flush">
+                                        @foreach (LeaveAdmin request in Model.PendingLeaveRequests)
+                                        {
+                                            <a href="#regularizeConfirmModal" onClick="regularizeConfirmForm(@request.LeaveID)" data-toggle="modal" rel="modal:open">
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>@request.ToDate.ToString("dd/MM/yyyy")</span>
+                                                    <span>@request.Reason</span>
+                                                </div>
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

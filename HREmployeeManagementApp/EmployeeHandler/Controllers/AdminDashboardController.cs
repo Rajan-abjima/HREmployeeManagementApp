@@ -27,11 +27,13 @@ public class AdminDashboardController : Controller
             var AdminDetails = await _employeeRepository.GetEmployeeByIdAsync(EmployeeID);
 
             var PendingRegularizationList = await _attendanceRepository.PendingRegularizationRequestAsync();
+            var PendingLeaveList = await _attendanceRepository.PendingLeaveRequestAsync();
 
             AdminDashboardViewModel viewModel = new AdminDashboardViewModel()
             {
                 EmployeeAdmin = AdminDetails,
-                PendingRegularizationRequests = PendingRegularizationList.ToList()
+                PendingRegularizationRequests = PendingRegularizationList.ToList(),
+                PendingLeaveRequests = PendingLeaveList.ToList()
             };
 
             return View(viewModel);
